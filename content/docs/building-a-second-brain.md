@@ -1,4 +1,3 @@
-Parent: [[2024-10-15]]
 Tags: #book
 
 ## ==Building a Second Brain:==

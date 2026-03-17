@@ -5,7 +5,6 @@ tags:
 Parent: "[[Team Lease Onboarding Call]]"
 Created Time: 2024-10-24T11:41:00
 Last Edited Time: 2024-10-24T11:42:00
-Parent 2: "[[# 2024-10-24]]"
 ---
 ## ==Code Walkthrough - TL==
 

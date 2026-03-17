@@ -1,0 +1,2 @@
+![[Untitled 8.png|Untitled 8.png]]
+[CQRS](https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs) stands for Command and Query Responsibility Segregation, a pattern that separates read and update operations for a data store.

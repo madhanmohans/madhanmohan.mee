@@ -1,0 +1,1 @@
+Personal Identifiable Information used to identify a personal alone. Details such as Name, Mobile, Passport, Aadhar.

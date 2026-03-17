@@ -1,7 +1,6 @@
 ---
 tags:
   - "#work"
-Parent: "[[2024-10-18]]"
 Created Time: 2024-10-18T12:00:00
 Last Edited Time: 2024-10-18T12:00:00
 ---

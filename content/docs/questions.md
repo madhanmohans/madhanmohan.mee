@@ -1,0 +1,51 @@
+- How do using let differ from var in for loop
+- css property for hiding scroll bar
+- what are default export and named exports?
+- difference bw display: none & visibility: hidden
+- partial in typescript
+- record in typescript
+- custom hooks different from utility functions
+- How to empty an array → Array.length = 0
+- write a debounce function
+- useContext
+- react 19 new features
+- react compiler
+- Render phase vs commit phase
+- critical rendering path
+- semantic html elements - header, footer, body, nav, section, article, aside - used for SEO, clear in its meaning for the browser, gives structure
+- how to create a responsive layout
+- specificity
+- css selectors
+- javascript module
+- how to optimize react performance 
+- Importance of keys in lists 
+- can we use keys outside of lists
+- can we use async function as callback for useeffect
+- prototypal inheritance
+- web performance optimization
+- Explain React Hooks and their purpose
+- graphql apis vs rest apis
+- Differences between `useMemo` and `useCallback`, and when to use each
+- Real-world scenarios requiring these optimization hooks
+- Differences between `useLayoutEffect` and `useEffect`, including execution timing and use cases
+- Techniques for optimizing React applications
+- SEO improvement strategies for React apps
+- Common security vulnerabilities and mitigation approaches
+- redundant array of independent disks
+- server components vs client components
+- "Production page is blank but works fine in development - how do you debug and resolve?" 
+- Differences between Debouncing and Throttling, and their implementation
+- Hands-on coding with the Array `reduce()` method
+- responsiveness for all devices 
+- tailwindcss - spacing, breakpoints, utilities
+- currying
+- how this works 
+- what happens when we give an url in the browser - Dns, tcp, http
+- is js pass by value or pass be reference
+- diff bw type and interface
+- So I can't use async functions in event handlers?
+- how to optimize for multiple clicks on a submit button?
+- diff bw useState and useRef and can we set a reference of an dom element with useState
+- can we use async functions directly as async functions in event handlers
+- diff bw useCallback and useMemo
+- which is preferred (can I) set function returned from useCallback as a dependency array for my useEffect or as a prop for my component, how the whole dynamics work

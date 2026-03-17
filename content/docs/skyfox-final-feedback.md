@@ -1,0 +1,12 @@
+- Ask Right Questions
+- What is your priority?
+- Ask questions regarding any stories
+- Sometimes help the BAs to add Acs
+- Present your work (cards)
+- Facilitate retro and standup as well
+- Consult the client on the best practices
+- Pitch in your suggestions and educate the client on the industry best practices
+- Be transparent on your communication
+- Callout spillovers
+- Make aware the client before the showcase
+- NO ASSUMPTIONS (Ask, Ask and Ask)

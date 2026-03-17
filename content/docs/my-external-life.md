@@ -1,0 +1,12 @@
+- Telescope
+- Home theatre
+- Piano/Music composition setup
+- Electrical Vehicles
+- Solar Powered House
+- Non-Plastic items
+- Violin
+- Lots of Books
+- Camera
+- Exercise gears
+- Kindle
+- Dog/Cat

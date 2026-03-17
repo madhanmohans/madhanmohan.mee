@@ -40,8 +40,13 @@ export function remarkWikilinks(): Transformer<Root, Root> {
                     });
                 }
 
-                // Slugify the target: lowercase and replace spaces with hyphens
-                const slug = target.toLowerCase().replace(/\s+/g, '-');
+                // Slugify the target: lowercase, strip special chars, collapse hyphens
+                const slug = target
+                    .toLowerCase()
+                    .replace(/[`'"!?()[\]{},.:;@#$%^&*~<>]/g, '') // strip special chars
+                    .replace(/[\s_]+/g, '-')   // spaces/underscores → hyphens
+                    .replace(/-{2,}/g, '-')    // collapse consecutive hyphens
+                    .replace(/^-|-$/g, '');     // trim leading/trailing hyphens
 
                 // Create a standard link node
                 children.push({

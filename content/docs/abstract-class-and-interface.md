@@ -1,0 +1,2 @@
+[https://docs.google.com/document/d/13ACZOWKxTpBRt608qJzjeibm9nBXCa9nPl9JSXzYm6s/edit](https://docs.google.com/document/d/13ACZOWKxTpBRt608qJzjeibm9nBXCa9nPl9JSXzYm6s/edit)
+- We don’t have to override default methods in an interface

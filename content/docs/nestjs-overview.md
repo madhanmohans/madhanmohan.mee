@@ -1,4 +1,4 @@
-Parent: [[2024-10-16]] [[Technology]]
+Parent: [[Technology]]
 Tags: #technology #work 
 
 ## ==What is Nest.js?:==

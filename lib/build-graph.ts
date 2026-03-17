@@ -5,24 +5,33 @@ export function buildGraph(): Graph {
   const pages = source.getPages();
   const graph: Graph = { links: [], nodes: [] };
 
+  // Normalize a slug for consistent lookup (decode URI, lowercase, collapse hyphens)
+  function normalize(s: string): string {
+    return decodeURI(s)
+      .toLowerCase()
+      .replace(/[`'"!?()[\]{},.:;@#$%^&*~<>]/g, '')
+      .replace(/[\s_]+/g, '-')
+      .replace(/-{2,}/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
   // Build lookup maps for resolving references by slug or URL
   const slugToUrl = new Map<string, string>();
   for (const page of pages) {
     // Map by full URL (e.g. "/docs/hooks")
-    slugToUrl.set(page.url, page.url);
+    slugToUrl.set(normalize(page.url), page.url);
     // Map by last slug segment (e.g. "hooks")
     const lastSlug = page.slugs[page.slugs.length - 1];
-    if (lastSlug) slugToUrl.set(lastSlug, page.url);
+    if (lastSlug) slugToUrl.set(normalize(lastSlug), page.url);
     // Map by full slug path (e.g. "hooks" or "subdir/hooks")
-    slugToUrl.set(page.slugs.join('/'), page.url);
+    slugToUrl.set(normalize(page.slugs.join('/')), page.url);
   }
 
   function resolveRef(href: string): string | undefined {
-    // Strip leading "./" if present
     const cleaned = href.startsWith('./') ? href.slice(2) : href;
-    // Strip file extension if present (.md, .mdx)
     const noExt = cleaned.replace(/\.mdx?$/, '');
-    return slugToUrl.get(noExt) ?? slugToUrl.get(cleaned) ?? slugToUrl.get(href);
+    const key = normalize(noExt);
+    return slugToUrl.get(key) ?? slugToUrl.get(normalize(cleaned)) ?? slugToUrl.get(normalize(href));
   }
 
   for (const page of pages) {
