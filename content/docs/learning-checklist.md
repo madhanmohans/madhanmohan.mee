@@ -1,0 +1,26 @@
+- [ ] Learn Git
+- [ ] Check out freecodecamp
+- [ ] Intro to AI
+- [ ] Data Structures
+- [ ] Intro to SQL
+- [ ] Continue DSA Learning path
+- [ ] Computer Networks
+- [ ] Leetcode contest
+- [ ] CPP, Java, Python Anki
+- [ ] Learn Django
+- [ ] CS50 Course start
+- [ ] Learn Bash Scripting
+- [ ] DBMS
+- [ ] One Linux Command a day
+- [ ] Machine learning
+- [ ] Malloc, Calloc, Structure, Union
+- [ ] Merge Nodes in between zeroes
+- [ ] Implement Linkedlist
+- [ ] OS Concepts QA
+- [ ] Class diagram    
+- [ ] Functional interface
+- [ ] Diamond problem 
+- [ ] Pagination
+- [ ] Microprocessor vs microcontroller  
+- [ ] Rest API
+- [ ] API 

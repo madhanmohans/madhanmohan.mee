@@ -1,0 +1,13 @@
+- shallow(<Component/>)
+    - Testing a single component as Unit without asserting the child component
+    - Shallow rendering is useful to constrain yourself to testing a component as a unit, and to ensure that your tests aren't indirectly asserting on behavior of child components.
+- ReactDOM.render(element, container, [callback])
+    - It renders the component and all of its children into a provided DOM container.
+    - Render method is used to render React components into the DOM which returns a wrapper around the rendered output.
+    - While testing a certain behavior.
+    - Static interaction, we can’t interact with the child component
+- mount(<Component/>)
+    - Mounting is the phase in which our React component mounts on the Full DOM (i.e., is created and inserted into the DOM).
+    - Used for testing User flows and lifecycles.
+    - When interacting with other DOM APIs, we need to make sure that the DOM is mounted.
+![[Screenshot_2024-06-24_at_2.51.20_PM.png]]

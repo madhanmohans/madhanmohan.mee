@@ -1,0 +1,1 @@
+[https://domaindrivendesign.org/the-main-goal-of-domain-driven-design/](https://domaindrivendesign.org/the-main-goal-of-domain-driven-design/)

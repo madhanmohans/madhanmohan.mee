@@ -1,0 +1,1 @@
+The process of decomposition in DBMS **helps us remove redundancy, inconsistencies and anomalies from a database when we divide the table into numerous tables**. In simpler words, the process of decomposition refers to dividing a relation X into {X1, X2,……Xn}. Decomposition is dependency preserving as well as lossless.

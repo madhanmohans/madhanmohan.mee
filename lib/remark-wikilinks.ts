@@ -40,10 +40,13 @@ export function remarkWikilinks(): Transformer<Root, Root> {
                     });
                 }
 
+                // Slugify the target: lowercase and replace spaces with hyphens
+                const slug = target.toLowerCase().replace(/\s+/g, '-');
+
                 // Create a standard link node
                 children.push({
                     type: 'link',
-                    url: target,
+                    url: slug,
                     children: [{ type: 'text', value: alias || target }],
                 });
 

@@ -1,0 +1,4 @@
+- deskcheck assist report 
+	- matching acceptance criteria + unit tests
+	- assisting devs + QAs to reduce time spent in deskcheck corrections
+	- eliminate more than one deskcheck calls

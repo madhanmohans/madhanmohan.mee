@@ -1,3 +1,16 @@
 @import 'tailwindcss';
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
+
+/* ==highlight== syntax → <mark> */
+mark {
+  background-color: #ffd4c8;
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+.dark mark {
+  background-color: #713f12;
+  color: #fef9c3;
+}

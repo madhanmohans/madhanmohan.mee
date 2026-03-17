@@ -12,17 +12,21 @@
   "dependencies": {
     "d3-force": "^3.0.0",
     "fumadocs-core": "16.5.4",
-    "fumadocs-mdx": "14.2.7",
+    "fumadocs-mdx": "^14.2.10",
     "fumadocs-ui": "16.5.4",
     "lucide-react": "^0.563.0",
     "next": "16.1.6",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-force-graph-2d": "^1.29.1",
-    "tailwind-merge": "^3.4.0"
+    "rehype-raw": "^7.0.0",
+    "remark-mark-highlight": "^0.1.1",
+    "tailwind-merge": "^3.4.0",
+    "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.18",
+    "@types/d3-force": "^3.0.10",
     "@types/mdx": "^2.0.13",
     "@types/node": "^25.2.1",
     "@types/react": "^19.2.13",

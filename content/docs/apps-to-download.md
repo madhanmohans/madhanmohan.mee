@@ -1,0 +1,13 @@
+- cursor
+- comet
+- insomnia
+- zoom
+- warp
+- superwhisper
+- raycast
+- obsidian
+- maccy
+- loom
+- lmstudio
+- kindle
+- Klack

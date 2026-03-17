@@ -1,0 +1,20 @@
+- flexibility + portability (multi cloud support, integration capabilities)
+- what to plan for?
+	- response time
+	- encryption
+	- scalability
+	- elasticity
+	- cost optimisation
+	- high availability (data continuity)
+		- disaster recovery
+- data governance
+	- data residency
+		- where stored physically
+	- data staging
+		- medium between source and destination (log)
+	- data cataloging 
+		- manage metadata, context
+	- discovery
+		- uncovering data sources from org
+		- gain insights from them
+	- [[edge-ml]]

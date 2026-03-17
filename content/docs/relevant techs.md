@@ -1,0 +1,13 @@
+- Chakra.ui
+- Telerik/kendo
+- system design
+- sveltekit
+- react native
+- vue.js
+- firebase
+- bullmq
+- redis
+- fast api
+- gemini cli
+- vertex ai
+- Android Studio Otter 3

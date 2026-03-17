@@ -1,0 +1,16 @@
+---
+tags:
+  - android
+---
+- [ ] Switch Language button
+- [x] Study 
+- [x] Practice
+	- [ ] Processing the results gif page
+- [x] Stats
+- [x] Add Curriculum
+- [x] Update Curriculum
+- [x] Add Media (Text, Image, Short Clips)
+- [x] Create a new assessment
+- [x] View Students' progress
+- [ ] Integrate Google Sign in Android Studio
+- [ ] 

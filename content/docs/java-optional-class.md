@@ -1,0 +1,1 @@
+Optional is a class in Java that was introduced in version 8 **to provide a return type that can represent the absence of a value**. It's intended to help reduce the number of NullPointerExceptions in code, which can occur when returning null in scenarios where it might cause unexpected errors.

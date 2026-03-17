@@ -1,0 +1,9 @@
+- podcast on world models - https://www.the-information-bottleneck.com/ep20-yann-lecun/
+- react 18 documentation - https://react.dev/blog/2022/03/29/react-v18
+- paul grahams's essays - https://paulgraham.com/growth.html
+- intro to cnn - https://www.datacamp.com/tutorial/introduction-to-convolutional-neural-networks-cnns
+- react grab - to select comps integrate with cursor - https://www.react-grab.com/
+- markdown site - from md to website - https://markdowncms.netlify.app/setup-guide
+- Google Deepmind (look for opportunities) - https://deepmind.google/careers/
+- Css Battle - https://cssbattle.dev/play/odJAJh3HJe3xMHpvQogt
+- Creati Studio - https://www.creati.studio/

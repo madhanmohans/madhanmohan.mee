@@ -1,8 +1,8 @@
 ---
-title: Notes
-description: A collection of my notes and ideas.
+title: Welcome to Docs
+description: This is the default documentation page.
 ---
 
-# Notes
+# Welcome
 
-Welcome to my notes. Browse the sidebar to explore topics.
+Select a topic from the sidebar to begin.

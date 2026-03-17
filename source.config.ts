@@ -1,7 +1,11 @@
 import { defineConfig, defineDocs } from 'fumadocs-mdx/config';
 import { metaSchema, pageSchema } from 'fumadocs-core/source/schema';
 import { remarkWikilinks } from './lib/remark-wikilinks';
+import { remarkStripHeadingLinks } from './lib/remark-strip-heading-links';
+import { remarkMark } from 'remark-mark-highlight';
 import path from 'node:path';
+import rehypeRaw from 'rehype-raw';
+import { visit } from 'unist-util-visit';
 
 // Convert a filename like "ideas-flowing-big" to "Ideas Flowing Big"
 function filenameToTitle(filePath: string): string {
@@ -34,9 +38,37 @@ export const docs = defineDocs({
     schema: metaSchema,
   },
 });
+function remarkConvertMarkToHtml() {
+  return function (tree: any) {
+    visit(tree, 'mark', (node: any) => {
+      const text = node.children?.[0]?.value || '';
+      node.type = 'html';
+      node.value = `<mark>${text}</mark>`;
+      delete (node as any).children;
+    });
+  };
+}
+
+function remarkLowercaseCodeBlocks() {
+  return function (tree: any) {
+    visit(tree, 'code', (node: any) => {
+      if (node.lang) {
+        let lang = node.lang.toLowerCase();
+        if (lang.startsWith('ad-')) {
+          lang = 'text';
+        }
+        node.lang = lang;
+      }
+    });
+  };
+}
 
 export default defineConfig({
   mdxOptions: {
-    remarkPlugins: [remarkWikilinks],
+    remarkImageOptions: false,
+    remarkPlugins: [remarkWikilinks, remarkStripHeadingLinks, remarkMark, remarkConvertMarkToHtml, remarkLowercaseCodeBlocks],
+    rehypePlugins: [
+      [rehypeRaw, { passThrough: ['mdxjsEsm', 'mdxJsxFlowElement', 'mdxJsxTextElement', 'mdxFlowExpression', 'mdxTextExpression'] }]
+    ]
   },
 });

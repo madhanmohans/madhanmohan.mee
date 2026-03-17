@@ -1,0 +1,1 @@
+An important term to remember - a container that has an `overflow` value of `scroll` or `auto` is called a "Scroll container".

@@ -1,0 +1,8 @@
+- [x] Data Mining Techniques
+- [x] Cloud Computing
+- [x] Social Media Marketing
+- [x] Partial Differential Equations
+- [x] Software Engineering
+- [x] Global Values
+- [x] Constitution of India
+- [x] IBM (Nalaiya Thiran)

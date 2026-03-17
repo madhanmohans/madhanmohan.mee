@@ -1,0 +1,12 @@
+## services provided
+- bigquery analysis
+	- package bigquery ml
+	- collection -> storage -> data exploration -> data preparation (google sql) -> ML Model (bigqueryML) 
+	- -> model application -> visualise decision making (data studio/looker)
+- dataproc analysis
+	- cluster mgmt
+	- efficient processing
+	- cost control (batch processing)
+	- integrates with other services
+- cloud data fusion
+	- integration data from various sources
