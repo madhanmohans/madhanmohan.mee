@@ -1,4 +1,4 @@
 - Gracil - Primarily Full Stack Dev
 - Guru Shifu creds EOW or May 20, 2024
-- aaliya.thaver@thoughtworks.com
+- (contact email redacted)
 - Original Aadhar card and Pan card

@@ -8,8 +8,8 @@ React, Next.js 14/15, Redux Toolkit + RTK Query, React Router v6+, Context API, 
 ### [[relevant techs]]
 
 ### [[general-structure]]
-### [[lucio]]
-### [[eterna-labs]]
+### Interview prep - startup A
+### Interview prep - crypto startup
 ### [[to-learn-in-scrimba]]
 
 ## to revisit

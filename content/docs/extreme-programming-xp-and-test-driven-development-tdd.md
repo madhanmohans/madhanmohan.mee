@@ -1,11 +1,10 @@
 ---
 tags:
   - programming
-  - neev
 ---
 > [!info] eXtreme programming and test-driven development  
 > In her blog, Priti demonstrates how each of Kent Beck’s five core values of XP has something important to say about tests and clean code.  
-> [https://www.thoughtworks.com/en-in/insights/blog/testing/xp-tdd](https://www.thoughtworks.com/en-in/insights/blog/testing/xp-tdd)  
+> [Source](https://www.thoughtworks.com/en-in/insights/blog/testing/xp-tdd)
 ## Summary:
 The document explores how the core values of Extreme Programming (XP) - Communication, Simplicity, Feedback, Courage and Respect - can be applied to automated test practices. Each XP value is correlated with aspects of writing clean and effective test code, highlighting the importance of communication, simplicity, feedback, courage, and respect in the testing process.
 ## Key Points:

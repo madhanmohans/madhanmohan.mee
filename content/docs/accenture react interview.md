@@ -82,11 +82,11 @@ File-based Routing
 
 ---
 [[two sum js]]
-[[accenture react interview]]
-[[bcgx interview prep]]
+[[react-interview-prep]]
+[[consulting-firm-interview-prep]]
 [[chess-tournament-msg]]
 [[cyber-attacks]]
-[[gs-product-grooming]]
-[[initial-gs-meet]]
-[[lucio-r0]]
+[[client-product-grooming]]
+[[initial-client-meet]]
+[[startup-interview-r0]]
 [[mail]]

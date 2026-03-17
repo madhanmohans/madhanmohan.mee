@@ -1,4 +1,4 @@
-# NumberAI
+# AI Startup Notes
 
 AI company focused on numerical reasoning and mathematical problem-solving
 
@@ -6,4 +6,4 @@ AI company focused on numerical reasoning and mathematical problem-solving
 
 ---
 ## ==*References==
-- [NumberAI Official Website](https://number.ai/)
+- [Company Website](https://number.ai/)

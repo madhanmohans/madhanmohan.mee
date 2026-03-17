@@ -1,4 +1,4 @@
 - [x] Personal Blog project
-- [ ] Forge project
+- [ ] Bootcamp project
 - [x] Shootout
-- [x] Zoho code
+- [x] Coding exercise

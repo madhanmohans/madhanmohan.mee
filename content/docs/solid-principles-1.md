@@ -1,6 +1,6 @@
 > [!info] SOLID Principles: How to create a code that is easy to extend and maintain- Part 1  
 > Object Oriented Programming, like other programming paradigms, was created initially to standardize the pillars, syntax and rules to be able to create a code in an understandable standard format and thus avoid falling into the creation of a spaghetti of variables, functions and classes flying between files and folders that in the end will become a difficult creature to tame, imagine then having to include a new functionality, it would be a challenge for the brave.  
-> [https://www.thoughtworks.com/en-in/insights/blog/agile-engineering-practices/solid-principles-how-to-create-a-code-that-is-easy-to-extend-and-maintain-part-1](https://www.thoughtworks.com/en-in/insights/blog/agile-engineering-practices/solid-principles-how-to-create-a-code-that-is-easy-to-extend-and-maintain-part-1)  
+> [Source](https://www.thoughtworks.com/en-in/insights/blog/agile-engineering-practices/solid-principles-how-to-create-a-code-that-is-easy-to-extend-and-maintain-part-1)
 ## Summary:
 Object Oriented Programming (OOP) was developed to standardize programming practices and avoid creating complex and difficult-to-maintain code. SOLID principles, including Single Responsibility and Open Close, aim to promote clean, scalable, and maintainable code through design patterns. Violations of these principles can lead to code duplication and conflicts. By adhering to these principles and using interfaces, developers can create flexible and extensible systems.
 ## Key Points:
@@ -20,12 +20,12 @@ Object Oriented Programming (OOP) was developed to standardize programming pract
 - Strategies like the Strategy Pattern allow for different approaches to solving the same problem by encapsulating them under a common context
 ### Looking Ahead
 - Principles like Liskov Substitution and Interface Segregation are crucial for creating easily extendable and maintainable code
-- Thoughtworks disclaimer states that the views expressed are those of the author and not necessarily reflective of the company
+- Disclaimer states that the views expressed are those of the author and not necessarily reflective of the company
 ---
 
-> [!info] SOLID Principles: How to create a code that is easy to extend and maintain - Part 2 | Thoughtworks India  
+> [!info] SOLID Principles: How to create a code that is easy to extend and maintain - Part 2
 > In this second entry, we continue telling you about the SOLID principles, to maintain order when programming, with examples from day to day.  
-> [https://www.thoughtworks.com/en-in/insights/blog/agile-engineering-practices/solid-principles-how-to-create-a-code-that-is-easy-to-extend-and-maintain-part-2](https://www.thoughtworks.com/en-in/insights/blog/agile-engineering-practices/solid-principles-how-to-create-a-code-that-is-easy-to-extend-and-maintain-part-2)  
+> [Source](https://www.thoughtworks.com/en-in/insights/blog/agile-engineering-practices/solid-principles-how-to-create-a-code-that-is-easy-to-extend-and-maintain-part-2)
 ## Summary
 This document continues discussing the SOLID principles, explaining LSP (Liskov Substitution Principle) and ISP (Interface Segregation Principle). LSP focuses on preserving behavioral properties between subtypes and super types, while ISP states that clients should not be forced to rely on interfaces they do not use.
 ## Key Points
@@ -43,12 +43,12 @@ This document continues discussing the SOLID principles, explaining LSP (Liskov 
 - The document provides an illustrative example of how ISP can be applied with birds (eagle and penguin) and the need for interface segregation in this scenario 
 ### Other
 - The document mentions the need to delve into the Dependency Inversion Principle (DIP) in the final part, along with key concepts to help plan and create code, avoiding errors continuously
-- A disclaimer at the end indicates that the statements and opinions expressed in the document are those of the author(s) and do not necessarily reflect the positions of Thoughtworks
+- A disclaimer at the end indicates that the statements and opinions expressed in the document are those of the author(s) and do not necessarily reflect the positions of the company
 ---
 
 > [!info] SOLID Principles: How to create a code that is easy to extend and maintain- Part 3  
 > Object Oriented Programming, like other programming paradigms, was created initially to standardize the pillars, syntax and rules to be able to create a code in an understandable standard format and thus avoid falling into the creation of a spaghetti of variables, functions and classes flying between files and folders that in the end will become a difficult creature to tame, imagine then having to include a new functionality, it would be a challenge for the brave.  
-> [https://www.thoughtworks.com/insights/blog/agile-engineering-practices/solid-principles-how-to-create-a-code-that-is-easy-to-extend-and-maintain-part-3](https://www.thoughtworks.com/insights/blog/agile-engineering-practices/solid-principles-how-to-create-a-code-that-is-easy-to-extend-and-maintain-part-3)  
+> [Source](https://www.thoughtworks.com/insights/blog/agile-engineering-practices/solid-principles-how-to-create-a-code-that-is-easy-to-extend-and-maintain-part-3)
 ## Summary
 The Dependency Inversion Principle is discussed in this document, highlighting the importance of high-level modules not depending on low-level modules directly, but both relying on abstractions. By abstracting dependencies and details, code becomes easier to extend and maintain, following clean programming practices and design patterns.
 ## Key Points
