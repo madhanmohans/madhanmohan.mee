@@ -2,11 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Pencil, Save, X } from 'lucide-react';
+import { Check, Pencil, Save, X } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { buttonVariants } from 'fumadocs-ui/components/ui/button';
+import { AnimatePresence, motion } from 'framer-motion';
 
-type Mode = 'view' | 'edit';
+type Mode = 'view' | 'edit' | 'confirm-discard';
 
 export function NoteEditor({
   slug,
@@ -21,6 +22,7 @@ export function NoteEditor({
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
+  const [savedFlash, setSavedFlash] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const apiUrl = `/api/notes/${slug.join('/')}`;
@@ -52,6 +54,8 @@ export function NoteEditor({
       });
       if (!res.ok) throw new Error('Failed to save');
       setIsDirty(false);
+      setSavedFlash(true);
+      setTimeout(() => setSavedFlash(false), 2000);
       setMode('view');
       // Small delay for fumadocs-mdx to recompile before refreshing
       setTimeout(() => router.refresh(), 500);
@@ -63,14 +67,17 @@ export function NoteEditor({
   }, [apiUrl, content, router]);
 
   const cancel = useCallback(() => {
-    if (isDirty && !window.confirm('Discard unsaved changes?')) return;
+    if (isDirty) {
+      setMode('confirm-discard');
+      return;
+    }
     setMode('view');
     setIsDirty(false);
   }, [isDirty]);
 
   // Keyboard shortcuts
   useEffect(() => {
-    if (mode !== 'edit') return;
+    if (mode !== 'edit' && mode !== 'confirm-discard') return;
 
     const handler = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 's') {
@@ -78,7 +85,11 @@ export function NoteEditor({
         save();
       }
       if (e.key === 'Escape') {
-        cancel();
+        if (mode === 'confirm-discard') {
+          setMode('edit');
+        } else {
+          cancel();
+        }
       }
     };
 
@@ -109,86 +120,154 @@ export function NoteEditor({
     }
   };
 
-  if (mode === 'view') {
-    return (
-      <div>
-        <div className="flex justify-end mb-4">
-          <button
-            onClick={enterEditMode}
-            className={cn(
-              buttonVariants({
-                color: 'secondary',
-                size: 'sm',
-                className: 'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground',
-              }),
-            )}
-          >
-            <Pencil />
-            Edit
-          </button>
-        </div>
-        {children}
-      </div>
-    );
-  }
+  const fadeProps = {
+    initial: { opacity: 0, y: 4 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -4 },
+    transition: { duration: 0.18, ease: 'easeOut' as const },
+  };
 
   return (
     <div>
-      <div className="flex items-center gap-2 mb-4">
-        <button
-          onClick={save}
-          disabled={isSaving || !isDirty}
-          className={cn(
-            buttonVariants({
-              color: 'primary',
-              size: 'sm',
-              className: 'gap-2 [&_svg]:size-3.5',
-            }),
+      <div className="flex items-center gap-2 mb-4 min-h-8">
+        <AnimatePresence mode="wait" initial={false}>
+          {mode === 'view' && (
+            <motion.div key="view-toolbar" className="flex items-center gap-2 ml-auto" {...fadeProps}>
+              <AnimatePresence>
+                {savedFlash && (
+                  <motion.span
+                    key="saved"
+                    className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1"
+                    initial={{ opacity: 0, x: 4 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.15, ease: 'easeOut' }}
+                  >
+                    <Check className="size-3" />
+                    Saved
+                  </motion.span>
+                )}
+              </AnimatePresence>
+              <button
+                onClick={enterEditMode}
+                className={cn(
+                  buttonVariants({
+                    color: 'secondary',
+                    size: 'sm',
+                    className: 'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground active:scale-95',
+                  }),
+                )}
+              >
+                <Pencil />
+                Edit
+              </button>
+            </motion.div>
           )}
-        >
-          <Save />
-          {isSaving ? 'Saving...' : 'Save'}
-        </button>
-        <button
-          onClick={cancel}
-          disabled={isSaving}
-          className={cn(
-            buttonVariants({
-              color: 'secondary',
-              size: 'sm',
-              className: 'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground',
-            }),
+
+          {(mode === 'edit' || mode === 'confirm-discard') && (
+            <motion.div key="edit-toolbar" className="flex items-center gap-2 w-full" {...fadeProps}>
+              <button
+                onClick={save}
+                disabled={isSaving || !isDirty}
+                className={cn(
+                  buttonVariants({
+                    color: 'primary',
+                    size: 'sm',
+                    className: 'gap-2 [&_svg]:size-3.5 active:scale-95',
+                  }),
+                )}
+              >
+                <Save />
+                {isSaving ? 'Saving...' : 'Save'}
+              </button>
+              <button
+                onClick={cancel}
+                disabled={isSaving}
+                className={cn(
+                  buttonVariants({
+                    color: 'secondary',
+                    size: 'sm',
+                    className: 'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground active:scale-95',
+                  }),
+                )}
+              >
+                <X />
+                Cancel
+              </button>
+
+              <AnimatePresence>
+                {mode === 'confirm-discard' && (
+                  <motion.div
+                    key="confirm"
+                    className="flex items-center gap-2 ml-2"
+                    initial={{ opacity: 0, x: -6 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -6 }}
+                    transition={{ duration: 0.15, ease: 'easeOut' }}
+                  >
+                    <span className="text-xs text-fd-muted-foreground">Discard changes?</span>
+                    <button
+                      onClick={() => { setMode('view'); setIsDirty(false); }}
+                      className={cn(buttonVariants({ color: 'secondary', size: 'sm', className: 'gap-1 [&_svg]:size-3 text-red-500 active:scale-95' }))}
+                    >
+                      Discard
+                    </button>
+                    <button
+                      onClick={() => setMode('edit')}
+                      className={cn(buttonVariants({ color: 'secondary', size: 'sm', className: 'active:scale-95' }))}
+                    >
+                      Keep editing
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {isDirty && mode !== 'confirm-discard' && (
+                <span className="text-xs text-fd-muted-foreground ml-2">Unsaved changes</span>
+              )}
+              <span className="text-xs text-fd-muted-foreground ml-auto">
+                ⌘S to save · Esc to cancel
+              </span>
+            </motion.div>
           )}
-        >
-          <X />
-          Cancel
-        </button>
-        {isDirty && (
-          <span className="text-xs text-fd-muted-foreground ml-2">Unsaved changes</span>
-        )}
-        <span className="text-xs text-fd-muted-foreground ml-auto">
-          Ctrl+S to save · Esc to cancel
-        </span>
+        </AnimatePresence>
       </div>
 
-      {isLoading ? (
-        <div className="flex items-center justify-center py-20 text-fd-muted-foreground">
-          Loading...
-        </div>
-      ) : (
-        <textarea
-          ref={textareaRef}
-          value={content}
-          onChange={(e) => {
-            setContent(e.target.value);
-            setIsDirty(true);
-          }}
-          onKeyDown={handleTabKey}
-          spellCheck={false}
-          className="w-full min-h-[70vh] p-4 rounded-lg border border-fd-border bg-fd-card text-fd-foreground font-mono text-sm leading-relaxed resize-y focus:outline-none focus:ring-2 focus:ring-fd-ring"
-          style={{ tabSize: 2 }}
-        />
-      )}
+      <AnimatePresence mode="wait" initial={false}>
+        {mode === 'view' ? (
+          <motion.div key="view-content" {...fadeProps}>
+            {children}
+          </motion.div>
+        ) : isLoading ? (
+          <motion.div
+            key="loading"
+            className="flex items-center justify-center py-20 text-fd-muted-foreground gap-2"
+            {...fadeProps}
+          >
+            <motion.div
+              className="size-4 rounded-full border-2 border-fd-muted-foreground border-t-transparent"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
+            />
+            Loading…
+          </motion.div>
+        ) : (
+          <motion.div key="editor" {...fadeProps}>
+            <textarea
+              ref={textareaRef}
+              value={content}
+              onChange={(e) => {
+                setContent(e.target.value);
+                setIsDirty(true);
+              }}
+              onKeyDown={handleTabKey}
+              spellCheck={false}
+              className="w-full min-h-[70vh] p-4 rounded-lg border border-fd-border bg-fd-card text-fd-foreground font-mono text-sm leading-relaxed resize-y focus:outline-none focus:ring-2 focus:ring-fd-ring"
+              style={{ tabSize: 2 }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

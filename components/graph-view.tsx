@@ -8,6 +8,7 @@ import type {
 } from 'react-force-graph-2d';
 import { forceCollide, forceLink, forceManyBody } from 'd3-force';
 import { useRouter } from 'fumadocs-core/framework';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export interface Graph {
   links: Link[];
@@ -46,7 +47,18 @@ export function GraphView(props: GraphViewProps) {
       ref={ref}
       className="relative border h-[600px] [&_canvas]:size-full rounded-xl overflow-hidden bg-fd-background"
     >
-      {mount && <ClientOnly {...props} containerRef={ref} />}
+      <AnimatePresence>
+        {mount && (
+          <motion.div
+            className="size-full"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+          >
+            <ClientOnly {...props} containerRef={ref} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -102,7 +114,7 @@ function ClientOnly({
     ctx.fill();
 
     // Draw text below the node
-    ctx.font = `${fontSize}px Sans-Serif`;
+    ctx.font = `${fontSize}px Inter, system-ui, sans-serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillStyle = getComputedStyle(container).getPropertyValue('color');
@@ -171,14 +183,21 @@ function ClientOnly({
         enableNodeDrag
         enableZoomInteraction
       />
-      {tooltip && (
-        <div
-          className="absolute bg-fd-popover text-fd-popover-foreground size-fit p-2 border rounded-xl shadow-lg text-sm max-w-xs"
-          style={{ top: tooltip.y, left: tooltip.x }}
-        >
-          {tooltip.content}
-        </div>
-      )}
+      <AnimatePresence>
+        {tooltip && (
+          <motion.div
+            key="tooltip"
+            className="absolute bg-fd-popover text-fd-popover-foreground size-fit p-2 border rounded-xl shadow-lg text-sm max-w-xs pointer-events-none"
+            style={{ top: tooltip.y, left: tooltip.x }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.12, ease: 'easeOut' }}
+          >
+            {tooltip.content}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

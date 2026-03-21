@@ -1,4 +1,0 @@
-ONE can get caught up with the nuances of things that one is already doing. That doesn't mean that he is improving, it might very well be the case that he is stuck. Correcting things to the exact decimal is not progress.
-When the threshold of progress is reached, anything after that is OBSESSION.
-We do things for the sake of doing things. We picture ourselves to be perfect when what we merely are doing is only painting over an already well-painted picture.
-We fail to get past the surface (do we?) while admiring the beauty; the nook and corner of it. But the question is, all the time that one puts into focusing and decorating the superficial, is that hard work or an escape?

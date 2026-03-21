@@ -2,6 +2,20 @@
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
 
+/* System font stack for performance — no web font download needed */
+body {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+p, li {
+  text-wrap: pretty;
+}
+
 /* ==highlight== syntax → <mark> */
 mark {
   background-color: #ffd4c8;
