@@ -2,29 +2,359 @@
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
 
-/* System font stack for performance — no web font download needed */
-body {
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+/* --- CommitMono font --- */
+@font-face {
+  font-family: 'CommitMono';
+  src: url('/CommitMonoV143/CommitMono-400-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
-/* Typography */
+@font-face {
+  font-family: 'CommitMono';
+  src: url('/CommitMonoV143/CommitMono-400-Italic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CommitMono';
+  src: url('/CommitMonoV143/CommitMono-700-Regular.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CommitMono';
+  src: url('/CommitMonoV143/CommitMono-700-Italic.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ============================================================
+   DESIGN SYSTEM — Voku.Studio-inspired minimalist editorial
+   ============================================================ */
+
+/* --- Easing Library (CSS Custom Properties) --- */
+:root {
+  --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+  --ease-in-out-expo: cubic-bezier(1, 0, 0, 1);
+  --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  /* Typography scale */
+  --font-size-xl: 3rem;
+  --font-size-l: 2.25rem;
+  --font-size-m: 0.875rem;
+  --font-size-base: 0.75rem;
+  --font-size-s: 0.625rem;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+}
+
+/* --- Color Palette Override: Warm off-white + monochrome + red accent --- */
+@theme {
+  /* Light mode — warm papery off-white */
+  --color-fd-background: #fffdfa;
+  --color-fd-foreground: #000;
+  --color-fd-muted: #f5f3ef;
+  --color-fd-muted-foreground: #6b6b6b;
+  --color-fd-popover: #fffdfa;
+  --color-fd-popover-foreground: #1a1a1a;
+  --color-fd-card: #f8f6f2;
+  --color-fd-card-foreground: #000;
+  --color-fd-border: rgba(0, 0, 0, 0.08);
+  --color-fd-primary: #000;
+  --color-fd-primary-foreground: #fffdfa;
+  --color-fd-secondary: #f0ede8;
+  --color-fd-secondary-foreground: #000;
+  --color-fd-accent: rgba(0, 0, 0, 0.04);
+  --color-fd-accent-foreground: #000;
+  --color-fd-ring: #c0392b;
+}
+
+.dark {
+  /* Dark mode — deep warm black */
+  --color-fd-background: #0a0a08;
+  --color-fd-foreground: #e8e6e1;
+  --color-fd-muted: #161614;
+  --color-fd-muted-foreground: rgba(232, 230, 225, 0.55);
+  --color-fd-popover: #131311;
+  --color-fd-popover-foreground: #d4d2cc;
+  --color-fd-card: #111110;
+  --color-fd-card-foreground: #e8e6e1;
+  --color-fd-border: rgba(255, 255, 255, 0.08);
+  --color-fd-primary: #e8e6e1;
+  --color-fd-primary-foreground: #0a0a08;
+  --color-fd-secondary: #1a1a18;
+  --color-fd-secondary-foreground: #e8e6e1;
+  --color-fd-accent: rgba(255, 255, 255, 0.06);
+  --color-fd-accent-foreground: #d4d2cc;
+  --color-fd-ring: #e74c3c;
+}
+
+/* --- Typography: CommitMono everywhere --- */
+body {
+  font-family: 'CommitMono', monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+  font-optical-sizing: auto;
+  letter-spacing: 0.01em;
+}
+
+/* UI chrome also uses CommitMono */
+nav,
+nav *,
+aside,
+aside *,
+[data-sidebar],
+[data-sidebar] *,
+button,
+.fd-sidebar,
+.fd-sidebar *,
+header,
+header * {
+  font-family: 'CommitMono', monospace !important;
+  letter-spacing: 0.01em;
+}
+
+/* Headings */
 h1, h2, h3, h4, h5, h6 {
   text-wrap: balance;
+  font-family: 'CommitMono', monospace;
+  font-weight: 400;
+}
+
+h1 {
+  font-size: var(--font-size-xl);
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: var(--font-size-l);
+  line-height: 1.2;
 }
 
 p, li {
   text-wrap: pretty;
+  line-height: 1.7;
 }
 
-/* ==highlight== syntax → <mark> */
+/* --- Links: Underline offset for descenders --- */
+a {
+  text-underline-offset: 3px;
+  text-decoration-skip-ink: auto;
+}
+
+/* --- Nav underline animation (scaleX) --- */
+nav a,
+header a {
+  position: relative;
+}
+
+nav a::after,
+header a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease-out-quint);
+}
+
+nav a:hover::after,
+header a:hover::after {
+  transform: scaleX(1);
+}
+
+/* --- Page enter: opacity reveal --- */
+@keyframes fd-page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+main {
+  animation: fd-page-enter 0.6s var(--ease-out-quart) both;
+}
+
+/* --- ==highlight== syntax → <mark> --- */
 mark {
-  background-color: #ffd4c8;
+  background-color: rgba(192, 57, 43, 0.12);
   color: inherit;
   border-radius: 2px;
-  padding: 0 2px;
+  padding: 0 3px;
 }
 
 .dark mark {
-  background-color: #713f12;
-  color: #fef9c3;
+  background-color: rgba(231, 76, 60, 0.2);
+  color: #fde8e4;
+}
+
+/* --- Ghost typography utility --- */
+.ghost-title {
+  font-size: clamp(4rem, 9vw, 12rem);
+  opacity: 0.04;
+  color: currentColor;
+  position: absolute;
+  white-space: nowrap;
+  overflow: hidden;
+  pointer-events: none;
+  font-weight: 900;
+  font-family: 'CommitMono', monospace;
+  z-index: 0;
+  user-select: none;
+}
+
+/* --- Layered shadows for cards (not pure black) --- */
+.fd-card,
+[data-card] {
+  box-shadow:
+    0 1px 2px rgba(17, 24, 39, 0.04),
+    0 4px 8px rgba(17, 24, 39, 0.02),
+    0 12px 24px rgba(17, 24, 39, 0.015);
+  border: 1px solid var(--color-fd-border);
+  transition: box-shadow 0.3s var(--ease-out-cubic);
+}
+
+.dark .fd-card,
+.dark [data-card] {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.15),
+    0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Focus states use red accent (the only non-monochrome color) --- */
+:focus-visible {
+  outline: 2px solid var(--color-fd-ring);
+  outline-offset: 2px;
+}
+
+/* --- Sidebar: editorial feel with breathing room on large screens --- */
+#nd-sidebar a,
+[data-sidebar] a {
+  font-size: 13px;
+  letter-spacing: 0.01em;
+}
+
+@media (min-width: 1280px) {
+  #nd-sidebar .overflow-hidden {
+    padding-inline: var(--space-2);
+  }
+}
+
+/* --- Code blocks: subtle, warm --- */
+pre {
+  border: 1px solid var(--color-fd-border) !important;
+  border-radius: 8px;
+}
+
+code {
+  font-feature-settings: 'calt' 1, 'ss01' 1;
+}
+
+/* --- Smooth scroll --- */
+html {
+  scroll-behavior: smooth;
+}
+
+/* --- Selection color uses red accent --- */
+::selection {
+  background: rgba(192, 57, 43, 0.15);
+  color: inherit;
+}
+
+.dark ::selection {
+  background: rgba(231, 76, 60, 0.25);
+  color: inherit;
+}
+
+/* --- Tabular nums for data tables --- */
+table {
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Prose: oldstyle numerals --- */
+.prose {
+  font-variant-numeric: oldstyle-nums;
+}
+
+/* --- Home nav links: editorial underline on hover --- */
+.home-nav-link {
+  position: relative;
+}
+
+.home-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease-out-quint);
+}
+
+.home-nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* --- Second brain view toggle --- */
+.view-toggle-btn {
+  font-family: 'CommitMono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  padding: var(--space-2) var(--space-4);
+  border-radius: 6px;
+  transition: background 0.3s var(--ease-out-cubic), color 0.3s var(--ease-out-cubic);
+}
+
+.view-toggle-btn[data-active='true'] {
+  background: var(--color-fd-foreground);
+  color: var(--color-fd-background);
+}
+
+.view-toggle-btn[data-active='false'] {
+  color: var(--color-fd-muted-foreground);
+}
+
+.view-toggle-btn[data-active='false']:hover {
+  color: var(--color-fd-foreground);
+}
+
+/* --- Graph mini tooltip --- */
+.graph-mini-open-btn:hover .graph-mini-tooltip {
+  opacity: 1 !important;
+}
+
+/* --- Radical negative space: generous content padding --- */
+.fd-page {
+  max-width: 720px;
 }

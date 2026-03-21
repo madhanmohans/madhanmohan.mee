@@ -2,7 +2,6 @@
 tags:
   - "#work"
   - "#react"
-Parent: "[[Team Lease Onboarding Call]]"
 Created Time: 2024-10-24T11:41:00
 Last Edited Time: 2024-10-24T11:42:00
 ---

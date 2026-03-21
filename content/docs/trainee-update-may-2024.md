@@ -1,4 +1,0 @@
-- Gracil - Primarily Full Stack Dev
-- Guru Shifu creds EOW or May 20, 2024
-- (contact email redacted)
-- Original Aadhar card and Pan card

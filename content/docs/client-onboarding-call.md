@@ -1,6 +1,5 @@
 Tags: #
 
-## ==Team Lease Onboarding Call:==
 ## Tech Stack
 - Typescript
 - Node JS - Nest

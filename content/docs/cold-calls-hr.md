@@ -16,10 +16,3 @@
 | Neuron ERP       | Yes     | No       | No          | Yes            |
 | Tatvacare        | Yes     | No       | No          | Yes            |
 | Series A         | Yes     | No       | No          | Yes            |
-
-
-### **Meenu Elsa Saji** - **Senior HR Executive**
-+91 9544031155
-
-**Namitha Rajagopal** - **HR and Talent Acquisition Executive**
-+91 8606112888
