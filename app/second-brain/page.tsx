@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { GraphView, type Graph } from '@/components/graph-view';
+import { ChessKing, GitGraph, Notebook, Waypoints } from 'lucide-react';
 
 export default function SecondBrainPage() {
   const router = useRouter();
@@ -19,7 +20,7 @@ export default function SecondBrainPage() {
   return (
     <div className="min-h-dvh flex flex-col">
       {/* Header */}
-      <header className="flex items-center justify-center px-6 py-5">
+      <header className="flex items-start justify-between px-12 py-5">
         <Link
           href="/"
           style={{
@@ -29,24 +30,24 @@ export default function SecondBrainPage() {
             letterSpacing: '0.02em',
           }}
         >
-          home
+          <ChessKing />
         </Link>
 
 
         {/* View toggle */}
-        <div className="flex gap-1 border border-fd-border rounded-lg p-1">
+        <div className="flex border border-fd-border rounded-2xl">
           <button
             className="view-toggle-btn"
             data-active={true}
           >
-            graph
+            <Waypoints size={16} />
           </button>
           <button
             className="view-toggle-btn"
             data-active={false}
             onClick={() => router.push('/docs')}
           >
-            linear
+            <Notebook size={16}/>
           </button>
         </div>
       </header>

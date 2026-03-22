@@ -1,4 +1,5 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
+import { ChessKing, HomeIcon } from 'lucide-react';
 
 export function baseOptions(): BaseLayoutProps {
   return {
@@ -10,7 +11,7 @@ export function baseOptions(): BaseLayoutProps {
           fontWeight: 400,
           letterSpacing: '0.02em',
         }}>
-          Notes.
+        <ChessKing />
         </span>
       ),
     },
