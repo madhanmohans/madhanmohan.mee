@@ -29,16 +29,25 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
         <LLMCopyButton markdownUrl={`${page.url}.mdx`} />
         <ViewOptions markdownUrl={`${page.url}.mdx`} />
       </div>
-      <NoteEditor slug={params.slug ?? []}>
+      {process.env.NODE_ENV === 'development' ? (
+        <NoteEditor slug={params.slug ?? []}>
+          <DocsBody>
+            <MDX
+              components={getMDXComponents({
+                a: createRelativeLink(source, page),
+              })}
+            />
+          </DocsBody>
+        </NoteEditor>
+      ) : (
         <DocsBody>
           <MDX
             components={getMDXComponents({
-              // this allows you to link to other pages with relative file paths
               a: createRelativeLink(source, page),
             })}
           />
         </DocsBody>
-      </NoteEditor>
+      )}
     </DocsPage>
   );
 }

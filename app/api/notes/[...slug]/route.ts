@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache';
 
 export const dynamic = 'force-dynamic';
 
+const IS_DEV = process.env.NODE_ENV === 'development';
 const CONTENT_DIR = path.resolve(process.cwd(), 'content/docs');
 
 function resolveFilePath(pagePath: string): string {
@@ -19,6 +20,7 @@ export async function GET(
   _req: Request,
   { params }: { params: Promise<{ slug: string[] }> },
 ) {
+  if (!IS_DEV) return new Response('Not available', { status: 403 });
   const { slug } = await params;
   const page = source.getPage(slug);
   if (!page) {
@@ -37,6 +39,7 @@ export async function PUT(
   req: Request,
   { params }: { params: Promise<{ slug: string[] }> },
 ) {
+  if (!IS_DEV) return new Response('Not available', { status: 403 });
   const { slug } = await params;
   const page = source.getPage(slug);
   if (!page) {
