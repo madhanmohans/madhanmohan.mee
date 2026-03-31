@@ -512,3 +512,51 @@ article,
   outline-offset: 4px;
   border-radius: 2px;
 }
+
+/* --- Graph zoom controls --- */
+.graph-zoom-controls {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-fd-border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--color-fd-popover);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.06),
+    0 4px 12px rgba(0, 0, 0, 0.04);
+  z-index: 10;
+}
+
+.graph-zoom-btn {
+  font-family: 'CommitMono', monospace;
+  font-size: 14px;
+  line-height: 1;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--color-fd-muted-foreground);
+  cursor: pointer;
+  transition: color 0.15s var(--ease-out-cubic), background 0.15s var(--ease-out-cubic);
+  user-select: none;
+}
+
+.graph-zoom-btn:hover {
+  color: var(--color-fd-foreground);
+  background: var(--color-fd-accent);
+}
+
+.graph-zoom-fit {
+  font-size: 12px;
+}
+
+.graph-zoom-divider {
+  height: 1px;
+  background: var(--color-fd-border);
+}

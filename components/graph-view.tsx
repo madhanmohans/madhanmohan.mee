@@ -237,6 +237,16 @@ function InteractiveGraph({
     return { nodes, links };
   }, [graph]);
 
+  function zoomBy(factor: number) {
+    const fg = graphRef.current;
+    if (!fg) return;
+    fg.zoom((fg.zoom() as number) * factor, 300);
+  }
+
+  function zoomFit() {
+    graphRef.current?.zoomToFit(400, 60);
+  }
+
   return (
     <>
       <ForceGraph2D<NodeType, LinkType>
@@ -267,6 +277,16 @@ function InteractiveGraph({
         cooldownTime={4000}
         warmupTicks={100}
       />
+
+      {/* Zoom controls */}
+      <div className="graph-zoom-controls">
+        <button className="graph-zoom-btn" onClick={() => zoomBy(1.4)} title="Zoom in">+</button>
+        <div className="graph-zoom-divider" />
+        <button className="graph-zoom-btn" onClick={() => zoomBy(1 / 1.4)} title="Zoom out">−</button>
+        <div className="graph-zoom-divider" />
+        <button className="graph-zoom-btn graph-zoom-fit" onClick={zoomFit} title="Fit to view">⤢</button>
+      </div>
+
       <AnimatePresence>
         {tooltip && (
           <motion.div

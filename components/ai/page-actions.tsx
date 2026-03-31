@@ -1,5 +1,5 @@
 'use client';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Check, ChevronDown, Copy, ExternalLinkIcon } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { useCopyButton } from 'fumadocs-ui/utils/use-copy-button';
@@ -65,9 +65,14 @@ export function ViewOptions({
    */
   markdownUrl: string;
 }) {
+  const [origin, setOrigin] = useState('');
+
+  useEffect(() => {
+    setOrigin(window.location.origin);
+  }, []);
+
   const items = useMemo(() => {
-    const fullMarkdownUrl =
-      typeof window !== 'undefined' ? new URL(markdownUrl, window.location.origin) : 'loading';
+    const fullMarkdownUrl = origin ? new URL(markdownUrl, origin).toString() : markdownUrl;
     const q = `Read ${fullMarkdownUrl}, I want to ask questions about it.`;
 
     return [
@@ -188,7 +193,7 @@ export function ViewOptions({
         })}`,
       },
     ];
-  }, [markdownUrl]);
+  }, [markdownUrl, origin]);
 
   return (
     <Popover>

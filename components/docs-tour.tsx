@@ -1,6 +1,8 @@
 'use client';
 
-import { Tour } from '@/components/tour';
+import dynamic from 'next/dynamic';
+
+const Tour = dynamic(() => import('@/components/tour').then((m) => m.Tour), { ssr: false });
 
 export function DocsTour() {
   return (
