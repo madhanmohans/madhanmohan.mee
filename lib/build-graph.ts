@@ -1,7 +1,11 @@
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
 import { source } from '@/lib/source';
 import type { Graph } from '../components/graph-view';
 
-export function buildGraph(): Graph {
+const CONTENT_DIR = path.resolve(process.cwd(), 'content/docs');
+
+export async function buildGraph(): Promise<Graph> {
   const pages = source.getPages();
   const graph: Graph = { links: [], nodes: [] };
 
@@ -35,11 +39,22 @@ export function buildGraph(): Graph {
   }
 
   for (const page of pages) {
+    let content = '';
+    try {
+      const filePath = path.resolve(CONTENT_DIR, page.path);
+      const raw = await readFile(filePath, 'utf-8');
+      // Strip frontmatter (--- ... ---)
+      content = raw.replace(/^---[\s\S]*?---\n?/, '').trim().slice(0, 800);
+    } catch {
+      content = page.data.description ?? '';
+    }
+
     graph.nodes.push({
       id: page.url,
       url: page.url,
       text: page.data.title ?? page.slugs[page.slugs.length - 1] ?? '',
       description: page.data.description,
+      content,
     });
 
     const { extractedReferences = [] } = page.data;

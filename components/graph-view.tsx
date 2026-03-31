@@ -1,5 +1,5 @@
 'use client';
-import { lazy, type RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import React, { lazy, type RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import type {
   ForceGraphMethods,
   ForceGraphProps,
@@ -21,6 +21,7 @@ export type Link = LinkObject<NodeType, LinkType>;
 export interface NodeType {
   text: string;
   description?: string;
+  content?: string;
   neighbors?: string[];
   url: string;
 }
@@ -36,6 +37,64 @@ export interface GraphViewProps {
 const ForceGraph2D = lazy(
   () => import('react-force-graph-2d'),
 ) as typeof import('react-force-graph-2d').default;
+
+/** Minimal markdown renderer for the hover tooltip */
+function MiniMarkdown({ content }: { content: string }) {
+  const lines = content.split('\n');
+  const elements: React.ReactNode[] = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    // Skip dividers and empty lines between sections (collapse multiple blank lines)
+    if (/^---+$/.test(line.trim())) continue;
+
+    // Heading: ## Title or # Title
+    const headingMatch = line.match(/^#{1,3}\s+(.+)/);
+    if (headingMatch) {
+      const text = headingMatch[1]
+        .replace(/==\*?([^=]+)==\*?/g, '$1') // strip ==highlight==
+        .replace(/\*{1,2}([^*]+)\*{1,2}/g, '$1');
+      elements.push(
+        <p key={i} className="font-semibold text-fd-foreground mt-1.5 first:mt-0 text-[11px] uppercase tracking-wider opacity-60">
+          {text}
+        </p>
+      );
+      continue;
+    }
+
+    // List item: - text or * text or → text
+    const listMatch = line.match(/^[-*→]\s+(.+)/);
+    if (listMatch) {
+      const raw = listMatch[1]
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // [text](url) → text
+        .replace(/\[\[([^\]]+)\]\]/g, '$1')       // [[wikilink]] → text
+        .replace(/\*{1,2}([^*]+)\*{1,2}/g, '$1') // **bold** → text
+        .replace(/_{1,2}([^_]+)_{1,2}/g, '$1');  // _italic_ → text
+      elements.push(
+        <div key={i} className="flex gap-1 items-start leading-snug">
+          <span className="opacity-40 shrink-0">·</span>
+          <span>{raw}</span>
+        </div>
+      );
+      continue;
+    }
+
+    // Plain text (non-empty)
+    if (line.trim()) {
+      const raw = line
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+        .replace(/\[\[([^\]]+)\]\]/g, '$1')
+        .replace(/\*{1,2}([^*]+)\*{1,2}/g, '$1')
+        .replace(/_{1,2}([^_]+)_{1,2}/g, '$1');
+      elements.push(
+        <p key={i} className="leading-snug opacity-80">{raw}</p>
+      );
+    }
+  }
+
+  return <div className="flex flex-col gap-0.5">{elements}</div>;
+}
 
 export function GraphView(props: GraphViewProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -160,6 +219,7 @@ function InteractiveGraph({
   const [tooltip, setTooltip] = useState<{
     x: number;
     y: number;
+    title: string;
     content: string;
   } | null>(null);
 
@@ -173,7 +233,8 @@ function InteractiveGraph({
       setTooltip({
         x: coords.x + 4,
         y: coords.y + 4,
-        content: node.description ?? 'No description',
+        title: node.text,
+        content: node.content ?? node.description ?? '',
       });
     } else {
       setTooltip(null);
@@ -291,13 +352,13 @@ function InteractiveGraph({
         {tooltip && (
           <motion.div
             key="tooltip"
-            className="absolute text-fd-popover-foreground size-fit p-2 border border-fd-border rounded-lg text-sm max-w-xs pointer-events-none"
+            className="absolute text-fd-popover-foreground p-3 border border-fd-border rounded-lg pointer-events-none w-64 overflow-hidden"
             style={{
               top: tooltip.y,
               left: tooltip.x,
               background: 'var(--color-fd-popover)',
               fontFamily: "'CommitMono', monospace",
-              fontSize: '12px',
+              fontSize: '11px',
               letterSpacing: '0.01em',
               boxShadow:
                 '0 1px 2px rgba(17,24,39,0.06), 0 4px 8px rgba(17,24,39,0.04), 0 12px 24px rgba(17,24,39,0.03)',
@@ -307,7 +368,12 @@ function InteractiveGraph({
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.12, ease: 'easeOut' }}
           >
-            {tooltip.content}
+            <p className="font-semibold text-fd-foreground text-[12px] mb-2 border-b border-fd-border pb-1.5">{tooltip.title}</p>
+            {tooltip.content && (
+              <div className="text-fd-muted-foreground max-h-48 overflow-y-auto">
+                <MiniMarkdown content={tooltip.content} />
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
