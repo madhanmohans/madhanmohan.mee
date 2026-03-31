@@ -200,7 +200,7 @@ function InteractiveGraph({
       : style.getPropertyValue('--color-fd-muted-foreground');
     ctx.fill();
 
-    ctx.font = `${fontSize}px Inter, system-ui, sans-serif`;
+    ctx.font = `${fontSize}px CommitMono, monospace`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillStyle = style.getPropertyValue('color');
@@ -291,12 +291,13 @@ function InteractiveGraph({
         {tooltip && (
           <motion.div
             key="tooltip"
-            className="absolute bg-fd-popover text-fd-popover-foreground size-fit p-2 border border-fd-border rounded-lg text-sm max-w-xs pointer-events-none"
+            className="absolute text-fd-popover-foreground size-fit p-2 border border-fd-border rounded-lg text-sm max-w-xs pointer-events-none"
             style={{
               top: tooltip.y,
               left: tooltip.x,
-              fontFamily: '-apple-system, system-ui, sans-serif',
-              fontSize: '13px',
+              background: 'var(--color-fd-popover)',
+              fontFamily: "'CommitMono', monospace",
+              fontSize: '12px',
               letterSpacing: '0.01em',
               boxShadow:
                 '0 1px 2px rgba(17,24,39,0.06), 0 4px 8px rgba(17,24,39,0.04), 0 12px 24px rgba(17,24,39,0.03)',

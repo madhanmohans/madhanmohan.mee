@@ -269,7 +269,7 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
 
         // Label
         const fontSize = (node.isCurrent ? 10 : 8) / scale;
-        ctx.font = `${fontSize}px Inter, system-ui, sans-serif`;
+        ctx.font = `${fontSize}px CommitMono, monospace`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
         ctx.fillStyle = node.isCurrent ? textColor : mutedColor;
@@ -497,16 +497,15 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
       >
         <p
           style={{
-            fontSize: '12px',
-            fontWeight: 500,
-            textTransform: 'uppercase',
+            fontSize: '11px',
+            fontWeight: 400,
             letterSpacing: '0.04em',
             color: 'var(--color-fd-muted-foreground)',
             margin: 0,
-            fontFamily: '-apple-system, system-ui, sans-serif',
+            fontFamily: "'CommitMono', monospace",
           }}
         >
-          Local Graph
+          local graph
         </p>
         <Link
           href="/second-brain"
@@ -545,7 +544,7 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
               transform: 'translateY(-50%)',
               whiteSpace: 'nowrap',
               fontSize: '11px',
-              fontWeight: 500,
+              fontWeight: 400,
               letterSpacing: '0.01em',
               padding: '3px 8px',
               borderRadius: '6px',
@@ -556,7 +555,7 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
               pointerEvents: 'none',
               opacity: 0,
               transition: 'opacity 0.15s ease',
-              fontFamily: '-apple-system, system-ui, sans-serif',
+              fontFamily: "'CommitMono', monospace",
             }}
           >
             Open graph view

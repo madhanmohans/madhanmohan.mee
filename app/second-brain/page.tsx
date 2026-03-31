@@ -69,9 +69,9 @@ export default function SecondBrainPage() {
 
         {!graph && (
           <div className="flex items-center justify-center h-96 text-fd-muted-foreground"
-            style={{ fontFamily: '-apple-system, system-ui, sans-serif', fontSize: '14px' }}
+            style={{ fontSize: '13px', letterSpacing: '0.01em' }}
           >
-            Loading...
+            loading...
           </div>
         )}
       </main>

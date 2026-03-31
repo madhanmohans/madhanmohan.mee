@@ -363,6 +363,12 @@ table {
   opacity: 1 !important;
 }
 
+/* --- Graph mini container hover --- */
+.graph-mini-container:hover {
+  border-color: var(--color-fd-ring) !important;
+  box-shadow: 0 0 0 1px var(--color-fd-ring), 0 1px 3px rgba(0,0,0,0.04) !important;
+}
+
 /* --- Radical negative space: generous content padding --- */
 .fd-page {
   max-width: 720px;
