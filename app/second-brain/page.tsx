@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { GraphView, type Graph } from '@/components/graph-view';
 import { ChessKing, GitGraph, Notebook, Waypoints } from 'lucide-react';
+import { Tour } from '@/components/tour';
 
 export default function SecondBrainPage() {
   const router = useRouter();
@@ -23,6 +24,7 @@ export default function SecondBrainPage() {
       <header className="flex items-start justify-between px-12 py-5">
         <Link
           href="/"
+          data-tour="home-link"
           style={{
             fontFamily: "'Times New Roman', Georgia, serif",
             fontSize: '18px',
@@ -35,7 +37,7 @@ export default function SecondBrainPage() {
 
 
         {/* View toggle */}
-        <div className="flex border border-fd-border rounded-2xl">
+        <div className="flex border border-fd-border rounded-2xl" data-tour="view-toggle">
           <button
             className="view-toggle-btn"
             data-active={true}
@@ -73,6 +75,38 @@ export default function SecondBrainPage() {
           </div>
         )}
       </main>
+
+      <Tour
+        id="second-brain"
+        steps={[
+          {
+            id: 'welcome',
+            title: 'second brain.',
+            body: 'your knowledge as a graph. every note is a node. every link is an edge.',
+            placement: 'center',
+          },
+          {
+            id: 'graph',
+            title: 'the graph',
+            body: 'drag nodes to rearrange. hover to highlight connections. click to open a note.',
+            placement: 'center',
+          },
+          {
+            id: 'view-toggle',
+            title: 'views',
+            body: 'switch between graph view and docs view — two ways to navigate the same knowledge.',
+            selector: '[data-tour="view-toggle"]',
+            placement: 'bottom',
+          },
+          {
+            id: 'home-link',
+            title: 'home',
+            body: 'return to the starting point.',
+            selector: '[data-tour="home-link"]',
+            placement: 'bottom',
+          },
+        ]}
+      />
     </div>
   );
 }

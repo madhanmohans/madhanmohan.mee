@@ -7,6 +7,7 @@ import { createRelativeLink } from 'fumadocs-ui/mdx';
 import { LLMCopyButton, ViewOptions } from '@/components/ai/page-actions';
 import { NoteEditor } from '@/components/note-editor';
 import { GraphMini } from '@/components/graph-mini';
+import { DocsTour } from '@/components/docs-tour';
 
 export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
   const params = await props.params;
@@ -20,15 +21,24 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
       toc={page.data.toc}
       full={page.data.full}
       tableOfContent={{
-        footer: <GraphMini pageUrl={page.url} />,
+        footer: (
+          <div data-tour="graph-mini">
+            <GraphMini pageUrl={page.url} />
+          </div>
+        ),
       }}
     >
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
-      <div className="flex flex-row gap-2 items-center border-b pb-6">
+      <div
+        data-tour="llm-actions"
+        className="flex flex-row gap-2 items-center border-b pb-6"
+      >
         <LLMCopyButton markdownUrl={`${page.url}.mdx`} />
         <ViewOptions markdownUrl={`${page.url}.mdx`} />
       </div>
+      <DocsTour />
+
       {process.env.NODE_ENV === 'development' ? (
         <NoteEditor slug={params.slug ?? []}>
           <DocsBody>

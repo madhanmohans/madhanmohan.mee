@@ -399,3 +399,116 @@ article,
   background: transparent !important;
   backdrop-filter: none !important;
 }
+
+/* --- Page Tour --- */
+.tour-card {
+  background: var(--color-fd-popover);
+  border: 1px solid var(--color-fd-border);
+  border-radius: 6px;
+  padding: var(--space-5);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.12),
+    0 1px 4px rgba(0, 0, 0, 0.08);
+  font-family: 'CommitMono', monospace;
+}
+
+.tour-arrow {
+  position: absolute;
+  top: -6px;
+  width: 10px;
+  height: 10px;
+  background: var(--color-fd-popover);
+  border-left: 1px solid var(--color-fd-border);
+  border-top: 1px solid var(--color-fd-border);
+  transform: rotate(45deg);
+}
+
+.tour-counter {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--color-fd-muted-foreground);
+  margin-bottom: var(--space-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.tour-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-fd-foreground);
+  margin-bottom: var(--space-2);
+  letter-spacing: 0.01em;
+}
+
+.tour-body {
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--color-fd-muted-foreground);
+  margin: 0 0 var(--space-4);
+}
+
+.tour-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.tour-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.tour-btn {
+  font-family: 'CommitMono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--color-fd-border);
+  background: var(--color-fd-secondary);
+  color: var(--color-fd-foreground);
+  cursor: pointer;
+  transition:
+    background 0.2s var(--ease-out-cubic),
+    opacity 0.2s var(--ease-out-cubic);
+}
+
+.tour-btn:hover {
+  background: var(--color-fd-accent-foreground);
+  opacity: 0.9;
+}
+
+.tour-btn-primary {
+  background: var(--color-fd-foreground);
+  color: var(--color-fd-background);
+  border-color: var(--color-fd-foreground);
+}
+
+.tour-btn-primary:hover {
+  opacity: 0.85;
+  background: var(--color-fd-foreground);
+}
+
+.tour-btn-ghost {
+  font-family: 'CommitMono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  background: none;
+  border: none;
+  color: var(--color-fd-muted-foreground);
+  cursor: pointer;
+  padding: 5px 0;
+  transition: color 0.2s var(--ease-out-cubic);
+}
+
+.tour-btn-ghost:hover {
+  color: var(--color-fd-foreground);
+}
+
+/* Tour target highlight ring */
+[data-tour-active="true"] {
+  outline: 2px solid var(--color-fd-ring);
+  outline-offset: 4px;
+  border-radius: 2px;
+}

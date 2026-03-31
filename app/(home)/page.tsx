@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { GraphView } from '@/components/graph-view';
+import { Tour } from '@/components/tour';
 
 export default function HomePage() {
   const [hovered, setHovered] = useState<string | null>(null);
@@ -30,6 +31,7 @@ export default function HomePage() {
         <nav className="flex gap-4" style={{ fontSize: '14px' }}>
           <Link
             href="/second-brain"
+            data-tour="second-brain"
             className="home-nav-link text-fd-muted-foreground hover:text-fd-foreground transition-colors duration-300"
             onMouseEnter={() => setHovered('second-brain')}
             onMouseLeave={() => setHovered(null)}
@@ -38,6 +40,7 @@ export default function HomePage() {
           </Link>
           <Link
             href="/about"
+            data-tour="about"
             className="home-nav-link text-fd-muted-foreground hover:text-fd-foreground transition-colors duration-300"
             onMouseEnter={() => setHovered('about')}
             onMouseLeave={() => setHovered(null)}
@@ -46,6 +49,31 @@ export default function HomePage() {
           </Link>
         </nav>
       </div>
+      <Tour
+        id="home"
+        steps={[
+          {
+            id: 'welcome',
+            title: 'welcome.',
+            body: 'a personal second brain — notes, a knowledge graph, and a place where ideas connect.',
+            placement: 'center',
+          },
+          {
+            id: 'second-brain',
+            title: 'second brain',
+            body: 'an interactive knowledge graph. nodes are notes, edges are the connections between them.',
+            selector: '[data-tour="second-brain"]',
+            placement: 'bottom',
+          },
+          {
+            id: 'about',
+            title: 'about',
+            body: "who i am and what i'm currently thinking about.",
+            selector: '[data-tour="about"]',
+            placement: 'bottom',
+          },
+        ]}
+      />
     </div>
   );
 }
