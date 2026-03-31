@@ -1,11 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { GraphView } from '@/components/graph-view';
 
 export default function HomePage() {
   const [hovered, setHovered] = useState<string | null>(null);
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
+  }, []);
 
   return (
     <div className="relative flex flex-col justify-center items-center flex-1 min-h-dvh overflow-hidden">
@@ -22,14 +27,7 @@ export default function HomePage() {
 
       {/* Content — nav as HUD, centered */}
       <div className="relative z-10 flex flex-col items-center gap-6 text-center">
-        <nav
-          className="flex gap-4"
-          style={{
-            fontFamily: "-apple-system, system-ui, sans-serif",
-            fontSize: '14px',
-            letterSpacing: '0.01em',
-          }}
-        >
+        <nav className="flex gap-4" style={{ fontSize: '14px' }}>
           <Link
             href="/second-brain"
             className="home-nav-link text-fd-muted-foreground hover:text-fd-foreground transition-colors duration-300"

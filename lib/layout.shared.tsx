@@ -1,5 +1,5 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
-import { ChessKing, HomeIcon } from 'lucide-react';
+import { ChessKing } from 'lucide-react';
 
 export function baseOptions(): BaseLayoutProps {
   return {

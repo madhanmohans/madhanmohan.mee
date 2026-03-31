@@ -143,11 +143,13 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-size: var(--font-size-xl);
   line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 h2 {
   font-size: var(--font-size-l);
   line-height: 1.2;
+  letter-spacing: -0.015em;
 }
 
 p, li {
@@ -278,6 +280,13 @@ code {
   font-feature-settings: 'calt' 1, 'ss01' 1;
 }
 
+/* --- Button active/pressed state --- */
+button:active,
+a[role="button"]:active {
+  transform: scale(0.98);
+  transition: transform 0.1s var(--ease-out-cubic);
+}
+
 /* --- Smooth scroll --- */
 html {
   scroll-behavior: smooth;
@@ -357,4 +366,36 @@ table {
 /* --- Radical negative space: generous content padding --- */
 .fd-page {
   max-width: 720px;
+}
+
+/* --- Grainy glowing background video (homepage only) --- */
+.grainy-bg {
+  opacity: 0.5;
+  filter: invert(1);
+}
+
+
+/* --- Transparent everything so html bg and grainy texture shows through --- */
+body,
+header,
+footer,
+nav[data-navbar],
+[data-header],
+[data-footer],
+.fd-navbar,
+.fd-footer,
+aside,
+[data-sidebar],
+#nd-sidebar,
+main,
+article,
+.fd-layout,
+[data-panel],
+[data-wrapper],
+.bg-fd-background,
+.bg-fd-card,
+.bg-fd-secondary\/50,
+[class*="bg-fd-"] {
+  background: transparent !important;
+  backdrop-filter: none !important;
 }
