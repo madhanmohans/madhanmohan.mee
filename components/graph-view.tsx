@@ -38,6 +38,21 @@ const ForceGraph2D = lazy(
   () => import('react-force-graph-2d'),
 ) as typeof import('react-force-graph-2d').default;
 
+function configureGraphForces(fg: ForceGraphMethods<Node, Link>) {
+  fg.d3Force('link', forceLink().distance(30).strength(1));
+  fg.d3Force('charge', forceManyBody().strength(1));
+  fg.d3Force('center', forceCenter().strength(0.3));
+  fg.d3Force('collision', forceCollide(40));
+}
+
+function stripInlineMarkdown(text: string) {
+  return text
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // [text](url) → text
+    .replace(/\[\[([^\]]+)\]\]/g, '$1')       // [[wikilink]] → text
+    .replace(/\*{1,2}([^*]+)\*{1,2}/g, '$1') // **bold** → text
+    .replace(/_{1,2}([^_]+)_{1,2}/g, '$1');  // _italic_ → text
+}
+
 /** Minimal markdown renderer for the hover tooltip */
 function MiniMarkdown({ content }: { content: string }) {
   const lines = content.split('\n');
@@ -46,14 +61,12 @@ function MiniMarkdown({ content }: { content: string }) {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
 
-    // Skip dividers and empty lines between sections (collapse multiple blank lines)
     if (/^---+$/.test(line.trim())) continue;
 
-    // Heading: ## Title or # Title
     const headingMatch = line.match(/^#{1,3}\s+(.+)/);
     if (headingMatch) {
       const text = headingMatch[1]
-        .replace(/==\*?([^=]+)==\*?/g, '$1') // strip ==highlight==
+        .replace(/==\*?([^=]+)==\*?/g, '$1')
         .replace(/\*{1,2}([^*]+)\*{1,2}/g, '$1');
       elements.push(
         <p key={i} className="font-semibold text-fd-foreground mt-1.5 first:mt-0 text-[11px] uppercase tracking-wider opacity-60">
@@ -63,32 +76,20 @@ function MiniMarkdown({ content }: { content: string }) {
       continue;
     }
 
-    // List item: - text or * text or → text
     const listMatch = line.match(/^[-*→]\s+(.+)/);
     if (listMatch) {
-      const raw = listMatch[1]
-        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // [text](url) → text
-        .replace(/\[\[([^\]]+)\]\]/g, '$1')       // [[wikilink]] → text
-        .replace(/\*{1,2}([^*]+)\*{1,2}/g, '$1') // **bold** → text
-        .replace(/_{1,2}([^_]+)_{1,2}/g, '$1');  // _italic_ → text
       elements.push(
         <div key={i} className="flex gap-1 items-start leading-snug">
           <span className="opacity-40 shrink-0">·</span>
-          <span>{raw}</span>
+          <span>{stripInlineMarkdown(listMatch[1])}</span>
         </div>
       );
       continue;
     }
 
-    // Plain text (non-empty)
     if (line.trim()) {
-      const raw = line
-        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
-        .replace(/\[\[([^\]]+)\]\]/g, '$1')
-        .replace(/\*{1,2}([^*]+)\*{1,2}/g, '$1')
-        .replace(/_{1,2}([^_]+)_{1,2}/g, '$1');
       elements.push(
-        <p key={i} className="leading-snug opacity-80">{raw}</p>
+        <p key={i} className="leading-snug opacity-80">{stripInlineMarkdown(line)}</p>
       );
     }
   }
@@ -186,12 +187,7 @@ function GhostGraph({
         get current() { return graphRef.current; },
         set current(fg) {
           graphRef.current = fg;
-          if (fg) {
-            fg.d3Force('link', forceLink().distance(30).strength(1));
-            fg.d3Force('charge', forceManyBody().strength(1));
-            fg.d3Force('center', forceCenter().strength(0.3));
-            fg.d3Force('collision', forceCollide(40));
-          }
+          if (fg) configureGraphForces(fg);
         },
       }}
       graphData={enrichedNodes}
@@ -315,12 +311,7 @@ function InteractiveGraph({
           get current() { return graphRef.current; },
           set current(fg) {
             graphRef.current = fg;
-            if (fg) {
-              fg.d3Force('link', forceLink().distance(30).strength(1));
-              fg.d3Force('charge', forceManyBody().strength(1));
-              fg.d3Force('center', forceCenter().strength(0.3));
-              fg.d3Force('collision', forceCollide(40));
-            }
+            if (fg) configureGraphForces(fg);
           },
         }}
         graphData={enrichedNodes}

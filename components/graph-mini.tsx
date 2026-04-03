@@ -329,18 +329,8 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
       const canvasRect = canvas.getBoundingClientRect();
       const sx = e.clientX - canvasRect.left;
       const sy = e.clientY - canvasRect.top;
-      const world = {
-        x: (sx - transformRef.current.offsetX) / transformRef.current.scale,
-        y: (sy - transformRef.current.offsetY) / transformRef.current.scale,
-      };
-      let hitNode = false;
-      for (const node of nodesRef.current) {
-        const dx = node.x - world.x;
-        const dy = node.y - world.y;
-        const hitR = HIT_RADIUS / transformRef.current.scale;
-        if (dx * dx + dy * dy <= hitR * hitR) { hitNode = true; break; }
-      }
-      if (hitNode) return;
+      const world = screenToWorld(sx, sy);
+      if (findNodeAt(world.x, world.y)) return;
 
       isPanning = true;
       panStartX = e.clientX;
