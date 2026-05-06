@@ -3,7 +3,7 @@ import { baseOptions } from '@/lib/layout.shared';
 
 export default function Layout({ children }: LayoutProps<'/'>) {
   return (
-    <HomeLayout {...baseOptions()} searchToggle={{ enabled: false }}>
+    <HomeLayout {...baseOptions()} searchToggle={{ enabled: false }} nav={{ enabled: false }}>
       {children}
     </HomeLayout>
   );
