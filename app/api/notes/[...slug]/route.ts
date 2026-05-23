@@ -5,29 +5,29 @@ import { revalidatePath } from 'next/cache';
 
 export const dynamic = 'force-dynamic';
 
-const IS_DEV = process.env.NODE_ENV === 'development';
-const CONTENT_DIR = path.resolve(process.cwd(), 'content/docs');
+const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
+const CONTENT_DIRECTORY = path.resolve(process.cwd(), 'content/docs');
 
-function resolveFilePath(pagePath: string): string {
-  const resolved = path.resolve(CONTENT_DIR, pagePath);
-  if (!resolved.startsWith(CONTENT_DIR)) {
+function assertValidFilePath(pagePath: string): string {
+  const resolvedPath = path.resolve(CONTENT_DIRECTORY, pagePath);
+  if (!resolvedPath.startsWith(CONTENT_DIRECTORY)) {
     throw new Error('Invalid path');
   }
-  return resolved;
+  return resolvedPath;
 }
 
 export async function GET(
-  _req: Request,
+  _request: Request,
   { params }: { params: Promise<{ slug: string[] }> },
 ) {
-  if (!IS_DEV) return new Response('Not available', { status: 403 });
+  if (!IS_DEVELOPMENT) return new Response('Not available', { status: 403 });
   const { slug } = await params;
   const page = source.getPage(slug);
   if (!page) {
     return new Response('Not found', { status: 404 });
   }
 
-  const filePath = resolveFilePath(page.path);
+  const filePath = assertValidFilePath(page.path);
   const content = await readFile(filePath, 'utf-8');
 
   return new Response(content, {
@@ -36,18 +36,18 @@ export async function GET(
 }
 
 export async function PUT(
-  req: Request,
+  request: Request,
   { params }: { params: Promise<{ slug: string[] }> },
 ) {
-  if (!IS_DEV) return new Response('Not available', { status: 403 });
+  if (!IS_DEVELOPMENT) return new Response('Not available', { status: 403 });
   const { slug } = await params;
   const page = source.getPage(slug);
   if (!page) {
     return new Response('Not found', { status: 404 });
   }
 
-  const body = await req.text();
-  const filePath = resolveFilePath(page.path);
+  const body = await request.text();
+  const filePath = assertValidFilePath(page.path);
 
   await writeFile(filePath, body, 'utf-8');
   revalidatePath(page.url);

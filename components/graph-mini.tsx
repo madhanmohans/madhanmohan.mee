@@ -7,7 +7,6 @@ import { Waypoints } from 'lucide-react';
 import type { Graph } from '@/components/graph-view';
 
 interface GraphMiniProps {
-  /** The URL of the current page (e.g. "/docs/hooks") */
   pageUrl: string;
 }
 
@@ -30,54 +29,45 @@ const GRAPH_HEIGHT = 200;
 const HIT_RADIUS = 12;
 const MIN_ZOOM = 0.3;
 const MAX_ZOOM = 4;
+const MAX_SIMULATION_TICKS = 120;
 
-/**
- * A small local‑graph preview that sits in the TOC sidebar.
- * Shows the current page and its direct neighbours using a lightweight canvas.
- * Supports pinch/scroll zoom and pan. Clicking a node navigates to that page.
- */
 export function GraphMini({ pageUrl }: GraphMiniProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [fullGraph, setFullGraph] = useState<Graph | null>(null);
+  const [fetchedGraphData, setFetchedGraphData] = useState<Graph | null>(null);
   const router = useRouter();
 
-  // Settled node positions for hit-testing
-  const nodesRef = useRef<MiniNode[]>([]);
-
-  // Zoom & pan state (kept in refs to avoid re-renders)
-  const transformRef = useRef({ scale: 1, offsetX: 0, offsetY: 0 });
-  // Flag to trigger re-draw after zoom/pan
-  const needsRedrawRef = useRef(false);
+  const simulatedNodesRef = useRef<MiniNode[]>([]);
+  const canvasTransformRef = useRef({ scale: 1, offsetX: 0, offsetY: 0 });
+  const shouldRedrawRef = useRef(false);
 
   useEffect(() => {
     fetch('/api/graph')
-      .then((r) => r.json())
-      .then((data: Graph) => setFullGraph(data))
+      .then((response) => response.json())
+      .then((data: Graph) => setFetchedGraphData(data))
       .catch(() => {});
   }, []);
 
-  // Build local subgraph: current page + direct neighbours
-  const localData = useMemo(() => {
-    if (!fullGraph) return null;
+  const localSubgraph = useMemo(() => {
+    if (!fetchedGraphData) return null;
 
-    const neighborIds = new Set<string>();
-    neighborIds.add(pageUrl);
+    const connectedNodeIds = new Set<string>();
+    connectedNodeIds.add(pageUrl);
 
-    for (const link of fullGraph.links) {
-      const src = typeof link.source === 'object' ? (link.source as { id: string }).id : link.source as string;
-      const tgt = typeof link.target === 'object' ? (link.target as { id: string }).id : link.target as string;
-      if (src === pageUrl) neighborIds.add(tgt);
-      if (tgt === pageUrl) neighborIds.add(src);
+    for (const link of fetchedGraphData.links) {
+      const sourceId = typeof link.source === 'object' ? (link.source as { id: string }).id : link.source as string;
+      const targetId = typeof link.target === 'object' ? (link.target as { id: string }).id : link.target as string;
+      if (sourceId === pageUrl) connectedNodeIds.add(targetId);
+      if (targetId === pageUrl) connectedNodeIds.add(sourceId);
     }
 
-    const nodes: MiniNode[] = fullGraph.nodes
-      .filter((n) => neighborIds.has(n.id as string))
-      .map((n) => ({
-        id: n.id as string,
-        text: n.text,
+    const nodes: MiniNode[] = fetchedGraphData.nodes
+      .filter((node) => connectedNodeIds.has(node.id as string))
+      .map((node) => ({
+        id: node.id as string,
+        text: node.text,
         x: 0, y: 0, vx: 0, vy: 0,
-        isCurrent: n.id === pageUrl,
+        isCurrent: node.id === pageUrl,
       }));
 
     if (nodes.length === 0) {
@@ -88,139 +78,131 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
       });
     }
 
-    const links: MiniLink[] = fullGraph.links
-      .filter((l) => {
-        const src = typeof l.source === 'object' ? (l.source as { id: string }).id : l.source as string;
-        const tgt = typeof l.target === 'object' ? (l.target as { id: string }).id : l.target as string;
-        return neighborIds.has(src) && neighborIds.has(tgt);
+    const links: MiniLink[] = fetchedGraphData.links
+      .filter((link) => {
+        const sourceId = typeof link.source === 'object' ? (link.source as { id: string }).id : link.source as string;
+        const targetId = typeof link.target === 'object' ? (link.target as { id: string }).id : link.target as string;
+        return connectedNodeIds.has(sourceId) && connectedNodeIds.has(targetId);
       })
-      .map((l) => ({
-        source: typeof l.source === 'object' ? (l.source as { id: string }).id : l.source as string,
-        target: typeof l.target === 'object' ? (l.target as { id: string }).id : l.target as string,
+      .map((link) => ({
+        source: typeof link.source === 'object' ? (link.source as { id: string }).id : link.source as string,
+        target: typeof link.target === 'object' ? (link.target as { id: string }).id : link.target as string,
       }));
 
     return { nodes, links };
-  }, [fullGraph, pageUrl]);
+  }, [fetchedGraphData, pageUrl]);
 
-  // --- Transform helpers ---
-
-  /** Convert screen-relative coordinates to graph-world coordinates */
   function screenToWorld(screenX: number, screenY: number) {
-    const { scale, offsetX, offsetY } = transformRef.current;
+    const { scale, offsetX, offsetY } = canvasTransformRef.current;
     return {
       x: (screenX - offsetX) / scale,
       y: (screenY - offsetY) / scale,
     };
   }
 
-  /** Convert mouse event to canvas-space coordinates (before zoom transform) */
-  function getCanvasScreenCoords(e: React.MouseEvent<HTMLCanvasElement>) {
+  function getCanvasCoordinates(event: React.MouseEvent<HTMLCanvasElement>) {
     const canvas = canvasRef.current;
     if (!canvas) return { x: 0, y: 0 };
     const rect = canvas.getBoundingClientRect();
     return {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
     };
   }
 
   function findNodeAt(worldX: number, worldY: number): MiniNode | null {
-    const { scale } = transformRef.current;
-    const hitRadius = HIT_RADIUS / scale; // scale-compensated hit area
-    for (const node of nodesRef.current) {
+    const { scale } = canvasTransformRef.current;
+    const scaleCompensatedHitRadius = HIT_RADIUS / scale;
+    for (const node of simulatedNodesRef.current) {
       const dx = node.x - worldX;
       const dy = node.y - worldY;
-      if (dx * dx + dy * dy <= hitRadius * hitRadius) return node;
+      if (dx * dx + dy * dy <= scaleCompensatedHitRadius * scaleCompensatedHitRadius) return node;
     }
     return null;
   }
 
-  function handleCanvasClick(e: React.MouseEvent<HTMLCanvasElement>) {
-    const screen = getCanvasScreenCoords(e);
-    const world = screenToWorld(screen.x, screen.y);
-    const node = findNodeAt(world.x, world.y);
-    if (node) {
-      e.preventDefault();
-      router.push(node.id);
+  function handleCanvasClick(event: React.MouseEvent<HTMLCanvasElement>) {
+    const canvasCoordinates = getCanvasCoordinates(event);
+    const worldCoordinates = screenToWorld(canvasCoordinates.x, canvasCoordinates.y);
+    const clickedNode = findNodeAt(worldCoordinates.x, worldCoordinates.y);
+    if (clickedNode) {
+      event.preventDefault();
+      router.push(clickedNode.id);
     }
   }
 
-  function handleCanvasMouseMove(e: React.MouseEvent<HTMLCanvasElement>) {
-    const screen = getCanvasScreenCoords(e);
-    const world = screenToWorld(screen.x, screen.y);
-    const node = findNodeAt(world.x, world.y);
+  function handleCanvasMouseMove(event: React.MouseEvent<HTMLCanvasElement>) {
+    const canvasCoordinates = getCanvasCoordinates(event);
+    const worldCoordinates = screenToWorld(canvasCoordinates.x, canvasCoordinates.y);
+    const hoveredNode = findNodeAt(worldCoordinates.x, worldCoordinates.y);
     const canvas = canvasRef.current;
     if (canvas) {
-      canvas.style.cursor = node ? 'pointer' : 'grab';
+      canvas.style.cursor = hoveredNode ? 'pointer' : 'grab';
     }
   }
 
-  // --- Force simulation + rendering with zoom/pan ---
   useEffect(() => {
-    if (!localData || !canvasRef.current || !containerRef.current) return;
+    if (!localSubgraph || !canvasRef.current || !containerRef.current) return;
 
     const canvas = canvasRef.current;
     const container = containerRef.current;
-    const ctx = canvas.getContext('2d')!;
-    if (!ctx) return;
+    const context = canvas.getContext('2d')!;
+    if (!context) return;
 
     const rect = container.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    const w = rect.width;
-    const h = GRAPH_HEIGHT;
-    canvas.width = w * dpr;
-    canvas.height = h * dpr;
-    canvas.style.width = `${w}px`;
-    canvas.style.height = `${h}px`;
+    const devicePixelRatio = window.devicePixelRatio || 1;
+    const width = rect.width;
+    const height = GRAPH_HEIGHT;
+    canvas.width = width * devicePixelRatio;
+    canvas.height = height * devicePixelRatio;
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
 
-    // Reset transform for this render
-    transformRef.current = { scale: 1, offsetX: 0, offsetY: 0 };
+    canvasTransformRef.current = { scale: 1, offsetX: 0, offsetY: 0 };
 
-    // Clone nodes for simulation
-    const nodes = localData.nodes.map((n, i) => ({
-      ...n,
-      x: n.isCurrent ? w / 2 : w / 2 + (Math.cos(i * 2.4) * Math.min(w, h) * 0.3),
-      y: n.isCurrent ? h / 2 : h / 2 + (Math.sin(i * 2.4) * Math.min(w, h) * 0.3),
+    const simulationNodes = localSubgraph.nodes.map((node, index) => ({
+      ...node,
+      x: node.isCurrent ? width / 2 : width / 2 + (Math.cos(index * 2.4) * Math.min(width, height) * 0.3),
+      y: node.isCurrent ? height / 2 : height / 2 + (Math.sin(index * 2.4) * Math.min(width, height) * 0.3),
       vx: 0,
       vy: 0,
     }));
 
-    nodesRef.current = nodes;
+    simulatedNodesRef.current = simulationNodes;
 
-    const nodeMap = new Map(nodes.map((n) => [n.id, n]));
-    const links = localData.links
-      .map((l) => ({ source: nodeMap.get(l.source), target: nodeMap.get(l.target) }))
-      .filter((l): l is { source: MiniNode; target: MiniNode } => !!l.source && !!l.target);
+    const nodeByIdLookup = new Map(simulationNodes.map((node) => [node.id, node]));
+    const simulationLinks = localSubgraph.links
+      .map((link) => ({ source: nodeByIdLookup.get(link.source), target: nodeByIdLookup.get(link.target) }))
+      .filter((link): link is { source: MiniNode; target: MiniNode } => !!link.source && !!link.target);
 
-    const style = getComputedStyle(container);
-    const mutedColor = style.getPropertyValue('--color-fd-muted-foreground').trim() || '#6b6b6b';
-    const textColor = style.getPropertyValue('color').trim() || '#ccc';
-    const linkColorVal = `color-mix(in oklab, ${mutedColor} 40%, transparent)`;
+    const computedStyles = getComputedStyle(container);
+    const mutedForegroundColor = computedStyles.getPropertyValue('--color-fd-muted-foreground').trim() || '#6b6b6b';
+    const textForegroundColor = computedStyles.getPropertyValue('color').trim() || '#ccc';
+    const linkStrokeColor = `color-mix(in oklab, ${mutedForegroundColor} 40%, transparent)`;
 
-    let frame: number;
-    let tick = 0;
-    const maxTicks = 120;
+    let animationFrameId: number;
+    let simulationTick = 0;
 
-    function simulate() {
-      for (const a of nodes) {
-        a.vx += (w / 2 - a.x) * 0.005;
-        a.vy += (h / 2 - a.y) * 0.005;
-        for (const b of nodes) {
-          if (a === b) continue;
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
+    function runForceSimulation() {
+      for (const nodeA of simulationNodes) {
+        nodeA.vx += (width / 2 - nodeA.x) * 0.005;
+        nodeA.vy += (height / 2 - nodeA.y) * 0.005;
+        for (const nodeB of simulationNodes) {
+          if (nodeA === nodeB) continue;
+          const dx = nodeA.x - nodeB.x;
+          const dy = nodeA.y - nodeB.y;
           const dist = Math.sqrt(dx * dx + dy * dy) || 1;
           const force = 200 / (dist * dist);
-          a.vx += (dx / dist) * force;
-          a.vy += (dy / dist) * force;
+          nodeA.vx += (dx / dist) * force;
+          nodeA.vy += (dy / dist) * force;
         }
       }
-      for (const link of links) {
+      for (const link of simulationLinks) {
         const dx = link.target.x - link.source.x;
         const dy = link.target.y - link.source.y;
         const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        const targetDist = 50;
-        const force = (dist - targetDist) * 0.02;
+        const targetDistance = 50;
+        const force = (dist - targetDistance) * 0.02;
         const fx = (dx / dist) * force;
         const fy = (dy / dist) * force;
         link.source.vx += fx;
@@ -228,125 +210,114 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
         link.target.vx -= fx;
         link.target.vy -= fy;
       }
-      for (const node of nodes) {
+      for (const node of simulationNodes) {
         node.vx *= 0.7;
         node.vy *= 0.7;
         node.x += node.vx;
         node.y += node.vy;
-        node.x = Math.max(20, Math.min(w - 20, node.x));
-        node.y = Math.max(20, Math.min(h - 30, node.y));
+        node.x = Math.max(20, Math.min(width - 20, node.x));
+        node.y = Math.max(20, Math.min(height - 30, node.y));
       }
     }
 
-    function draw() {
-      const { scale, offsetX, offsetY } = transformRef.current;
+    function renderCanvas() {
+      const { scale, offsetX, offsetY } = canvasTransformRef.current;
 
-      // Reset transform & clear
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, w, h);
+      context.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+      context.clearRect(0, 0, width, height);
 
-      // Apply zoom/pan transform
-      ctx.setTransform(dpr * scale, 0, 0, dpr * scale, dpr * offsetX, dpr * offsetY);
+      context.setTransform(devicePixelRatio * scale, 0, 0, devicePixelRatio * scale, devicePixelRatio * offsetX, devicePixelRatio * offsetY);
 
-      // Draw links
-      ctx.strokeStyle = linkColorVal;
-      ctx.lineWidth = 1 / scale;
-      for (const link of links) {
-        ctx.beginPath();
-        ctx.moveTo(link.source.x, link.source.y);
-        ctx.lineTo(link.target.x, link.target.y);
-        ctx.stroke();
+      context.strokeStyle = linkStrokeColor;
+      context.lineWidth = 1 / scale;
+      for (const link of simulationLinks) {
+        context.beginPath();
+        context.moveTo(link.source.x, link.source.y);
+        context.lineTo(link.target.x, link.target.y);
+        context.stroke();
       }
 
-      // Draw nodes
-      for (const node of nodes) {
+      for (const node of simulationNodes) {
         const radius = (node.isCurrent ? 5 : 3) / scale;
 
-        ctx.beginPath();
-        ctx.arc(node.x, node.y, radius, 0, 2 * Math.PI);
-        ctx.fillStyle = node.isCurrent ? '#c0392b' : mutedColor;
-        ctx.fill();
+        context.beginPath();
+        context.arc(node.x, node.y, radius, 0, 2 * Math.PI);
+        context.fillStyle = node.isCurrent ? '#c0392b' : mutedForegroundColor;
+        context.fill();
 
-        // Label
         const fontSize = (node.isCurrent ? 10 : 8) / scale;
-        ctx.font = `${fontSize}px CommitMono, monospace`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'top';
-        ctx.fillStyle = node.isCurrent ? textColor : mutedColor;
+        context.font = `${fontSize}px CommitMono, monospace`;
+        context.textAlign = 'center';
+        context.textBaseline = 'top';
+        context.fillStyle = node.isCurrent ? textForegroundColor : mutedForegroundColor;
 
         let label = node.text;
         if (label.length > 16) label = label.slice(0, 14) + '…';
-        ctx.fillText(label, node.x, node.y + radius + 3 / scale);
+        context.fillText(label, node.x, node.y + radius + 3 / scale);
       }
     }
 
-    function loop() {
-      if (tick < maxTicks) {
-        simulate();
-        tick++;
-        draw();
-      } else if (needsRedrawRef.current) {
-        needsRedrawRef.current = false;
-        draw();
+    function animationLoop() {
+      if (simulationTick < MAX_SIMULATION_TICKS) {
+        runForceSimulation();
+        simulationTick++;
+        renderCanvas();
+      } else if (shouldRedrawRef.current) {
+        shouldRedrawRef.current = false;
+        renderCanvas();
       }
-      frame = requestAnimationFrame(loop);
+      animationFrameId = requestAnimationFrame(animationLoop);
     }
 
-    // --- Wheel zoom handler ---
-    function handleWheel(e: WheelEvent) {
-      e.preventDefault();
-      e.stopPropagation();
+    function handleWheel(event: WheelEvent) {
+      event.preventDefault();
+      event.stopPropagation();
 
-      const { scale, offsetX, offsetY } = transformRef.current;
+      const { scale, offsetX, offsetY } = canvasTransformRef.current;
       const canvasRect = canvas.getBoundingClientRect();
 
-      // Mouse position in canvas screen space
-      const mx = e.clientX - canvasRect.left;
-      const my = e.clientY - canvasRect.top;
+      const mouseX = event.clientX - canvasRect.left;
+      const mouseY = event.clientY - canvasRect.top;
 
-      // Determine zoom factor
-      const zoomFactor = e.deltaY < 0 ? 1.08 : 1 / 1.08;
+      const zoomFactor = event.deltaY < 0 ? 1.08 : 1 / 1.08;
       const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, scale * zoomFactor));
 
-      // Zoom toward cursor: adjust offset so the point under the cursor stays fixed
-      const ratio = newScale / scale;
-      const newOffsetX = mx - (mx - offsetX) * ratio;
-      const newOffsetY = my - (my - offsetY) * ratio;
+      const scaleRatio = newScale / scale;
+      const newOffsetX = mouseX - (mouseX - offsetX) * scaleRatio;
+      const newOffsetY = mouseY - (mouseY - offsetY) * scaleRatio;
 
-      transformRef.current = { scale: newScale, offsetX: newOffsetX, offsetY: newOffsetY };
-      needsRedrawRef.current = true;
+      canvasTransformRef.current = { scale: newScale, offsetX: newOffsetX, offsetY: newOffsetY };
+      shouldRedrawRef.current = true;
     }
 
-    // --- Pan (drag) handler ---
     let isPanning = false;
     let panStartX = 0;
     let panStartY = 0;
     let panStartOffsetX = 0;
     let panStartOffsetY = 0;
 
-    function handleMouseDown(e: MouseEvent) {
-      // Only start pan if no node is under cursor
+    function handleMouseDown(event: MouseEvent) {
       const canvasRect = canvas.getBoundingClientRect();
-      const sx = e.clientX - canvasRect.left;
-      const sy = e.clientY - canvasRect.top;
-      const world = screenToWorld(sx, sy);
-      if (findNodeAt(world.x, world.y)) return;
+      const screenX = event.clientX - canvasRect.left;
+      const screenY = event.clientY - canvasRect.top;
+      const worldCoordinates = screenToWorld(screenX, screenY);
+      if (findNodeAt(worldCoordinates.x, worldCoordinates.y)) return;
 
       isPanning = true;
-      panStartX = e.clientX;
-      panStartY = e.clientY;
-      panStartOffsetX = transformRef.current.offsetX;
-      panStartOffsetY = transformRef.current.offsetY;
+      panStartX = event.clientX;
+      panStartY = event.clientY;
+      panStartOffsetX = canvasTransformRef.current.offsetX;
+      panStartOffsetY = canvasTransformRef.current.offsetY;
       canvas.style.cursor = 'grabbing';
     }
 
-    function handleMouseMoveNative(e: MouseEvent) {
+    function handleMouseMoveNative(event: MouseEvent) {
       if (!isPanning) return;
-      const dx = e.clientX - panStartX;
-      const dy = e.clientY - panStartY;
-      transformRef.current.offsetX = panStartOffsetX + dx;
-      transformRef.current.offsetY = panStartOffsetY + dy;
-      needsRedrawRef.current = true;
+      const dx = event.clientX - panStartX;
+      const dy = event.clientY - panStartY;
+      canvasTransformRef.current.offsetX = panStartOffsetX + dx;
+      canvasTransformRef.current.offsetY = panStartOffsetY + dy;
+      shouldRedrawRef.current = true;
     }
 
     function handleMouseUp() {
@@ -356,97 +327,93 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
       }
     }
 
-    // --- Touch pinch-zoom + pan handlers ---
     let activeTouches: Touch[] = [];
-    let lastPinchDist = 0;
+    let lastPinchDistance = 0;
     let lastPinchMidX = 0;
     let lastPinchMidY = 0;
-    let isTouchPanning = false;
+    let isTouchPanActive = false;
     let touchPanStartX = 0;
     let touchPanStartY = 0;
     let touchPanStartOffsetX = 0;
     let touchPanStartOffsetY = 0;
 
-    function getTouchDist(t1: Touch, t2: Touch) {
-      const dx = t1.clientX - t2.clientX;
-      const dy = t1.clientY - t2.clientY;
+    function getTouchDistance(touch1: Touch, touch2: Touch) {
+      const dx = touch1.clientX - touch2.clientX;
+      const dy = touch1.clientY - touch2.clientY;
       return Math.sqrt(dx * dx + dy * dy);
     }
 
-    function handleTouchStart(e: TouchEvent) {
-      e.preventDefault();
-      activeTouches = Array.from(e.touches);
+    function handleTouchStart(event: TouchEvent) {
+      event.preventDefault();
+      activeTouches = Array.from(event.touches);
 
       if (activeTouches.length === 2) {
-        lastPinchDist = getTouchDist(activeTouches[0], activeTouches[1]);
+        lastPinchDistance = getTouchDistance(activeTouches[0], activeTouches[1]);
         const canvasRect = canvas.getBoundingClientRect();
         lastPinchMidX = (activeTouches[0].clientX + activeTouches[1].clientX) / 2 - canvasRect.left;
         lastPinchMidY = (activeTouches[0].clientY + activeTouches[1].clientY) / 2 - canvasRect.top;
       } else if (activeTouches.length === 1) {
-        isTouchPanning = true;
+        isTouchPanActive = true;
         touchPanStartX = activeTouches[0].clientX;
         touchPanStartY = activeTouches[0].clientY;
-        touchPanStartOffsetX = transformRef.current.offsetX;
-        touchPanStartOffsetY = transformRef.current.offsetY;
+        touchPanStartOffsetX = canvasTransformRef.current.offsetX;
+        touchPanStartOffsetY = canvasTransformRef.current.offsetY;
       }
     }
 
-    function handleTouchMove(e: TouchEvent) {
-      e.preventDefault();
-      const touches = Array.from(e.touches);
+    function handleTouchMove(event: TouchEvent) {
+      event.preventDefault();
+      const touches = Array.from(event.touches);
 
       if (touches.length === 2) {
-        const { scale, offsetX, offsetY } = transformRef.current;
-        const dist = getTouchDist(touches[0], touches[1]);
+        const { scale, offsetX, offsetY } = canvasTransformRef.current;
+        const distance = getTouchDistance(touches[0], touches[1]);
         const canvasRect = canvas.getBoundingClientRect();
         const midX = (touches[0].clientX + touches[1].clientX) / 2 - canvasRect.left;
         const midY = (touches[0].clientY + touches[1].clientY) / 2 - canvasRect.top;
 
-        // Pinch zoom
-        const zoomFactor = dist / lastPinchDist;
+        const zoomFactor = distance / lastPinchDistance;
         const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, scale * zoomFactor));
-        const ratio = newScale / scale;
-        const newOffsetX = midX - (midX - offsetX) * ratio;
-        const newOffsetY = midY - (midY - offsetY) * ratio;
+        const scaleRatio = newScale / scale;
+        const newOffsetX = midX - (midX - offsetX) * scaleRatio;
+        const newOffsetY = midY - (midY - offsetY) * scaleRatio;
 
-        // Pan with midpoint movement
         const panDx = midX - lastPinchMidX;
         const panDy = midY - lastPinchMidY;
 
-        transformRef.current = {
+        canvasTransformRef.current = {
           scale: newScale,
           offsetX: newOffsetX + panDx,
           offsetY: newOffsetY + panDy,
         };
-        needsRedrawRef.current = true;
+        shouldRedrawRef.current = true;
 
-        lastPinchDist = dist;
+        lastPinchDistance = distance;
         lastPinchMidX = midX;
         lastPinchMidY = midY;
-      } else if (touches.length === 1 && isTouchPanning) {
+      } else if (touches.length === 1 && isTouchPanActive) {
         const dx = touches[0].clientX - touchPanStartX;
         const dy = touches[0].clientY - touchPanStartY;
-        transformRef.current.offsetX = touchPanStartOffsetX + dx;
-        transformRef.current.offsetY = touchPanStartOffsetY + dy;
-        needsRedrawRef.current = true;
+        canvasTransformRef.current.offsetX = touchPanStartOffsetX + dx;
+        canvasTransformRef.current.offsetY = touchPanStartOffsetY + dy;
+        shouldRedrawRef.current = true;
       }
     }
 
-    function handleTouchEnd(e: TouchEvent) {
-      activeTouches = Array.from(e.touches);
+    function handleTouchEnd(event: TouchEvent) {
+      activeTouches = Array.from(event.touches);
       if (activeTouches.length < 2) {
-        lastPinchDist = 0;
+        lastPinchDistance = 0;
       }
       if (activeTouches.length === 0) {
-        isTouchPanning = false;
+        isTouchPanActive = false;
       }
-      // Reset single-finger pan origin when going from 2 fingers to 1
       if (activeTouches.length === 1) {
-        isTouchPanning = true;
+        isTouchPanActive = true;
         touchPanStartX = activeTouches[0].clientX;
         touchPanStartY = activeTouches[0].clientY;
-        touchPanStartOffsetX = transformRef.current.offsetX;
-        touchPanStartOffsetY = transformRef.current.offsetY;
+        touchPanStartOffsetX = canvasTransformRef.current.offsetX;
+        touchPanStartOffsetY = canvasTransformRef.current.offsetY;
       }
     }
 
@@ -458,10 +425,10 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
     canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
     canvas.addEventListener('touchend', handleTouchEnd);
 
-    loop();
+    animationLoop();
 
     return () => {
-      cancelAnimationFrame(frame);
+      cancelAnimationFrame(animationFrameId);
       canvas.removeEventListener('wheel', handleWheel);
       canvas.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mousemove', handleMouseMoveNative);
@@ -470,13 +437,12 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
       canvas.removeEventListener('touchmove', handleTouchMove);
       canvas.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [localData]);
+  }, [localSubgraph]);
 
-  if (!localData) return null;
+  if (!localSubgraph) return null;
 
   return (
     <div style={{ marginTop: '24px' }}>
-      {/* Header with label + "open graph view" icon */}
       <div
         style={{
           display: 'flex',
@@ -513,15 +479,15 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
             textDecoration: 'none',
             position: 'relative',
           }}
-          onMouseEnter={(e) => {
-            const el = e.currentTarget;
-            el.style.color = 'var(--color-fd-primary)';
-            el.style.background = 'var(--color-fd-accent)';
+          onMouseEnter={(event) => {
+            const element = event.currentTarget;
+            element.style.color = 'var(--color-fd-primary)';
+            element.style.background = 'var(--color-fd-accent)';
           }}
-          onMouseLeave={(e) => {
-            const el = e.currentTarget;
-            el.style.color = 'var(--color-fd-muted-foreground)';
-            el.style.background = 'transparent';
+          onMouseLeave={(event) => {
+            const element = event.currentTarget;
+            element.style.color = 'var(--color-fd-muted-foreground)';
+            element.style.background = 'transparent';
           }}
         >
           <Waypoints size={14} />
@@ -553,7 +519,6 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
         </Link>
       </div>
 
-      {/* Graph canvas */}
       <div
         ref={containerRef}
         style={{

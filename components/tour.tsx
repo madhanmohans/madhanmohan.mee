@@ -7,10 +7,6 @@ export interface TourStep {
   id: string;
   title: string;
   body: string;
-  /**
-   * CSS selector for the element to highlight.
-   * If omitted, or if placement === 'center', the tooltip is centered.
-   */
   selector?: string;
   placement?: 'bottom' | 'top' | 'center';
 }
@@ -20,124 +16,139 @@ interface TourProps {
   steps: TourStep[];
 }
 
-interface TooltipPos {
+interface TooltipPosition {
   top: number;
   left: number;
   arrowLeft?: number;
 }
 
-function storageKey(id: string) {
-  return `site-tour-${id}-done`;
+const TOOLTIP_CARD_WIDTH = 280;
+const TOOLTIP_GAP = 14;
+const TOOLTIP_MIN_MARGIN = 12;
+
+function getTourStorageKey(tourId: string): string {
+  return `site-tour-${tourId}-done`;
+}
+
+function isTourAlreadyCompleted(tourId: string): boolean {
+  try {
+    return !!localStorage.getItem(getTourStorageKey(tourId));
+  } catch {
+    return false;
+  }
+}
+
+function markTourCompleted(tourId: string): void {
+  try {
+    localStorage.setItem(getTourStorageKey(tourId), '1');
+  } catch {
+    // Silently fail if localStorage is unavailable (e.g. private browsing)
+  }
 }
 
 export function Tour({ id, steps }: TourProps) {
-  const [step, setStep] = useState(0);
-  const [visible, setVisible] = useState(false);
-  const [pos, setPos] = useState<TooltipPos | null>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const [isTourVisible, setIsTourVisible] = useState(false);
+  const [tooltipPosition, setTooltipPosition] = useState<TooltipPosition | null>(null);
+  const tourCardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!localStorage.getItem(storageKey(id))) {
-      setVisible(true);
+    if (!isTourAlreadyCompleted(id)) {
+      setIsTourVisible(true);
     }
   }, [id]);
 
-  const dismiss = useCallback(() => {
-    document.querySelectorAll('[data-tour-active]').forEach((el) => {
-      el.removeAttribute('data-tour-active');
+  const dismissTour = useCallback(() => {
+    document.querySelectorAll('[data-tour-active]').forEach((element) => {
+      element.removeAttribute('data-tour-active');
     });
-    setVisible(false);
-    localStorage.setItem(storageKey(id), '1');
+    setIsTourVisible(false);
+    markTourCompleted(id);
   }, [id]);
 
-  const next = useCallback(() => {
-    if (step < steps.length - 1) {
-      setStep((s) => s + 1);
+  const advanceStep = useCallback(() => {
+    if (currentStepIndex < steps.length - 1) {
+      setCurrentStepIndex((index) => index + 1);
     } else {
-      dismiss();
+      dismissTour();
     }
-  }, [step, steps.length, dismiss]);
+  }, [currentStepIndex, steps.length, dismissTour]);
 
-  const prev = useCallback(() => {
-    if (step > 0) setStep((s) => s - 1);
-  }, [step]);
+  const goBackStep = useCallback(() => {
+    if (currentStepIndex > 0) setCurrentStepIndex((index) => index - 1);
+  }, [currentStepIndex]);
 
-  // Keyboard navigation
   useEffect(() => {
-    if (!visible) return;
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') dismiss();
-      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
-      if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+    if (!isTourVisible) return;
+    const keyboardEventHandler = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') dismissTour();
+      if (event.key === 'ArrowRight' || event.key === ' ') { event.preventDefault(); advanceStep(); }
+      if (event.key === 'ArrowLeft') { event.preventDefault(); goBackStep(); }
     };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, [visible, next, prev, dismiss]);
+    window.addEventListener('keydown', keyboardEventHandler);
+    return () => window.removeEventListener('keydown', keyboardEventHandler);
+  }, [isTourVisible, advanceStep, goBackStep, dismissTour]);
 
-  // Highlight the active target element
   useEffect(() => {
-    if (!visible) return;
-    const current = steps[step];
-    const prevStep = steps[step - 1];
+    if (!isTourVisible) return;
+    const currentStep = steps[currentStepIndex];
+    const previousStep = steps[currentStepIndex - 1];
 
-    if (prevStep?.selector) {
-      document.querySelector(prevStep.selector)?.removeAttribute('data-tour-active');
+    if (previousStep?.selector) {
+      document.querySelector(previousStep.selector)?.removeAttribute('data-tour-active');
     }
-    if (current.selector && current.placement !== 'center') {
-      document.querySelector(current.selector)?.setAttribute('data-tour-active', 'true');
+    if (currentStep.selector && currentStep.placement !== 'center') {
+      document.querySelector(currentStep.selector)?.setAttribute('data-tour-active', 'true');
     }
 
     return () => {
-      if (current.selector) {
-        document.querySelector(current.selector)?.removeAttribute('data-tour-active');
+      if (currentStep.selector) {
+        document.querySelector(currentStep.selector)?.removeAttribute('data-tour-active');
       }
     };
-  }, [step, visible, steps]);
+  }, [currentStepIndex, isTourVisible, steps]);
 
-  // Compute tooltip position from target element
   useEffect(() => {
-    if (!visible) return;
-    const current = steps[step];
+    if (!isTourVisible) return;
+    const currentStep = steps[currentStepIndex];
 
-    if (!current.selector || current.placement === 'center') {
-      setPos(null);
+    if (!currentStep.selector || currentStep.placement === 'center') {
+      setTooltipPosition(null);
       return;
     }
 
-    const el = document.querySelector(current.selector) as HTMLElement | null;
-    if (!el) { setPos(null); return; }
+    const targetElement = document.querySelector(currentStep.selector) as HTMLElement | null;
+    if (!targetElement) { setTooltipPosition(null); return; }
 
-    const rect = el.getBoundingClientRect();
-    const cardWidth = 280;
-    const gap = 14;
+    const targetRect = targetElement.getBoundingClientRect();
 
-    const targetCx = rect.left + rect.width / 2;
-    const rawLeft = targetCx - cardWidth / 2;
-    const left = Math.max(12, Math.min(rawLeft, window.innerWidth - cardWidth - 12));
-    const arrowLeft = Math.max(12, targetCx - left - 6);
+    const targetCenterX = targetRect.left + targetRect.width / 2;
+    const unclampedLeft = targetCenterX - TOOLTIP_CARD_WIDTH / 2;
+    const left = Math.max(TOOLTIP_MIN_MARGIN, Math.min(unclampedLeft, window.innerWidth - TOOLTIP_CARD_WIDTH - TOOLTIP_MIN_MARGIN));
+    const arrowOffsetLeft = Math.max(TOOLTIP_MIN_MARGIN, targetCenterX - left - 6);
 
     const top =
-      (current.placement ?? 'bottom') === 'bottom'
-        ? rect.bottom + gap
-        : rect.top - gap;
+      (currentStep.placement ?? 'bottom') === 'bottom'
+        ? targetRect.bottom + TOOLTIP_GAP
+        : targetRect.top - TOOLTIP_GAP;
 
-    setPos({ top, left, arrowLeft });
-  }, [step, visible, steps]);
+    setTooltipPosition({ top, left, arrowLeft: arrowOffsetLeft });
+  }, [currentStepIndex, isTourVisible, steps]);
 
-  const current = steps[step];
-  const isCenter = !current.selector || current.placement === 'center';
-  const isLast = step === steps.length - 1;
+  const currentStep = steps[currentStepIndex];
+  const isCenteredPlacement = !currentStep.selector || currentStep.placement === 'center';
+  const isLastStep = currentStepIndex === steps.length - 1;
 
-  const cardStyle = isCenter
+  const positionedCardStyle = isCenteredPlacement
     ? { top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 300 }
-    : pos
-    ? { top: pos.top, left: pos.left, width: 280 }
+    : tooltipPosition
+    ? { top: tooltipPosition.top, left: tooltipPosition.left, width: TOOLTIP_CARD_WIDTH }
     : { top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 300 };
 
   return (
     <>
       <AnimatePresence>
-        {visible && isCenter && (
+        {isTourVisible && isCenteredPlacement && (
           <motion.div
             key="tour-overlay"
             className="fixed inset-0 z-[60]"
@@ -146,45 +157,45 @@ export function Tour({ id, steps }: TourProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            onClick={dismiss}
+            onClick={dismissTour}
           />
         )}
       </AnimatePresence>
 
       <AnimatePresence mode="wait">
-        {visible && (
+        {isTourVisible && (
           <motion.div
-            key={`${id}-step-${step}`}
-            ref={cardRef}
+            key={`${id}-step-${currentStepIndex}`}
+            ref={tourCardRef}
             className="fixed z-[61] tour-card"
-            style={cardStyle}
+            style={positionedCardStyle}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.22, ease: [0.165, 0.84, 0.44, 1] }}
-            onClick={(e) => e.stopPropagation()}
+            onClick={(event) => event.stopPropagation()}
           >
-            {!isCenter && pos?.arrowLeft !== undefined && (
-              <div className="tour-arrow" style={{ left: pos.arrowLeft }} />
+            {!isCenteredPlacement && tooltipPosition?.arrowLeft !== undefined && (
+              <div className="tour-arrow" style={{ left: tooltipPosition.arrowLeft }} />
             )}
 
             <div className="tour-counter">
-              {String(step + 1).padStart(2, '0')} / {String(steps.length).padStart(2, '0')}
+              {String(currentStepIndex + 1).padStart(2, '0')} / {String(steps.length).padStart(2, '0')}
             </div>
 
-            <div className="tour-title">{current.title}</div>
-            <p className="tour-body">{current.body}</p>
+            <div className="tour-title">{currentStep.title}</div>
+            <p className="tour-body">{currentStep.body}</p>
 
             <div className="tour-controls">
-              <button className="tour-btn-ghost" onClick={dismiss}>
+              <button className="tour-btn-ghost" onClick={dismissTour}>
                 skip
               </button>
               <div className="tour-nav">
-                {step > 0 && (
-                  <button className="tour-btn" onClick={prev}>←</button>
+                {currentStepIndex > 0 && (
+                  <button className="tour-btn" onClick={goBackStep}>←</button>
                 )}
-                <button className="tour-btn tour-btn-primary" onClick={next}>
-                  {isLast ? 'done' : 'next →'}
+                <button className="tour-btn tour-btn-primary" onClick={advanceStep}>
+                  {isLastStep ? 'done' : 'next →'}
                 </button>
               </div>
             </div>

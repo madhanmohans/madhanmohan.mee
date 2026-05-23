@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { GraphView, type Graph } from '@/components/graph-view';
@@ -9,18 +9,18 @@ import { Tour } from '@/components/tour';
 
 export default function SecondBrainPage() {
   const router = useRouter();
-  const [graph, setGraph] = useState<Graph | null>(null);
+  const [graphData, setGraphData] = useState<Graph | null>(null);
+  const [activeDimension, setActiveDimension] = useState<'2d' | '3d'>('3d');
 
   useEffect(() => {
     fetch('/api/graph')
-      .then((r) => r.json())
-      .then((data: Graph) => setGraph(data))
+      .then((response) => response.json())
+      .then((data: Graph) => setGraphData(data))
       .catch(() => {});
   }, []);
 
   return (
     <div className="min-h-dvh flex flex-col">
-      {/* Header */}
       <header className="flex items-start justify-between px-12 py-5">
         <Link
           href="/"
@@ -35,39 +35,61 @@ export default function SecondBrainPage() {
           <ChessKing />
         </Link>
 
+        <div className="flex items-center gap-2">
+          <div className="flex border border-fd-border rounded-md overflow-hidden">
+            <button
+              className="px-2.5 py-1 text-[11px] font-mono tracking-wider transition-colors duration-150"
+              style={{
+                background: activeDimension === '2d' ? 'var(--color-fd-accent)' : 'transparent',
+                color: activeDimension === '2d' ? 'var(--color-fd-primary)' : 'var(--color-fd-muted-foreground)',
+              }}
+              onClick={() => setActiveDimension('2d')}
+            >
+              2D
+            </button>
+            <button
+              className="px-2.5 py-1 text-[11px] font-mono tracking-wider transition-colors duration-150"
+              style={{
+                background: activeDimension === '3d' ? 'var(--color-fd-accent)' : 'transparent',
+                color: activeDimension === '3d' ? 'var(--color-fd-primary)' : 'var(--color-fd-muted-foreground)',
+              }}
+              onClick={() => setActiveDimension('3d')}
+            >
+              3D
+            </button>
+          </div>
 
-        {/* View toggle */}
-        <div className="flex border border-fd-border rounded-2xl" data-tour="view-toggle">
-          <button
-            className="view-toggle-btn"
-            data-active={true}
-          >
-            <Waypoints size={16} />
-          </button>
-          <button
-            className="view-toggle-btn"
-            data-active={false}
-            onClick={() => router.push('/docs')}
-          >
-            <Notebook size={16}/>
-          </button>
+          <div className="flex border border-fd-border rounded-2xl" data-tour="view-toggle">
+            <button
+              className="view-toggle-btn"
+              data-active={true}
+            >
+              <Waypoints size={16} />
+            </button>
+            <button
+              className="view-toggle-btn"
+              data-active={false}
+              onClick={() => router.push('/docs')}
+            >
+              <Notebook size={16}/>
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* Content */}
       <main className="flex-1 relative px-6 pb-8">
-        {graph && (
+        {graphData && (
           <div
             className="w-full"
             style={{
               animation: 'fd-page-enter 0.6s var(--ease-out-quart) both',
             }}
           >
-            <GraphView graph={graph} />
+            <GraphView graph={graphData} dimension={activeDimension} />
           </div>
         )}
 
-        {!graph && (
+        {!graphData && (
           <div className="flex items-center justify-center h-96 text-fd-muted-foreground"
             style={{ fontSize: '13px', letterSpacing: '0.01em' }}
           >

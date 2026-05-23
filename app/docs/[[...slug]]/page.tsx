@@ -11,49 +11,50 @@ import { DocsTour } from '@/components/docs-tour';
 
 export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
   const params = await props.params;
-  const page = source.getPage(params.slug);
-  if (!page) notFound();
+  const docPage = source.getPage(params.slug);
+  if (!docPage) notFound();
 
-  const MDX = page.data.body;
+  const MDXContent = docPage.data.body;
+  const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 
   return (
     <DocsPage
-      toc={page.data.toc}
-      full={page.data.full}
+      toc={docPage.data.toc}
+      full={docPage.data.full}
       tableOfContent={{
         footer: (
           <div data-tour="graph-mini">
-            <GraphMini pageUrl={page.url} />
+            <GraphMini pageUrl={docPage.url} />
           </div>
         ),
       }}
     >
-      <DocsTitle>{page.data.title}</DocsTitle>
-      <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
+      <DocsTitle>{docPage.data.title}</DocsTitle>
+      <DocsDescription className="mb-0">{docPage.data.description}</DocsDescription>
       <div
         data-tour="llm-actions"
         className="flex flex-row gap-2 items-center border-b pb-6"
       >
-        <LLMCopyButton markdownUrl={`${page.url}.mdx`} />
-        <ViewOptions markdownUrl={`${page.url}.mdx`} />
+        <LLMCopyButton markdownUrl={`${docPage.url}.mdx`} />
+        <ViewOptions markdownUrl={`${docPage.url}.mdx`} />
       </div>
       <DocsTour />
 
-      {process.env.NODE_ENV === 'development' ? (
+      {IS_DEVELOPMENT ? (
         <NoteEditor slug={params.slug ?? []}>
           <DocsBody>
-            <MDX
+            <MDXContent
               components={getMDXComponents({
-                a: createRelativeLink(source, page),
+                a: createRelativeLink(source, docPage),
               })}
             />
           </DocsBody>
         </NoteEditor>
       ) : (
         <DocsBody>
-          <MDX
+          <MDXContent
             components={getMDXComponents({
-              a: createRelativeLink(source, page),
+              a: createRelativeLink(source, docPage),
             })}
           />
         </DocsBody>
@@ -68,14 +69,14 @@ export async function generateStaticParams() {
 
 export async function generateMetadata(props: PageProps<'/docs/[[...slug]]'>): Promise<Metadata> {
   const params = await props.params;
-  const page = source.getPage(params.slug);
-  if (!page) notFound();
+  const docPage = source.getPage(params.slug);
+  if (!docPage) notFound();
 
   return {
-    title: page.data.title,
-    description: page.data.description,
+    title: docPage.data.title,
+    description: docPage.data.description,
     openGraph: {
-      images: getPageImage(page).url,
+      images: getPageImage(docPage).url,
     },
   };
 }

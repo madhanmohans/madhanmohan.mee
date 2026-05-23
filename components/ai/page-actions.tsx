@@ -6,42 +6,38 @@ import { useCopyButton } from 'fumadocs-ui/utils/use-copy-button';
 import { buttonVariants } from 'fumadocs-ui/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from 'fumadocs-ui/components/ui/popover';
 
-const cache = new Map<string, string>();
+const markdownContentCache = new Map<string, string>();
 
 export function LLMCopyButton({
-  /**
-   * A URL to fetch the raw Markdown/MDX content of page
-   */
   markdownUrl,
 }: {
   markdownUrl: string;
 }) {
-  const [isLoading, setLoading] = useState(false);
-  const [checked, onClick] = useCopyButton(async () => {
-    const cached = cache.get(markdownUrl);
-    if (cached) return navigator.clipboard.writeText(cached);
+  const [isFetchingMarkdown, setIsFetchingMarkdown] = useState(false);
+  const [isCopied, handleCopyClick] = useCopyButton(async () => {
+    const cachedContent = markdownContentCache.get(markdownUrl);
+    if (cachedContent) return navigator.clipboard.writeText(cachedContent);
 
-    setLoading(true);
+    setIsFetchingMarkdown(true);
 
     try {
       await navigator.clipboard.write([
         new ClipboardItem({
-          'text/plain': fetch(markdownUrl).then(async (res) => {
-            const content = await res.text();
-            cache.set(markdownUrl, content);
-
-            return content;
+          'text/plain': fetch(markdownUrl).then(async (response) => {
+            const markdownContent = await response.text();
+            markdownContentCache.set(markdownUrl, markdownContent);
+            return markdownContent;
           }),
         }),
       ]);
     } finally {
-      setLoading(false);
+      setIsFetchingMarkdown(false);
     }
   });
 
   return (
     <button
-      disabled={isLoading}
+      disabled={isFetchingMarkdown}
       className={cn(
         buttonVariants({
           color: 'secondary',
@@ -49,9 +45,9 @@ export function LLMCopyButton({
           className: 'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground',
         }),
       )}
-      onClick={onClick}
+      onClick={handleCopyClick}
     >
-      {checked ? <Check /> : <Copy />}
+      {isCopied ? <Check /> : <Copy />}
       Copy Markdown
     </button>
   );
@@ -60,26 +56,23 @@ export function LLMCopyButton({
 export function ViewOptions({
   markdownUrl,
 }: {
-  /**
-   * A URL to the raw Markdown/MDX content of page
-   */
   markdownUrl: string;
 }) {
-  const [origin, setOrigin] = useState('');
+  const [windowOrigin, setWindowOrigin] = useState('');
 
   useEffect(() => {
-    setOrigin(window.location.origin);
+    setWindowOrigin(window.location.origin);
   }, []);
 
-  const items = useMemo(() => {
-    const fullMarkdownUrl = origin ? new URL(markdownUrl, origin).toString() : markdownUrl;
-    const q = `Read ${fullMarkdownUrl}, I want to ask questions about it.`;
+  const openInPlatformLinks = useMemo(() => {
+    const absoluteMarkdownUrl = windowOrigin ? new URL(markdownUrl, windowOrigin).toString() : markdownUrl;
+    const queryPrompt = `Read ${absoluteMarkdownUrl}, I want to ask questions about it.`;
 
     return [
       {
         title: 'Open in Scira AI',
         href: `https://scira.ai/?${new URLSearchParams({
-          q,
+          q: queryPrompt,
         })}`,
         icon: (
           <svg
@@ -144,7 +137,7 @@ export function ViewOptions({
         title: 'Open in ChatGPT',
         href: `https://chatgpt.com/?${new URLSearchParams({
           hints: 'search',
-          q,
+          q: queryPrompt,
         })}`,
         icon: (
           <svg
@@ -161,7 +154,7 @@ export function ViewOptions({
       {
         title: 'Open in Claude',
         href: `https://claude.ai/new?${new URLSearchParams({
-          q,
+          q: queryPrompt,
         })}`,
         icon: (
           <svg
@@ -189,11 +182,11 @@ export function ViewOptions({
           </svg>
         ),
         href: `https://cursor.com/link/prompt?${new URLSearchParams({
-          text: q,
+          text: queryPrompt,
         })}`,
       },
     ];
-  }, [markdownUrl, origin]);
+  }, [markdownUrl, windowOrigin]);
 
   return (
     <Popover>
@@ -210,16 +203,16 @@ export function ViewOptions({
         <ChevronDown className="size-3.5 text-fd-muted-foreground" />
       </PopoverTrigger>
       <PopoverContent className="flex flex-col">
-        {items.map((item) => (
+        {openInPlatformLinks.map((linkItem) => (
           <a
-            key={item.href}
-            href={item.href}
+            key={linkItem.href}
+            href={linkItem.href}
             rel="noreferrer noopener"
             target="_blank"
             className="text-sm p-2 rounded-lg inline-flex items-center gap-2 hover:text-fd-accent-foreground hover:bg-fd-accent [&_svg]:size-4"
           >
-            {item.icon}
-            {item.title}
+            {linkItem.icon}
+            {linkItem.title}
             <ExternalLinkIcon className="text-fd-muted-foreground size-3.5 ms-auto" />
           </a>
         ))}

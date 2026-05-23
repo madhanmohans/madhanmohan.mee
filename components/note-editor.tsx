@@ -7,7 +7,7 @@ import { cn } from '@/lib/cn';
 import { buttonVariants } from 'fumadocs-ui/components/ui/button';
 import { AnimatePresence, motion } from 'framer-motion';
 
-type Mode = 'view' | 'edit' | 'confirm-discard';
+type EditorMode = 'view' | 'edit' | 'confirm-discard';
 
 export function NoteEditor({
   slug,
@@ -17,110 +17,106 @@ export function NoteEditor({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const [mode, setMode] = useState<Mode>('view');
-  const [content, setContent] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [isDirty, setIsDirty] = useState(false);
-  const [savedFlash, setSavedFlash] = useState(false);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [editorMode, setEditorMode] = useState<EditorMode>('view');
+  const [editorContent, setEditorContent] = useState('');
+  const [isFetchingContent, setIsFetchingContent] = useState(false);
+  const [isSavingContent, setIsSavingContent] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [showSavedFlash, setShowSavedFlash] = useState(false);
+  const editorTextareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const apiUrl = `/api/notes/${slug.join('/')}`;
+  const noteApiUrl = `/api/notes/${slug.join('/')}`;
 
-  const enterEditMode = useCallback(async () => {
-    setIsLoading(true);
-    setMode('edit');
+  const startEditing = useCallback(async () => {
+    setIsFetchingContent(true);
+    setEditorMode('edit');
     try {
-      const res = await fetch(apiUrl);
-      if (!res.ok) throw new Error('Failed to load note');
-      const text = await res.text();
-      setContent(text);
-      setIsDirty(false);
-    } catch (err) {
-      console.error(err);
-      setMode('view');
+      const apiResponse = await fetch(noteApiUrl);
+      if (!apiResponse.ok) throw new Error('Failed to load note');
+      const fetchedContent = await apiResponse.text();
+      setEditorContent(fetchedContent);
+      setHasUnsavedChanges(false);
+    } catch (error) {
+      console.error(error);
+      setEditorMode('view');
     } finally {
-      setIsLoading(false);
+      setIsFetchingContent(false);
     }
-  }, [apiUrl]);
+  }, [noteApiUrl]);
 
-  const save = useCallback(async () => {
-    setIsSaving(true);
+  const saveContent = useCallback(async () => {
+    setIsSavingContent(true);
     try {
-      const res = await fetch(apiUrl, {
+      const apiResponse = await fetch(noteApiUrl, {
         method: 'PUT',
-        body: content,
+        body: editorContent,
         headers: { 'Content-Type': 'text/plain' },
       });
-      if (!res.ok) throw new Error('Failed to save');
-      setIsDirty(false);
-      setSavedFlash(true);
-      setTimeout(() => setSavedFlash(false), 2000);
-      setMode('view');
-      // Small delay for fumadocs-mdx to recompile before refreshing
+      if (!apiResponse.ok) throw new Error('Failed to save');
+      setHasUnsavedChanges(false);
+      setShowSavedFlash(true);
+      setTimeout(() => setShowSavedFlash(false), 2000);
+      setEditorMode('view');
       setTimeout(() => router.refresh(), 500);
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
     } finally {
-      setIsSaving(false);
+      setIsSavingContent(false);
     }
-  }, [apiUrl, content, router]);
+  }, [noteApiUrl, editorContent, router]);
 
-  const cancel = useCallback(() => {
-    if (isDirty) {
-      setMode('confirm-discard');
+  const cancelEditing = useCallback(() => {
+    if (hasUnsavedChanges) {
+      setEditorMode('confirm-discard');
       return;
     }
-    setMode('view');
-    setIsDirty(false);
-  }, [isDirty]);
+    setEditorMode('view');
+    setHasUnsavedChanges(false);
+  }, [hasUnsavedChanges]);
 
-  // Keyboard shortcuts
   useEffect(() => {
-    if (mode !== 'edit' && mode !== 'confirm-discard') return;
+    if (editorMode !== 'edit' && editorMode !== 'confirm-discard') return;
 
-    const handler = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 's') {
-        e.preventDefault();
-        save();
+    const keyboardShortcutHandler = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === 's') {
+        event.preventDefault();
+        saveContent();
       }
-      if (e.key === 'Escape') {
-        if (mode === 'confirm-discard') {
-          setMode('edit');
+      if (event.key === 'Escape') {
+        if (editorMode === 'confirm-discard') {
+          setEditorMode('edit');
         } else {
-          cancel();
+          cancelEditing();
         }
       }
     };
 
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, [mode, save, cancel]);
+    window.addEventListener('keydown', keyboardShortcutHandler);
+    return () => window.removeEventListener('keydown', keyboardShortcutHandler);
+  }, [editorMode, saveContent, cancelEditing]);
 
-  // Auto-focus textarea when entering edit mode
   useEffect(() => {
-    if (mode === 'edit' && !isLoading && textareaRef.current) {
-      textareaRef.current.focus();
+    if (editorMode === 'edit' && !isFetchingContent && editorTextareaRef.current) {
+      editorTextareaRef.current.focus();
     }
-  }, [mode, isLoading]);
+  }, [editorMode, isFetchingContent]);
 
-  const handleTabKey = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Tab') {
-      e.preventDefault();
-      const textarea = e.currentTarget;
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      const newValue = content.substring(0, start) + '  ' + content.substring(end);
-      setContent(newValue);
-      setIsDirty(true);
-      // Restore cursor position after React re-render
+  const handleTabKey = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      const textarea = event.currentTarget;
+      const cursorStart = textarea.selectionStart;
+      const cursorEnd = textarea.selectionEnd;
+      const updatedContent = editorContent.substring(0, cursorStart) + '  ' + editorContent.substring(cursorEnd);
+      setEditorContent(updatedContent);
+      setHasUnsavedChanges(true);
       requestAnimationFrame(() => {
-        textarea.selectionStart = textarea.selectionEnd = start + 2;
+        textarea.selectionStart = textarea.selectionEnd = cursorStart + 2;
       });
     }
   };
 
-  const fadeProps = {
+  const fadeTransitionProps = {
     initial: { opacity: 0, y: 4 },
     animate: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: -4 },
@@ -131,10 +127,10 @@ export function NoteEditor({
     <div>
       <div className="flex items-center gap-2 mb-4 min-h-8">
         <AnimatePresence mode="wait" initial={false}>
-          {mode === 'view' && (
-            <motion.div key="view-toolbar" className="flex items-center gap-2 ml-auto" {...fadeProps}>
+          {editorMode === 'view' && (
+            <motion.div key="view-toolbar" className="flex items-center gap-2 ml-auto" {...fadeTransitionProps}>
               <AnimatePresence>
-                {savedFlash && (
+                {showSavedFlash && (
                   <motion.span
                     key="saved"
                     className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1"
@@ -149,7 +145,7 @@ export function NoteEditor({
                 )}
               </AnimatePresence>
               <button
-                onClick={enterEditMode}
+                onClick={startEditing}
                 className={cn(
                   buttonVariants({
                     color: 'secondary',
@@ -164,11 +160,11 @@ export function NoteEditor({
             </motion.div>
           )}
 
-          {(mode === 'edit' || mode === 'confirm-discard') && (
-            <motion.div key="edit-toolbar" className="flex items-center gap-2 w-full" {...fadeProps}>
+          {(editorMode === 'edit' || editorMode === 'confirm-discard') && (
+            <motion.div key="edit-toolbar" className="flex items-center gap-2 w-full" {...fadeTransitionProps}>
               <button
-                onClick={save}
-                disabled={isSaving || !isDirty}
+                onClick={saveContent}
+                disabled={isSavingContent || !hasUnsavedChanges}
                 className={cn(
                   buttonVariants({
                     color: 'primary',
@@ -178,11 +174,11 @@ export function NoteEditor({
                 )}
               >
                 <Save />
-                {isSaving ? 'Saving...' : 'Save'}
+                {isSavingContent ? 'Saving...' : 'Save'}
               </button>
               <button
-                onClick={cancel}
-                disabled={isSaving}
+                onClick={cancelEditing}
+                disabled={isSavingContent}
                 className={cn(
                   buttonVariants({
                     color: 'secondary',
@@ -196,7 +192,7 @@ export function NoteEditor({
               </button>
 
               <AnimatePresence>
-                {mode === 'confirm-discard' && (
+                {editorMode === 'confirm-discard' && (
                   <motion.div
                     key="confirm"
                     className="flex items-center gap-2 ml-2"
@@ -207,13 +203,13 @@ export function NoteEditor({
                   >
                     <span className="text-xs text-fd-muted-foreground">Discard changes?</span>
                     <button
-                      onClick={() => { setMode('view'); setIsDirty(false); }}
+                      onClick={() => { setEditorMode('view'); setHasUnsavedChanges(false); }}
                       className={cn(buttonVariants({ color: 'secondary', size: 'sm', className: 'gap-1 [&_svg]:size-3 text-red-500 active:scale-95' }))}
                     >
                       Discard
                     </button>
                     <button
-                      onClick={() => setMode('edit')}
+                      onClick={() => setEditorMode('edit')}
                       className={cn(buttonVariants({ color: 'secondary', size: 'sm', className: 'active:scale-95' }))}
                     >
                       Keep editing
@@ -222,7 +218,7 @@ export function NoteEditor({
                 )}
               </AnimatePresence>
 
-              {isDirty && mode !== 'confirm-discard' && (
+              {hasUnsavedChanges && editorMode !== 'confirm-discard' && (
                 <span className="text-xs text-fd-muted-foreground ml-2">Unsaved changes</span>
               )}
               <span className="text-xs text-fd-muted-foreground ml-auto">
@@ -234,15 +230,15 @@ export function NoteEditor({
       </div>
 
       <AnimatePresence mode="wait" initial={false}>
-        {mode === 'view' ? (
-          <motion.div key="view-content" {...fadeProps}>
+        {editorMode === 'view' ? (
+          <motion.div key="view-content" {...fadeTransitionProps}>
             {children}
           </motion.div>
-        ) : isLoading ? (
+        ) : isFetchingContent ? (
           <motion.div
             key="loading"
             className="flex items-center justify-center py-20 text-fd-muted-foreground gap-2"
-            {...fadeProps}
+            {...fadeTransitionProps}
           >
             <motion.div
               className="size-4 rounded-full border-2 border-fd-muted-foreground border-t-transparent"
@@ -252,13 +248,13 @@ export function NoteEditor({
             Loading…
           </motion.div>
         ) : (
-          <motion.div key="editor" {...fadeProps}>
+          <motion.div key="editor" {...fadeTransitionProps}>
             <textarea
-              ref={textareaRef}
-              value={content}
-              onChange={(e) => {
-                setContent(e.target.value);
-                setIsDirty(true);
+              ref={editorTextareaRef}
+              value={editorContent}
+              onChange={(event) => {
+                setEditorContent(event.target.value);
+                setHasUnsavedChanges(true);
               }}
               onKeyDown={handleTabKey}
               spellCheck={false}
