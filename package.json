@@ -10,6 +10,7 @@
     "postinstall": "fumadocs-mdx"
   },
   "dependencies": {
+    "@fumadocs/mdx-remote": "^1.4.10",
     "d3-force": "^3.0.0",
     "d3-force-3d": "^3.0.6",
     "framer-motion": "^12.38.0",
