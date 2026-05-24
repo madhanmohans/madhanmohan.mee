@@ -6,7 +6,7 @@ import type { Metadata } from 'next';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
 import { LLMCopyButton, ViewOptions } from '@/components/ai/page-actions';
 import { NoteEditor } from '@/components/note-editor';
-import { GraphMini } from '@/components/graph-mini';
+import { GraphMini } from '@/components/graph-mini-dynamic';
 import { DocsTour } from '@/components/docs-tour';
 
 export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {

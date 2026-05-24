@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { GraphView, type Graph } from '@/components/graph-view';
-import { ChessKing, GitGraph, Notebook, Waypoints } from 'lucide-react';
+import { ChessKing, Notebook, Waypoints } from 'lucide-react';
 import { Tour } from '@/components/tour';
 
 export default function SecondBrainPage() {

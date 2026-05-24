@@ -5,6 +5,17 @@ const withMDX = createMDX();
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
+  compress: true,
+  productionBrowserSourceMaps: false,
+  experimental: {
+    optimizePackageImports: [
+      'lucide-react',
+      'framer-motion',
+      'fumadocs-ui',
+      'fumadocs-core',
+    ],
+    webpackBuildWorker: true,
+  },
   async rewrites() {
     return [
       {

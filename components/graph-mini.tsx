@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Waypoints } from 'lucide-react';
 import type { Graph } from '@/components/graph-view';
 
-interface GraphMiniProps {
+export interface GraphMiniProps {
   pageUrl: string;
 }
 
