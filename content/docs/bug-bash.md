@@ -1,22 +1,19 @@
-> [!important]  
 > Collaborative event where devs, QAs, POs, do exploratory testing to find bugs  
-  
-> [!important]  
+
 > Since all the stakeholders will see things from different perspectives, bug bash will be conducted  
-  
-> [!important]  
+
 > Have to find as many bugs as possible in a timeframe  
-  
-> [!important]  
+
 > After QA Testing  
   
-> [!important]  
-> Bug cards will be created after the bug bash  
+> Bug cards will be created after the bug bash
+
 ## Why Bug Bash
 - Quality Release
 - Diverse perspectives
 - Discover large number of bugs in a short span of time
 - Shared Responsibility
+
 ## When Bug Bash
 - Before major releases
     - 1/2 weeks before going live
@@ -53,12 +50,11 @@
 - Investigate on invalid bugs
 - Prioritise the bug fixes for the release
 ![[Screenshot_2024-07-10_at_9.55.33_AM.png]]
+
 ## How to prioritise?
-![[Screenshot_2024-07-10_at_9.58.34_AM.png]]
 - Severity → Impact to application (critical, major, minor, low)
 - Priority → Impact to business (p0, p1, p2)
-## Template
-![[Screenshot_2024-07-10_at_10.03.11_AM.png]]
+
 ## References:
 Kroger
 Tushar Varma

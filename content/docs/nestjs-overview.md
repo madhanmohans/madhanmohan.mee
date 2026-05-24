@@ -1,11 +1,6 @@
 Parent: [[Technology]]
-Tags: #technology #work 
 
-## ==What is Nest.js?:==
+Tags: #technology #work 
 
 - Server Side Application
 - Typescript based
-
----
-## ==References:==
-

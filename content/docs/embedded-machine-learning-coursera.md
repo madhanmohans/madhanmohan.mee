@@ -1,5 +1,3 @@
-# embedded-machine-learning-coursera
-
 Course on deploying ML models on edge devices
 
 Covers:
@@ -10,12 +8,10 @@ Covers:
 Related: [[tinyml-book]]
 
 ---
-## ==*References==
+## ==References==
 - [[introduction-to-tensorflow-udacity]]
 - [[ml-in-production-coursera]]
 - [Embedded ML Coursera](https://www.coursera.org/specializations/embedded-machine-learning)
 
----
-## ==*References==
 
 #ml-notes

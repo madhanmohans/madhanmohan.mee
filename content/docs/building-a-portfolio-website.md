@@ -12,5 +12,4 @@
 - need specific knowledge for leverage - for design
 - random Figma designs, flowcharts
 - niche - game dev - hardware stuffs - ui - ai
-
 ---

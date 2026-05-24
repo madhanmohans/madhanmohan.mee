@@ -1,8 +1,5 @@
 ---
-title: Welcome to Docs
-description: This is the default documentation page.
+title: Welcome to Second Brain
 ---
-
-# Welcome
 
 Select a topic from the sidebar to begin.

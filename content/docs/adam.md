@@ -1,5 +1,3 @@
-# adam
-
 Adaptive Moment Estimation [[optimizer]]
 
 Combines momentum and adaptive learning rates

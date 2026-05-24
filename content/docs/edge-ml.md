@@ -1,5 +1,3 @@
-# model-deployment-edge
-
 Deploying ML models on [[edge-computing]] devices
 
 Methods:
@@ -16,7 +14,8 @@ High-level APIs: [[ml-kit]]
 Customizable: [[tensorflow-lite]], Google Cloud
 
 ---
-## ==*References==
+## ==References==
 - [Edge Deployment Guide - TensorFlow](https://www.tensorflow.org/lite/guide)
 - [Mobile ML Deployment - Google Developers](https://developers.google.com/ml-kit)
+
 #ml-notes

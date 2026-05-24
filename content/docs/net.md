@@ -111,6 +111,7 @@
 - Stay Curious: Keep exploring new facets of .NET, and stay excited about the endless possibilities this skill will unlock in your career.
     
 - Visualize Success: Imagine the impact you’ll have as a skilled .NET developer—building powerful applications and solving real-world problems.  
-    You're on a journey to mastering a powerful skill. Keep pushing forward, and remember that every step counts!  
-    ![[DotNet_Overview.pdf]]  
-    [[C Basics]]
+
+- You're on a journey to mastering a powerful skill. Keep pushing forward, and remember that every step counts!  
+
+[[C Basics]]
