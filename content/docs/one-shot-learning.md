@@ -8,7 +8,7 @@ Relies on similarity learning and metric spaces
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [One-Shot Learning Explained - Papers With Code](https://paperswithcode.com/task/one-shot-learning)
 - [Siamese Networks for One-Shot Learning - Keras](https://keras.io/examples/vision/siamese_network/)

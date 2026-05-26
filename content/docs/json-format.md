@@ -8,7 +8,7 @@ Human-readable structure
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [JSON Introduction - MDN](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON)
 - [JSON Format Specification](https://www.json.org/)

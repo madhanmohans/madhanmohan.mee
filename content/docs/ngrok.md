@@ -10,13 +10,13 @@ Useful for:
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Ngrok Documentation](https://ngrok.com/docs)
 - [Ngrok for ML Development](https://www.analyticsvidhya.com/blog/2021/06/share-your-ml-model-using-ngrok/)
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

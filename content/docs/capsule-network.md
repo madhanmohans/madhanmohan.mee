@@ -10,7 +10,7 @@ Preserves spatial relationships better
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Capsule Networks - Papers With Code](https://paperswithcode.com/method/capsule-network)
 - [Understanding Capsule Networks - Towards Data Science](https://towardsdatascience.com/understanding-capsule-networks-ais-alluring-new-architecture-bdb228173ddc)

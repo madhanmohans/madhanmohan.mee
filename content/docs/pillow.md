@@ -12,13 +12,13 @@ Used for:
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Pillow Documentation](https://pillow.readthedocs.io/)
 - [Image Processing with Pillow](https://realpython.com/image-processing-with-the-python-pillow-library/)
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

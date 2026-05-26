@@ -8,7 +8,7 @@ Compared with [[tensor-cores]] (specialized for tensor ops)
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [CUDA Cores Explained - NVIDIA](https://developer.nvidia.com/cuda-zone)
 - [Understanding CUDA - Tom's Hardware](https://www.tomshardware.com/reviews/cuda-gpu-parallel-computing,2254.html)

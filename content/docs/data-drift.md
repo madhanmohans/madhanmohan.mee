@@ -14,7 +14,7 @@ Part of [[mlops]] monitoring
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [[model-drift]]
 - [Data Drift Detection](https://www.evidentlyai.com/blog/data-drift-detection-methods)
@@ -22,6 +22,6 @@ Part of [[mlops]] monitoring
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

@@ -13,7 +13,7 @@ Alternative: [[pillow]] for simpler tasks
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [OpenCV Documentation](https://docs.opencv.org/)
 - [OpenCV Python Tutorial](https://opencv-tutorial.readthedocs.io/en/latest/)
@@ -21,6 +21,6 @@ Alternative: [[pillow]] for simpler tasks
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

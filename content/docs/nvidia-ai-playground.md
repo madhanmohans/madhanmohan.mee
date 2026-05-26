@@ -7,7 +7,7 @@ Interactive demos of NVIDIA's AI technologies
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [NVIDIA AI Playground](https://www.nvidia.com/en-us/research/ai-playground/)
 - [NVIDIA Research Projects](https://www.nvidia.com/en-us/research/)

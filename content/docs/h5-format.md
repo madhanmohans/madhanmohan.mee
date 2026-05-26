@@ -8,7 +8,7 @@ Stores model architecture, weights, and training config
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Keras Model Saving - TensorFlow](https://www.tensorflow.org/guide/keras/save_and_serialize)
 - [HDF5 Format](https://www.hdfgroup.org/solutions/hdf5/)

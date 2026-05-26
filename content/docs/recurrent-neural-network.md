@@ -9,7 +9,7 @@ Neural network with feedback connections for sequential data
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Recurrent Neural Networks Tutorial](https://www.tensorflow.org/guide/keras/rnn)
 - [RNN Effectiveness Paper](https://karpathy.github.io/2015/05/21/rnn-effectiveness/)

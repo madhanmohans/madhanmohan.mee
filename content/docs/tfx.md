@@ -4,10 +4,10 @@ Abbreviation for [[tensorflow-extended]]
 
 ---
 
-## ==\*References==
+## ==References==
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

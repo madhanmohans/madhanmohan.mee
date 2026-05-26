@@ -9,7 +9,7 @@ Used for [[language-translation]], summarization, Q&A
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [[attention-is-all-you-need]]
 - [Encoder-Decoder Models](https://machinelearningmastery.com/encoder-decoder-models-text-summarization-keras/)
@@ -17,6 +17,6 @@ Used for [[language-translation]], summarization, Q&A
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

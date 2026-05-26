@@ -9,7 +9,7 @@ Tools:
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Model Conversion Guide - ONNX](https://onnx.ai/)
 - [Converting Models - PyTorch Documentation](https://pytorch.org/docs/stable/onnx.html)

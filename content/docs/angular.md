@@ -8,7 +8,7 @@ Provides opinionated structure for web apps
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Angular Official Documentation](https://angular.io/)
 - [Angular vs React - LogRocket](https://blog.logrocket.com/angular-vs-react/)

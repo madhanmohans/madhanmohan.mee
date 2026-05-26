@@ -14,7 +14,7 @@ Supported by [[tensorflow-lite]]
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Quantization Guide - TensorFlow](https://www.tensorflow.org/model_optimization/guide/quantization/training)
 - [Neural Network Quantization - Papers With Code](https://paperswithcode.com/task/quantization)

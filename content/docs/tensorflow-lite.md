@@ -12,7 +12,7 @@ Used with [[tflite-model-maker]]
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [TensorFlow Lite Official Guide](https://www.tensorflow.org/lite)
 - [TensorFlow Lite Tutorial - Android Developers](https://developer.android.com/ml)

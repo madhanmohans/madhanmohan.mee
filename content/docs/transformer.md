@@ -1,5 +1,3 @@
-# transformer
-
 Architecture from [[attention-is-all-you-need]] paper
 
 [[encoder-decoder]] structure using self-attention
@@ -10,7 +8,7 @@ Basis for GPT, BERT, T5
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [[lstm]]
 - [[multilingual-language-model]]
@@ -18,7 +16,5 @@ Basis for GPT, BERT, T5
 - [Transformer Tutorial](https://www.tensorflow.org/text/tutorials/transformer)
 
 ---
-
-## ==\*References==
 
 #ml-notes

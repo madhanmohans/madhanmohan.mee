@@ -8,7 +8,7 @@ Used for monitoring [[model-drift]] and [[data-drift]]
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [[mlops]]
 - [Weights & Biases Documentation](https://docs.wandb.ai/)
@@ -16,6 +16,6 @@ Used for monitoring [[model-drift]] and [[data-drift]]
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

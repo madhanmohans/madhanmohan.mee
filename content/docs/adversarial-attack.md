@@ -8,7 +8,7 @@ Intentional perturbations to fool neural networks
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Adversarial Attacks Explained - NIST](https://www.nist.gov/news-events/news/2019/03/tricking-ai-adversarial-attacks)
 - [Adversarial Examples - OpenAI](https://openai.com/research/attacking-machine-learning-with-adversarial-examples)

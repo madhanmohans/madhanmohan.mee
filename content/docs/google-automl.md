@@ -8,7 +8,7 @@ Google Cloud's automated machine learning suite
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Google Cloud AutoML](https://cloud.google.com/automl)
 - [AutoML: A Survey of the State-of-the-Art](https://arxiv.org/abs/1908.00709)

@@ -10,7 +10,7 @@ Implemented in [[tensorflow-extended]] and [[ml-production-pipelines]]
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [[mlops]]
 - [CI/CD for ML](https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning)
@@ -18,6 +18,6 @@ Implemented in [[tensorflow-extended]] and [[ml-production-pipelines]]
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

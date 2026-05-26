@@ -8,13 +8,13 @@ Led to [[multilingual-language-model]] development
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Neural Machine Translation](https://www.tensorflow.org/tutorials/text/nmt_with_attention)
 - [Translation with Transformers](https://huggingface.co/docs/transformers/tasks/translation)
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

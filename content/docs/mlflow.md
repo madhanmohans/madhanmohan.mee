@@ -13,7 +13,7 @@ Alternative: [[weights-and-biases]]
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [[mlops]]
 - [[tensorflow-extended]]
@@ -22,6 +22,6 @@ Alternative: [[weights-and-biases]]
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

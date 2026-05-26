@@ -13,7 +13,7 @@ Solutions:
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [[exploding-gradient]]
 - [Vanishing Gradient Problem](https://machinelearningmastery.com/how-to-fix-vanishing-gradients-using-the-rectified-linear-activation-function/)
@@ -21,6 +21,6 @@ Solutions:
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

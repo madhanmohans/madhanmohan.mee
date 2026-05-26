@@ -9,7 +9,7 @@ Two competing networks: Generator vs Discriminator
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [GAN Paper - Goodfellow et al](https://arxiv.org/abs/1406.2661)
 - [GAN Tutorial - NIPS 2016](https://arxiv.org/abs/1701.00160)
