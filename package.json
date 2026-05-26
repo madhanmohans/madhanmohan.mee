@@ -48,6 +48,7 @@
     "@types/react": "^19.2.13",
     "@types/react-dom": "^19.2.3",
     "@types/three": "^0.184.1",
+    "postcss": "^8.5.10",
     "@vitejs/plugin-react": "^6.0.2",
     "@vitest/coverage-v8": "^4.1.7",
     "jsdom": "^29.1.1",
