@@ -9,6 +9,25 @@ import type { Graph, GraphViewProps } from './graph-shared';
 import { MiniMarkdown, createForceGraphRef, enrichGraphNodesWithNeighbors } from './graph-shared';
 import type { ForceGraphInstance } from './graph-shared';
 
+function parseColorNumber(style: CSSStyleDeclaration, name: string, fallback: string): number {
+  const element = document.createElement('div');
+  element.style.color = style.getPropertyValue(name).trim() || fallback;
+  element.style.display = 'none';
+  document.body.appendChild(element);
+  const rgb = getComputedStyle(element).color;
+  document.body.removeChild(element);
+  const parsedColorNo = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+  return parsedColorNo ? (parseInt(parsedColorNo[1]) << 16) | (parseInt(parsedColorNo[2]) << 8) | parseInt(parsedColorNo[3]) : 0x6b6b6b;
+}
+
+function parseColorString(style: CSSStyleDeclaration, name: string, fallback: string): string {
+  const raw = style.getPropertyValue(name).trim() || fallback;
+  const hex = raw.match(/^#([A-Fa-f\d]{6})([A-Fa-f\d]{2})$/);
+  if (hex) return '#' + hex[1];
+  const parsedColorStr = raw.match(/^rgba?\(\s*([^,\s)]+)\s*[,/]\s*([^,\s)]+)\s*[,/]\s*([^,\s)]+)/);
+  return parsedColorStr ? `rgb(${parsedColorStr[1]}, ${parsedColorStr[2]}, ${parsedColorStr[3]})` : raw;
+}
+
 function makeTextSprite(text: string, color: string, fontSize: number, opacity = 1) {
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d')!;
@@ -126,7 +145,7 @@ function InteractiveGraph({
     if (!containerElement) return new THREE.Mesh();
 
     const computedStyles = getComputedStyle(containerElement);
-    const mutedForegroundColor = computedStyles.getPropertyValue('--color-fd-muted-foreground').trim() || '#6b6b6b';
+    const mutedForegroundColor = parseColorString(computedStyles, '--color-fd-muted-foreground', '#6b6b6b');
     const textForegroundColor = computedStyles.getPropertyValue('color').trim() || '#ccc';
 
     const hoveredNode = hoveredNodeRef.current;
@@ -134,7 +153,7 @@ function InteractiveGraph({
       hoveredNode?.id === node.id ||
       (hoveredNode?.neighbors && typeof node.id === 'string' && hoveredNode.neighbors.includes(node.id));
 
-    const color = isActive ? '#c0392b' : mutedForegroundColor;
+    const color = isActive ? 0xc0392b : parseColorNumber(computedStyles, '--color-fd-muted-foreground', '#6b6b6b');
     const sphereRadius = isActive ? 6 : 4;
 
     const group = new THREE.Group();
@@ -174,7 +193,7 @@ function InteractiveGraph({
       return '#c0392b';
     }
 
-    return computedStyles.getPropertyValue('--color-fd-muted-foreground').trim() || '#999999';
+    return parseColorString(computedStyles, '--color-fd-muted-foreground', '#999999');
   };
 
   const resolveLinkWidth = (link: any) => {
