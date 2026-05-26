@@ -3,6 +3,7 @@
 Book on machine learning for microcontrollers and edge devices
 
 Covers:
+
 - Model quantization
 - Optimization techniques
 - Hardware deployment
@@ -10,11 +11,14 @@ Covers:
 Related course: [[embedded-machine-learning-coursera]]
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [TinyML Book](https://www.oreilly.com/library/view/tinyml/9781492052036/)
 - [TinyML Foundation](https://www.tinyml.org/)
 
 ---
-## ==*References==
+
+## ==\*References==
 
 #ml-notes

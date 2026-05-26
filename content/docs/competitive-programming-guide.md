@@ -1,6 +1,7 @@
 ---
 Created: 2021-11-09T09:23
 ---
+
 HackerRank:
 [https://www.hackerrank.com/](https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqa0x3WHl5VUh6RHg0Z3pWV0hWRTRSSXFNR0k0Z3xBQ3Jtc0tsMFFGVXdBRnpaWVVXUnNESTNWOElzaVhrNUpJV2EtMEJqZ2t6aTlHOVlfV01ZbXIxSTVObVNsSkVtS0pBcWFmVUJkdEFyZlhoSmJmRHN6VW1CQkp3OHI2eWtsQ3cwYjIxWWZsd2pfdWpwbVBxQTlZVQ&q=https%3A%2F%2Fwww.hackerrank.com%2F)
 Learn typing:

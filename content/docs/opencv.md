@@ -3,6 +3,7 @@
 Computer vision library for [[image-preprocessing]]
 
 Features:
+
 - Image filtering
 - Edge detection
 - Feature extraction
@@ -11,12 +12,15 @@ Features:
 Alternative: [[pillow]] for simpler tasks
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [OpenCV Documentation](https://docs.opencv.org/)
 - [OpenCV Python Tutorial](https://opencv-tutorial.readthedocs.io/en/latest/)
 - [Image Processing with OpenCV](https://www.pyimagesearch.com/)
 
 ---
-## ==*References==
+
+## ==\*References==
 
 #ml-notes

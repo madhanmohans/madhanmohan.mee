@@ -1,4 +1,3 @@
-
 | Company          | Called? | Response | Resume sent | Role available |
 | ---------------- | ------- | -------- | ----------- | -------------- |
 | Expleo           | Yes     | No       | No          | NA             |

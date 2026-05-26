@@ -1,5 +1,5 @@
 ---
-title: "Pub Sub Messaging Model"
+title: 'Pub Sub Messaging Model'
 ---
 
 # Pub Sub Messaging Model

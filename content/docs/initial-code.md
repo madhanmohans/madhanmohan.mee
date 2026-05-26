@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 import { Palette, Download, RotateCcw, Copy, Settings, Smartphone } from 'lucide-react';
 
-  
+
 
 const IconCustomizer = () => {
 
@@ -29,7 +29,7 @@ const [gradientEnabled, setGradientEnabled] = useState(false);
 
 const [gradientAngle, setGradientAngle] = useState(45);
 
-  
+
 
 // Sample iOS app icon shapes - using SVG paths for common app types
 
@@ -85,7 +85,7 @@ path: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2
 
 ];
 
-  
+
 
 const generateHSLA = () => {
 
@@ -95,7 +95,7 @@ return `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`;
 
 };
 
-  
+
 
 const generateGradient = () => {
 
@@ -109,7 +109,7 @@ return `linear-gradient(${gradientAngle}deg, ${baseColor}, ${lighterColor})`;
 
 };
 
-  
+
 
 const copyColorValue = () => {
 
@@ -117,7 +117,7 @@ navigator.clipboard.writeText(generateHSLA());
 
 };
 
-  
+
 
 const resetValues = () => {
 
@@ -133,7 +133,7 @@ setGradientAngle(45);
 
 };
 
-  
+
 
 const exportIcon = () => {
 
@@ -143,7 +143,7 @@ alert('Icon exported! (In a real app, this would save the customized icon)');
 
 };
 
-  
+
 
 return (
 
@@ -201,7 +201,7 @@ className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 t
 
 </div>
 
-  
+
 
 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
@@ -265,7 +265,7 @@ className="w-6 h-6 fill-gray-600"
 
 </div>
 
-  
+
 
 {/* Controls */}
 
@@ -309,7 +309,7 @@ className="w-full h-2 bg-gradient-to-r from-red-500 via-yellow-500 via-green-500
 
 </div>
 
-  
+
 
 <div>
 
@@ -337,7 +337,7 @@ className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
 
 </div>
 
-  
+
 
 <div>
 
@@ -365,7 +365,7 @@ className="w-full h-2 bg-gradient-to-r from-black via-gray-500 to-white rounded-
 
 </div>
 
-  
+
 
 <div>
 
@@ -395,7 +395,7 @@ className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
 
 </div>
 
-  
+
 
 {/* Additional Controls */}
 
@@ -425,7 +425,7 @@ className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
 
 </div>
 
-  
+
 
 <div>
 
@@ -453,7 +453,7 @@ className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
 
 </div>
 
-  
+
 
 {/* Gradient Toggle */}
 
@@ -487,7 +487,7 @@ gradientEnabled ? 'translate-x-6' : 'translate-x-1'
 
 </div>
 
-  
+
 
 {gradientEnabled && (
 
@@ -519,7 +519,7 @@ className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
 
 )}
 
-  
+
 
 {/* Color Value Display */}
 
@@ -557,7 +557,7 @@ className="flex items-center space-x-1 text-blue-600 hover:text-blue-700 text-xs
 
 </div>
 
-  
+
 
 {/* Preview */}
 
@@ -625,7 +625,7 @@ className="w-8 h-8 fill-white"
 
 </div>
 
-  
+
 
 {/* Large Icon Preview */}
 
@@ -675,7 +675,7 @@ className="w-16 h-16 fill-white"
 
 };
 
-  
+
 
 export default IconCustomizer;
 ```

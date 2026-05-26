@@ -1,6 +1,6 @@
 ---
 aliases:
-  - "Php smallest of two numbers "
+  - 'Php smallest of two numbers '
 ---
 
 <html>

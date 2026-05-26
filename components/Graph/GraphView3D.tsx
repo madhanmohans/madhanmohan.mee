@@ -1,15 +1,34 @@
 'use client';
-import React, { type RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  type RefObject,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import * as THREE from 'three';
 import ForceGraph3D from 'react-force-graph-3d';
-import { forceCollide, forceCenter, forceLink, forceManyBody } from 'd3-force-3d';
+import {
+  forceCollide,
+  forceCenter,
+  forceLink,
+  forceManyBody,
+} from 'd3-force-3d';
 import { useRouter } from 'fumadocs-core/framework';
 import { AnimatePresence, motion } from 'framer-motion';
 import type { Graph, GraphViewProps } from './GraphShared';
-import { MiniMarkdown, createForceGraphRef, enrichGraphNodesWithNeighbors } from './GraphShared';
+import {
+  MiniMarkdown,
+  createForceGraphRef,
+  enrichGraphNodesWithNeighbors,
+} from './GraphShared';
 import type { ForceGraphInstance } from './GraphShared';
 
-function parseColorNumber(style: CSSStyleDeclaration, name: string, fallback: string): number {
+function parseColorNumber(
+  style: CSSStyleDeclaration,
+  name: string,
+  fallback: string,
+): number {
   const element = document.createElement('div');
   element.style.color = style.getPropertyValue(name).trim() || fallback;
   element.style.display = 'none';
@@ -17,18 +36,35 @@ function parseColorNumber(style: CSSStyleDeclaration, name: string, fallback: st
   const rgb = getComputedStyle(element).color;
   document.body.removeChild(element);
   const parsedColorNo = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-  return parsedColorNo ? (parseInt(parsedColorNo[1]) << 16) | (parseInt(parsedColorNo[2]) << 8) | parseInt(parsedColorNo[3]) : 0x6b6b6b;
+  return parsedColorNo
+    ? (parseInt(parsedColorNo[1]) << 16) |
+        (parseInt(parsedColorNo[2]) << 8) |
+        parseInt(parsedColorNo[3])
+    : 0x6b6b6b;
 }
 
-function parseColorString(style: CSSStyleDeclaration, name: string, fallback: string): string {
+function parseColorString(
+  style: CSSStyleDeclaration,
+  name: string,
+  fallback: string,
+): string {
   const raw = style.getPropertyValue(name).trim() || fallback;
   const hex = raw.match(/^#([A-Fa-f\d]{6})([A-Fa-f\d]{2})$/);
   if (hex) return '#' + hex[1];
-  const parsedColorStr = raw.match(/^rgba?\(\s*([^,\s)]+)\s*[,/]\s*([^,\s)]+)\s*[,/]\s*([^,\s)]+)/);
-  return parsedColorStr ? `rgb(${parsedColorStr[1]}, ${parsedColorStr[2]}, ${parsedColorStr[3]})` : raw;
+  const parsedColorStr = raw.match(
+    /^rgba?\(\s*([^,\s)]+)\s*[,/]\s*([^,\s)]+)\s*[,/]\s*([^,\s)]+)/,
+  );
+  return parsedColorStr
+    ? `rgb(${parsedColorStr[1]}, ${parsedColorStr[2]}, ${parsedColorStr[3]})`
+    : raw;
 }
 
-function makeTextSprite(text: string, color: string, fontSize: number, opacity = 1) {
+function makeTextSprite(
+  text: string,
+  color: string,
+  fontSize: number,
+  opacity = 1,
+) {
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d')!;
   const font = `${fontSize}px Arial, sans-serif`;
@@ -71,7 +107,10 @@ function configureGraphForces(forceGraphInstance: ForceGraphInstance) {
 function GhostGraph({
   containerRef,
   graph,
-}: { graph: Graph; containerRef: RefObject<HTMLDivElement | null> }) {
+}: {
+  graph: Graph;
+  containerRef: RefObject<HTMLDivElement | null>;
+}) {
   const graphRef = useRef<ForceGraphInstance>(undefined);
 
   const clonedGraph = useMemo(() => {
@@ -111,7 +150,10 @@ function GhostGraph({
 function InteractiveGraph({
   containerRef,
   graph,
-}: GraphViewProps & { graph: Graph; containerRef: RefObject<HTMLDivElement | null> }) {
+}: GraphViewProps & {
+  graph: Graph;
+  containerRef: RefObject<HTMLDivElement | null>;
+}) {
   const graphRef = useRef<ForceGraphInstance>(undefined);
   const hoveredNodeRef = useRef<any>(null);
   const router = useRouter();
@@ -128,7 +170,11 @@ function InteractiveGraph({
     hoveredNodeRef.current = hoveredNode;
 
     if (hoveredNode) {
-      const screenCoordinates = forceGraphInstance.graph2ScreenCoords(hoveredNode.x, hoveredNode.y, hoveredNode.z);
+      const screenCoordinates = forceGraphInstance.graph2ScreenCoords(
+        hoveredNode.x,
+        hoveredNode.y,
+        hoveredNode.z,
+      );
       setTooltip({
         x: screenCoordinates.x + 4,
         y: screenCoordinates.y + 4,
@@ -145,15 +191,28 @@ function InteractiveGraph({
     if (!containerElement) return new THREE.Mesh();
 
     const computedStyles = getComputedStyle(containerElement);
-    const mutedForegroundColor = parseColorString(computedStyles, '--color-fd-muted-foreground', '#6b6b6b');
-    const textForegroundColor = computedStyles.getPropertyValue('color').trim() || '#ccc';
+    const mutedForegroundColor = parseColorString(
+      computedStyles,
+      '--color-fd-muted-foreground',
+      '#6b6b6b',
+    );
+    const textForegroundColor =
+      computedStyles.getPropertyValue('color').trim() || '#ccc';
 
     const hoveredNode = hoveredNodeRef.current;
     const isActive =
       hoveredNode?.id === node.id ||
-      (hoveredNode?.neighbors && typeof node.id === 'string' && hoveredNode.neighbors.includes(node.id));
+      (hoveredNode?.neighbors &&
+        typeof node.id === 'string' &&
+        hoveredNode.neighbors.includes(node.id));
 
-    const color = isActive ? 0xc0392b : parseColorNumber(computedStyles, '--color-fd-muted-foreground', '#6b6b6b');
+    const color = isActive
+      ? 0xc0392b
+      : parseColorNumber(
+          computedStyles,
+          '--color-fd-muted-foreground',
+          '#6b6b6b',
+        );
     const sphereRadius = isActive ? 6 : 4;
 
     const group = new THREE.Group();
@@ -170,7 +229,12 @@ function InteractiveGraph({
     let label = node.text;
     if (label.length > 24) label = label.slice(0, 22) + '…';
     const labelOpacity = isActive || !hoveredNode ? 1 : 0.35;
-    const labelSprite = makeTextSprite(label, mutedForegroundColor, 16, labelOpacity);
+    const labelSprite = makeTextSprite(
+      label,
+      mutedForegroundColor,
+      16,
+      labelOpacity,
+    );
     labelSprite.position.y = sphereRadius + 5;
     group.add(labelSprite);
 
@@ -193,7 +257,11 @@ function InteractiveGraph({
       return '#c0392b';
     }
 
-    return parseColorString(computedStyles, '--color-fd-muted-foreground', '#999999');
+    return parseColorString(
+      computedStyles,
+      '--color-fd-muted-foreground',
+      '#999999',
+    );
   };
 
   const resolveLinkWidth = (link: any) => {
@@ -241,7 +309,13 @@ function InteractiveGraph({
       />
 
       <div className="graph-zoom-controls">
-        <button className="graph-zoom-btn graph-zoom-fit" onClick={zoomToFitView} title="Fit to view">⤢</button>
+        <button
+          className="graph-zoom-btn graph-zoom-fit"
+          onClick={zoomToFitView}
+          title="Fit to view"
+        >
+          ⤢
+        </button>
       </div>
 
       <AnimatePresence>
@@ -264,7 +338,9 @@ function InteractiveGraph({
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.12, ease: 'easeOut' }}
           >
-            <p className="font-semibold text-fd-foreground text-[12px] mb-2 border-b border-fd-border pb-1.5">{tooltip.title}</p>
+            <p className="font-semibold text-fd-foreground text-[12px] mb-2 border-b border-fd-border pb-1.5">
+              {tooltip.title}
+            </p>
             {tooltip.content && (
               <div className="text-fd-muted-foreground max-h-48 overflow-y-auto">
                 <MiniMarkdown content={tooltip.content} />
@@ -280,7 +356,9 @@ function InteractiveGraph({
 export default function GraphView3D(props: GraphViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMounted, setIsMounted] = useState(false);
-  const [fetchedGraphData, setFetchedGraphData] = useState<Graph | null>(props.graph ?? null);
+  const [fetchedGraphData, setFetchedGraphData] = useState<Graph | null>(
+    props.graph ?? null,
+  );
 
   useEffect(() => {
     setIsMounted(true);
@@ -297,7 +375,10 @@ export default function GraphView3D(props: GraphViewProps) {
 
   if (props.ghost) {
     return (
-      <div ref={containerRef} className="absolute inset-0 size-full overflow-hidden">
+      <div
+        ref={containerRef}
+        className="absolute inset-0 size-full overflow-hidden"
+      >
         {isMounted && fetchedGraphData && (
           <GhostGraph graph={fetchedGraphData} containerRef={containerRef} />
         )}
@@ -322,7 +403,11 @@ export default function GraphView3D(props: GraphViewProps) {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, ease: [0.165, 0.84, 0.44, 1] }}
           >
-            <InteractiveGraph {...props} graph={fetchedGraphData} containerRef={containerRef} />
+            <InteractiveGraph
+              {...props}
+              graph={fetchedGraphData}
+              containerRef={containerRef}
+            />
           </motion.div>
         )}
       </AnimatePresence>

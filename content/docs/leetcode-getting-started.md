@@ -5,10 +5,11 @@
 - Merge Sorted Array (LeetCode #88)
 - Maximum Subarray (LeetCode #53)
 - Rotting Oranges (LeetCode #994)
-[[leetcode-strategy]]
-[[leetcode-guide]]
+  [[leetcode-strategy]]
+  [[leetcode-guide]]
 
 ## sigmoid
+
 - Subarray sum equals K
 - Decode string
 - Kth largest element in an array

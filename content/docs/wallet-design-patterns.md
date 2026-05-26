@@ -1,8 +1,10 @@
 ## Contract
+
 - Constructor can reveal multiple intents, so it is part of a contract
 - Contracts are method signatures not method body
 - As an API provider, you cannot ship buggy code to your client that can throw any unchecked exception
 - Everything that is exposed to the client is contract
+
 ## Method Contract:
 
 - Annotations
@@ -22,8 +24,9 @@
 - Types of the parameters method takes
 - Names of the parameters method takes
 - Access modifier of the method
- 
+
 ## Class Contract:
+
 - Public methods
 - Public states
 - Class Name
@@ -31,13 +34,13 @@
 
 Public Methods
 This option is correct. Public methods of a class define its external behavior and are part of its contract.
-    
+
 Private Methods
-    
+
 This option is incorrect. Private methods are implementation details that are not part of a class's contract.
-    
+
 Constructor and Parameters for the constructor
-    
+
 This option is correct. The constructor and its parameters are part of a class's contract because they define how an instance of the class is created.
 
 Public Fields
@@ -69,11 +72,12 @@ Annotations
 This option is correct. Annotations can be used to provide additional information about a class's behavior, such as its expected usage.
 
 ---
+
 - Think about what all the responsibilities that the class can have and start building from it.
 - Single responsibility allows reusability, and classes won’t be bloated, difficult to segregate
 - Software design is always about tradeoff
 - Types of API structuring
-	- Domain based or Action based structure in API (Having all CRUD in one class or Having all Get controllers, Update controllers etc. in different classes)
+  - Domain based or Action based structure in API (Having all CRUD in one class or Having all Get controllers, Update controllers etc. in different classes)
 - Both class and method should have single responsibility meaning it should not handle more things out of other plates.
 - Rather than asking an object for data and acting on that data, we should instead tell an object what to do.
 - Circle is an anemic class, i.e. a type of class in object-oriented programming that may have getters and setters for its fields but lacks any significant behaviour or logic.
@@ -81,18 +85,21 @@ This option is correct. Annotations can be used to provide additional informatio
 - Instead of asking the rupees value in put method in wallet, we should tell it add the rupees in the rupees class itself
 - Only having getters and setters (anaemic)
 - In Java, a method contract is a set of rules and expectations that must be met by a method in order for it to be considered a valid and functional part of a program.
-A method contract consists of the following elements:
+  A method contract consists of the following elements:
 - Method name
 - Access specifier
 - Return type
 - Parameters
 - Method body
+
 ## Fluent Interface or Method Chain
+
 Rupee1 + Rupee2 + Rupee3 → CPP → Operator Overloading
 Rupee1.add(Rupee2).add(Rupee3) → Java → Fluent Interface
 Read → Build Design Pattern
 Every method of the chain will always return an object of some class
 Stream API is an example Stream.filter().map()
+
 ```JavaScript
 package com.example.wallet;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -122,8 +129,11 @@ assertThat(actualHundredRupee, is(expectedHundredRupee));
 }
 }
 ```
+
 ---
+
 ## Value Object
+
 - Immutability → will have only immutable values
 - Value Equality → Two value objects having same value are considered same (2 one rupees), so we only need to compare the values instead of object references.
 - Self Validation → Since they are dependent on the value, the validation for the value with which it is created is needed internally within the object
@@ -132,7 +142,9 @@ assertThat(actualHundredRupee, is(expectedHundredRupee));
 - Every state in your class which is a primitive is a potential value objects
 - example: longitude and latitude
 - fewer elements is not needed , if behaviours are assoicated with primitive → Value object candidate
+
 ## Identity Object
+
 - They are not defined by their attributes
 - One particular unique identifier ID
 - Entity objects or Entities
@@ -140,13 +152,14 @@ assertThat(actualHundredRupee, is(expectedHundredRupee));
 - Irrepalacable
 
 > [!important]  
-> Domain objects represent entities with identity and may have mutable state, while domain value objects represent concepts and are immutable, solely defined by their attributes  
+> Domain objects represent entities with identity and may have mutable state, while domain value objects represent concepts and are immutable, solely defined by their attributes
 
 > [!important]  
-> The contract between equals and hashCode is that if two objects are equal (obj1.equals(obj2) returns true), then their hash codes must be equal as well (obj1.hashCode() == obj2.hashCode()).See the implementation of the 2 methods below, you can see that the hashcode is what is being compared in the equals object (doubleToLongBits(value))  
-  
+> The contract between equals and hashCode is that if two objects are equal (obj1.equals(obj2) returns true), then their hash codes must be equal as well (obj1.hashCode() == obj2.hashCode()).See the implementation of the 2 methods below, you can see that the hashcode is what is being compared in the equals object (doubleToLongBits(value))
+
 > [!important]  
-> Therefore, whenever we override the equals method, we should also override the hashCode method to ensure consistent behavior in hash-based collections.  
+> Therefore, whenever we override the equals method, we should also override the hashCode method to ensure consistent behavior in hash-based collections.
+
 ```Java
  /**
      * Returns a hash code for a {@code double} value; compatible with
@@ -156,12 +169,12 @@ assertThat(actualHundredRupee, is(expectedHundredRupee));
      * @return a hash code value for a {@code double} value.
      * @since 1.8
      */
-     
+
  public static int hashCode(double value) {
         long bits = doubleToLongBits(value);
         return (int)(bits ^ (bits >>> 32));
   }
-  
+
   /**
      * Compares the two specified {@code double} values. The sign
      * of the integer value returned is the same as that of the
@@ -185,7 +198,7 @@ assertThat(actualHundredRupee, is(expectedHundredRupee));
             return -1; // Neither val is NaN, thisVal is smaller
         if (d1 > d2)
             return 1; // Neither val is NaN, thisVal is larger
-        
+
 	// Cannot use doubleToRawLongBits because of possibility of NaNs.
         long thisBits    = Double.doubleToLongBits(d1);
         long anotherBits = Double.doubleToLongBits(d2);
@@ -194,7 +207,7 @@ assertThat(actualHundredRupee, is(expectedHundredRupee));
 			 1));                          // (0.0, -0.0) or (NaN, !NaN)
     }
 ```
-  
+
 ## equals(Object o)
 
 - Same object check (this == object)
@@ -203,16 +216,18 @@ assertThat(actualHundredRupee, is(expectedHundredRupee));
 - compare the values [Double.compare](http://Double.compare) or [Int.compare](http://Int.compare) or anything return true if its 0
 
 ---
+
 Understand Hash Collision
 Look at how Hashmap or Hashset is internally implemented, you'll find why hashcode is an int. It’s a combination of arrays, linked lists and B+ trees. Its actually very fascinating
 
 ---
+
 Bucket is range of hash values
 Objects are stored in Heap
 Good to know
-	In any domain that involves monetary calculations you should avoid using float or double to store your value. 
-	Big Decimal should be your choice  
-  
+In any domain that involves monetary calculations you should avoid using float or double to store your value.
+Big Decimal should be your choice
+
 [https://dzone.com/articles/never-use-float-and-double-for-monetary-calculatio](https://dzone.com/articles/never-use-float-and-double-for-monetary-calculatio)
 We have to implement the hashcode in such a way that the two rupee objects having same value return hash code.
 See how integers implementation of hashcode

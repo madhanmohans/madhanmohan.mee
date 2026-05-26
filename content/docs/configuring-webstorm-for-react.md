@@ -1,26 +1,31 @@
 ---
 Created Time: 2025-08-19T09:19:00
-tags: 
+tags:
 Parent:
 ---
-## ==*configuring-webstorm-for-react ==
+
+## ==\*configuring-webstorm-for-react ==
 
 ### 1. **Prerequisites**
+
 - Install [Node.js](https://nodejs.org/) (LTS version)
 - Install [WebStorm](https://www.jetbrains.com/webstorm/)
 
 ### 2. **Create a New React Project**
+
 ```bash
 npx create-react-app my-app
 cd my-app
 ```
 
 ### 3. **Open Project in WebStorm**
+
 - Launch WebStorm → "Open" → Select your project folder
 
 ---
 
 ### 4. **Essential Configuration**
+
 1. **Enable ESLint Integration:**
    - Install ESLint in your project:
      ```bash
@@ -76,12 +81,14 @@ cd my-app
 ---
 
 ### 6. **Key WebStorm Shortcuts**
-- **Refactor/Extract**: `Command+T` 
+
+- **Refactor/Extract**: `Command+T`
 - **Find Usages**: `Option+F7`
 
 ---
 
 ### 7. **Optimizations**
+
 1. **Exclude Files:**
    - Right-click `node_modules` → `Mark Directory as` → `Excluded`
    - Do the same for `.next`/`dist` if applicable
@@ -92,6 +99,7 @@ cd my-app
 ---
 
 ### 8. **Run Your Project**
+
 - Use built-in terminal:
   ```bash
   npm start
@@ -101,15 +109,18 @@ cd my-app
 ---
 
 ### Final Tips
+
 - Use **Live Templates** for React snippets (e.g., type `rfc` → Tab for functional component)
 - Configure **File Watchers** for Sass/Less if needed
 
 This setup gives you a powerful React IDE with linting, formatting, debugging, and productivity enhancements. Most React features work out-of-the-box in WebStorm 2023.2+!
 
 ---
+
 ## ==references ==
 
 ## further reading
+
 ![[Pasted image 20250819091908.png]]
 https://legacy.reactjs.org/docs/optimizing-performance.html#profiling-components-with-the-devtools-profiler
 

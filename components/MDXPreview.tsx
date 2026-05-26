@@ -6,7 +6,9 @@ import defaultMdxComponents from 'fumadocs-ui/mdx';
 import type { MDXComponents } from 'mdx/types';
 
 export function MdxPreview({ compiled }: { compiled: string }) {
-  const [Component, setComponent] = useState<FC<{ components?: MDXComponents }> | null>(null);
+  const [Component, setComponent] = useState<FC<{
+    components?: MDXComponents;
+  }> | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

@@ -24,7 +24,8 @@ export async function buildGraph(): Promise<Graph> {
     for (const page of pages) {
       slugToUrlLookupMap.set(normalizeSlug(page.url), page.url);
       const lastSlugSegment = page.slugs[page.slugs.length - 1];
-      if (lastSlugSegment) slugToUrlLookupMap.set(normalizeSlug(lastSlugSegment), page.url);
+      if (lastSlugSegment)
+        slugToUrlLookupMap.set(normalizeSlug(lastSlugSegment), page.url);
       slugToUrlLookupMap.set(normalizeSlug(page.slugs.join('/')), page.url);
     }
     return slugToUrlLookupMap;
@@ -35,14 +36,24 @@ export async function buildGraph(): Promise<Graph> {
     const cleaned = rawHref.startsWith('./') ? rawHref.slice(2) : rawHref;
     const hrefWithoutExtension = cleaned.replace(/\.mdx?$/, '');
     const normalizedTarget = normalizeSlug(hrefWithoutExtension);
-    return slugToUrlLookupMap.get(normalizedTarget) ?? slugToUrlLookupMap.get(normalizeSlug(cleaned)) ?? slugToUrlLookupMap.get(normalizeSlug(rawHref));
+    return (
+      slugToUrlLookupMap.get(normalizedTarget) ??
+      slugToUrlLookupMap.get(normalizeSlug(cleaned)) ??
+      slugToUrlLookupMap.get(normalizeSlug(rawHref))
+    );
   }
 
   function stripFrontmatter(markdown: string): string {
-    return markdown.replace(/^---[\s\S]*?---\n?/, '').trim().slice(0, 800);
+    return markdown
+      .replace(/^---[\s\S]*?---\n?/, '')
+      .trim()
+      .slice(0, 800);
   }
 
-  async function readHoverPreviewContent(filePath: string, page: Page): Promise<string> {
+  async function readHoverPreviewContent(
+    filePath: string,
+    page: Page,
+  ): Promise<string> {
     let content = '';
     try {
       const raw = await readFile(filePath, 'utf-8');
@@ -54,7 +65,10 @@ export async function buildGraph(): Promise<Graph> {
   }
 
   for (const page of pages) {
-    const hoverPreviewContent = await readHoverPreviewContent(path.resolve(CONTENT_DIRECTORY, page.path), page);
+    const hoverPreviewContent = await readHoverPreviewContent(
+      path.resolve(CONTENT_DIRECTORY, page.path),
+      page,
+    );
 
     const pageGraphNode = {
       id: page.url,

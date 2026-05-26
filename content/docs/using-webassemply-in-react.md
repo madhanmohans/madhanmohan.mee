@@ -1,7 +1,9 @@
 # WebAssembly Modules
 
 This directory contains WebAssembly source code and build outputs for the project.
+
 ## Directory Structure
+
 ```
 
 public/wasm/
@@ -19,10 +21,13 @@ public/wasm/
 └── rust-optimized/ # Optimized Rust build
 
 ```
+
 ## Quick Start
+
 ### 1. Install Dependencies
 
 **For C/C++ (Emscripten):**
+
 ```bash
 
 # Install Emscripten SDK
@@ -45,7 +50,9 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
 ```
+
 ### 2. Build WebAssembly Modules
+
 ```bash
 
 # Build C/C++ modules
@@ -58,34 +65,36 @@ npm run build:wasm:rust
 npm run build:all
 
 ```
+
 ### 3. Use in Your Code
 
 **C/C++ Module:**
 
 ```javascript
-
 import createModule from '/wasm/build/math_operations.js';
 
 const wasmModule = await createModule();
 
 const result = wasmModule.ccall('add', 'number', ['number', 'number'], [5, 3]);
-
 ```
 
 **Rust Module:**
 
 ```javascript
-
-import init, { greet, fibonacci_rust } from '/wasm/build/rust/image_processing.js';
+import init, {
+  greet,
+  fibonacci_rust,
+} from '/wasm/build/rust/image_processing.js';
 
 await init();
 
-const greeting = greet("World");
+const greeting = greet('World');
 
 const fib = fibonacci_rust(40);
-
 ```
+
 ## Available Functions
+
 ### C/C++ Module (math_operations.c)
 
 | Function | Description | Parameters | Return |
@@ -156,9 +165,10 @@ Based on typical benchmarks:
 
 | Image processing filters | ~200ms | ~10-40ms | 5-20x |
 
-*Results may vary based on browser, hardware, and specific implementation.*
+_Results may vary based on browser, hardware, and specific implementation._
 
 ## Development Tips
+
 ### Debugging WebAssembly
 
 1. **Check if module loaded:**
@@ -169,47 +179,55 @@ console.log('Exported functions:', Object.keys(wasmModule));
 ```
 
 2. **Monitor memory usage:**
+
 ```javascript
-
 if (wasmModule.exports.memory) {
-
-console.log('Memory size:', wasmModule.exports.memory.buffer.byteLength);
-
+  console.log('Memory size:', wasmModule.exports.memory.buffer.byteLength);
 }
-
 ```
 
 3. **Use browser developer tools:**
+
 - Chrome DevTools has WebAssembly debugging support
 - Firefox has WASM source map support
 
 ### Common Gotchas
+
 1. **Function name mangling:**
+
 - C functions are prefixed with `_`
 - Use `__attribute__((visibility("default")))` to export C functions
 - Rust functions use `#[wasm_bindgen]` attribute
 
 1. **Memory management:**
+
 - Always free allocated memory in C/C++
 - Rust handles memory automatically with wasm-bindgen
 
 3. **Data type compatibility:**
+
 - Use appropriate numeric types
 - Be careful with pointer/reference passing
+
 ### Adding New Functions
 
 **C/C++:**
+
 1. Add function to `math_operations.c`
 2. Add to EXPORTED_FUNCTIONS in build script
 3. Rebuild with `npm run build:wasm`
 
 **Rust:**
+
 1. Add function to `image_processing.rs` with `#[wasm_bindgen]`
 2. Rebuild with `npm run build:wasm:rust`
+
 ## Troubleshooting
+
 ### Build Issues
 
 **Emscripten not found:**
+
 ```bash
 
 # Make sure emsdk is activated
@@ -218,6 +236,7 @@ source path/to/emsdk/emsdk_env.sh
 ```
 
 **wasm-pack not found:**
+
 ```bash
 
 # Install wasm-pack
@@ -225,33 +244,41 @@ curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 ```
 
 **Permission denied on scripts:**
+
 ```bash
 
 chmod +x scripts/build-wasm.sh
 chmod +x scripts/build-rust-wasm.sh
 
 ```
+
 ### Runtime Issues
 
 **Module not loading:**
+
 - Check browser console for CORS errors
 - Verify file paths are correct
 - Ensure files are served with correct MIME types
 
 **Function not found:**
+
 - Check function is exported in build script
 - Verify function name (C functions have `_` prefix)
 - Use `wasm-objdump -x file.wasm | grep export` to list exports
+
 ### Browser Compatibility
 
 WebAssembly is supported in:
+
 - Chrome 57+
 - Firefox 52+
 - Safari 11+
 - Edge 16+
 
 For older browsers, provide JavaScript fallbacks.
+
 ## Further Reading
+
 - [Project WebAssembly Guide](../docs/WEBASSEMBLY_GUIDE.md)
 - [WebAssembly Official Docs](https://webassembly.org/)
 - [Emscripten Documentation](https://emscripten.org/docs/)

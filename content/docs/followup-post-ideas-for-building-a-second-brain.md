@@ -1,9 +1,10 @@
 ---
 Created: 2024-10-28T22:22:00
 tags:
-  - "#buidlingasecondbrain"
+  - '#buidlingasecondbrain'
 ---
-## ==*Followup post ideas for building a second brain ==
+
+## ==\*Followup post ideas for building a second brain ==
 
 Outsource your brain and focus on meaningful work and less distracted life.
 
@@ -20,10 +21,11 @@ In that way, instead of constantly making my brain repeat a task in mind to reme
 One intentional pause allows the breathing space for our brain to think of that solution.
 
 ---
-## ==*References ==
+
+## ==\*References ==
 
 ![[Screen Recording 2024-10-28 at 9.50.33 PM.mov]]
 
-Recently, I have imported my notes from the past 3 years from various sources and captured them in [Obsidian - A Note Taking Tool](https://obsidian.md/) 
+Recently, I have imported my notes from the past 3 years from various sources and captured them in [Obsidian - A Note Taking Tool](https://obsidian.md/)
 
 Here is an animation of the evolution of my Second Brain so far. All digital notes that I captured over the past 3 years. Orphan notes are left out from this animation.

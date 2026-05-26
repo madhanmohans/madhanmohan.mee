@@ -4,7 +4,7 @@
 ==28/02/2022 22:55==
 
 Parent: [[Design and Engineering of Computer Systems]]
-Tags: #decs 
+Tags: #decs
 
 ## ==Lecture 10 Virtual machines and containers:==
 
@@ -16,26 +16,23 @@ PaaS - Hardware infrastructure and software platform are setup and managed by th
 
 SaaS - Hardware infrastructure, software platform and the software application are setup and managed by the CSP. User access the software app.
 
-
-
 ## [11:22](https://www.youtube.com/watch?v=LHZhVgtQsO8&t=682)
 
-> Virtual Machines Manager(VMM) also known as hypervisor runs on top of underlying hardware (whether it is virtual/bare metal) and multiplexes Virtual Machines to utilise the hardware. 
-> 
->- Type 1 Hypervisor: Includes OS functionality
->- Type 2(hosted) Hypervisor: Runs along with Host OS
+> Virtual Machines Manager(VMM) also known as hypervisor runs on top of underlying hardware (whether it is virtual/bare metal) and multiplexes Virtual Machines to utilise the hardware.
 >
+> - Type 1 Hypervisor: Includes OS functionality
+> - Type 2(hosted) Hypervisor: Runs along with Host OS
 
 Host OS - OS in hypervisors
 Guest OS - OS in virtual machines
 
 ## [14:27](https://www.youtube.com/watch?v=LHZhVgtQsO8&t=867)
 
->Problem: Guest OS has to have complete access to underlying hardware (virtualisation) but it cannot be permitted to do privileges operations(low level privileges: system call, interrupt handling, I/O ops,)
+> Problem: Guest OS has to have complete access to underlying hardware (virtualisation) but it cannot be permitted to do privileges operations(low level privileges: system call, interrupt handling, I/O ops,)
 >
->Solution: Trap and Emulate VMM
+> Solution: Trap and Emulate VMM
 >
->Every time when Guest OS have to access hardware, it will trap to VMM(hypervisor) and it will emulate the access the hardware on behalf of Guest OS.
+> Every time when Guest OS have to access hardware, it will trap to VMM(hypervisor) and it will emulate the access the hardware on behalf of Guest OS.
 
 ## [20:11](https://www.youtube.com/watch?v=LHZhVgtQsO8&t=1211)
 
@@ -68,7 +65,9 @@ Containers(lightweight VM):
 ```ad-example
 Docker container which runs single application and its dependencies and files.
 ```
+
 ---
+
 ## ==References:==
 
 [Lecture 10: Virtual machines and containers](https://www.youtube.com/watch?v=LHZhVgtQsO8)

@@ -1,4 +1,3 @@
-
 package com.example.thelearneyapp;
 
 import androidx.annotation.NonNull;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class FirstTestPage extends AppCompatActivity {
-    private final QuestionLibrary mQuestionLibrary = new QuestionLibrary();
+private final QuestionLibrary mQuestionLibrary = new QuestionLibrary();
 
     private TextView mScoreView;
     private TextView mQuestionView;

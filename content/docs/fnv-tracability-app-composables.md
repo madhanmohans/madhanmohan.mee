@@ -7,35 +7,35 @@
 - [ ] QRCodeScannerScreen
 
 - [ ] ProcurementScreen
-	- [ ] ProcurementSelectDetailsSpinners - R
-	- [ ] InputWeightPopup
-	- [ ] SkuSummary
-	- [ ] SupplierSummary
-	- [ ] CratesStatusList
+  - [ ] ProcurementSelectDetailsSpinners - R
+  - [ ] InputWeightPopup
+  - [ ] SkuSummary
+  - [ ] SupplierSummary
+  - [ ] CratesStatusList
 
 - [ ] TransferOutScreen
-	- [ ] TO_SelectDetailsSpinners
-	- [ ] SkuSummary
-	- [ ] SupplierSummary
-	- [ ] CratesStatusList
+  - [ ] TO_SelectDetailsSpinners
+  - [ ] SkuSummary
+  - [ ] SupplierSummary
+  - [ ] CratesStatusList
 
 - [ ] Common for Procurement and TransferOut:
-	- [ ] SelectDetailsSpinners
-	- [ ] SkuSummary
-	- [ ] SupplierSummary
-	- [ ] CratesStatusList
+  - [ ] SelectDetailsSpinners
+  - [ ] SkuSummary
+  - [ ] SupplierSummary
+  - [ ] CratesStatusList
 
 - [ ] TransferIn Screen
-	- [ ] TransferInSummary
-	- [ ] ==CratesStatusList==
+  - [ ] TransferInSummary
+  - [ ] ==CratesStatusList==
 
 - [ ] Identify Screen
-	- [ ] IdentifySummary
-	- [ ] CratesStatusList
+  - [ ] IdentifySummary
+  - [ ] CratesStatusList
 
 - [ ] CycleCount Screen
-	- [ ] UpdateWeightPopup
-	- [ ] CycleCountSummary
-	- [ ] CratesStatusList
+  - [ ] UpdateWeightPopup
+  - [ ] CycleCountSummary
+  - [ ] CratesStatusList
 
 - [ ] CommonSummaryScreen

@@ -3,20 +3,26 @@ tags:
   - design
   - programming
 ---
+
 The Gang of Four (GoF) Design Patterns, popularized by the book "Design Patterns: Elements of Reusable Object-Oriented Software", are a catalog of solutions to common software design problems. These patterns provide a vocabulary and blueprint for object-oriented programmers to structure their code effectively.
+
 - **Creational Patterns:** These patterns deal with object creation and provide mechanisms to control how objects are instantiated.
-    - Examples: Singleton, Factory Method, Prototype, Builder
+  - Examples: Singleton, Factory Method, Prototype, Builder
 - **Structural Patterns:** These patterns focus on how objects and classes are structured and composed to form larger structures.
-    - Examples: Adapter, Facade, Composite, Decorator
+  - Examples: Adapter, Facade, Composite, Decorator
 - **Behavioral Patterns:** These patterns define how objects communicate and collaborate with each other to achieve a specific behavior.
-    - Examples: Strategy, Observer, Template Method, Iterator
+  - Examples: Strategy, Observer, Template Method, Iterator
+
 ## **Creational Design Patterns**
+
 - [Abstract Factory](https://springframework.guru/gang-of-four-design-patterns/abstract-factory-design-pattern/). Allows the creation of objects without specifying their concrete type.
 - [Builder](https://springframework.guru/gang-of-four-design-patterns/builder-pattern/). Uses to create complex objects.
 - [Factory Method](https://springframework.guru/gang-of-four-design-patterns/factory-method-design-pattern/). Creates objects without specifying the exact class to create.
 - [Prototype](https://springframework.guru/gang-of-four-design-patterns/prototype-pattern/). Creates a new object from an existing object.
 - [Singleton](https://springframework.guru/gang-of-four-design-patterns/singleton-design-pattern/). Ensures only one instance of an object is created.
+
 ### **Structural Design Patterns**
+
 - [Adapter](https://springframework.guru/gang-of-four-design-patterns/adapter-pattern/). Allows for two incompatible classes to work together by wrapping an interface around one of the existing classes.
 - [Bridge](https://springframework.guru/gang-of-four-design-patterns/bridge-pattern/). Decouples an abstraction so two classes can vary independently.
 - [Composite](https://springframework.guru/gang-of-four-design-patterns/composite-pattern/). Takes a group of objects into a single object.
@@ -24,7 +30,9 @@ The Gang of Four (GoF) Design Patterns, popularized by the book "Design Patterns
 - [Facade](https://springframework.guru/gang-of-four-design-patterns/facade-pattern/). Provides a simple interface to a more complex underlying object.
 - [Flyweight](https://springframework.guru/gang-of-four-design-patterns/flyweight-pattern/). Reduces the cost of complex object models.
 - [Proxy](https://springframework.guru/gang-of-four-design-patterns/proxy-pattern/). Provides a placeholder interface to an underlying object to control access, reduce cost, or reduce complexity.
+
 ### **Behavior Design Patterns**
+
 - [Chain of Responsibility](https://springframework.guru/gang-of-four-design-patterns/chain-of-responsibility-pattern/). Delegates commands to a chain of processing objects.
 - [Command](https://springframework.guru/gang-of-four-design-patterns/command-pattern/). Creates objects which encapsulate actions and parameters.
 - [Interpreter](https://springframework.guru/gang-of-four-design-patterns/interpreter-pattern/). Implements a specialized language.

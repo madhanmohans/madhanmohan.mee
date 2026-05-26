@@ -1,5 +1,5 @@
 ---
-title: "Slugs"
+title: 'Slugs'
 ---
 
 # Slugs

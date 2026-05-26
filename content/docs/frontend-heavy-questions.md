@@ -11,7 +11,6 @@
 
 react needs key in reconciliation to identify which item has been moved/added/deleted
 
-
 ![[Pasted image 20251212201416.png]]
 
 [[frontend-system-design]]

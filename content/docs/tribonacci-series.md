@@ -1,7 +1,7 @@
 ==28/02/2022 23:14==
 
 Parent: [[👨‍💻Leetcode]]
-Tags: #leetcode 
+Tags: #leetcode
 
 ## ==Tribonacci Series:==
 
@@ -26,9 +26,11 @@ class Solution {
 ```
 
 ---
+
 ## ==References:==
 
 ### <u>Explanation:</u>
+
 <div class="videoWrapper">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/NCukkar171E" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 ---

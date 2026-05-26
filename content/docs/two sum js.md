@@ -20,7 +20,9 @@ merge sorted list
 4. else do the same for list2
 5. increment the pointer current -> current.next
 6. if current.next = list1 || list2 attach the list to teh current.next
+
 ```
 current.next = list1 !== null ? list1 : list2;
 ```
+
 7. return dummy.next;

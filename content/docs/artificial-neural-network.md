@@ -7,7 +7,9 @@ Computational model inspired by biological neurons
 → Foundation for [[convolutional-neural-network]], [[recurrent-neural-network]]
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [Neural Networks and Deep Learning](http://neuralnetworksanddeeplearning.com/)
 - [Deep Learning Book - Goodfellow et al](https://www.deeplearningbook.org/)
-#ml-notes
+  #ml-notes

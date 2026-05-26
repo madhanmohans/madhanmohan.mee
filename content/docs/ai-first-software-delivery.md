@@ -3,8 +3,11 @@ tags:
   - GenAI
   - programming
 ---
+
 ## Traditional AI → Given features, the model will predict a class
+
 ## Gen AI → Given a class, the model will create media with some noise (creativity)
+
 [[Example prompt]]
 What is shift-left security?
 **Shift** **left** means conducting **security** testing sooner in the software and application development phase.

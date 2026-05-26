@@ -16,8 +16,8 @@ slice - feature from a global state
 ```js
 
 createSlice(
-	name: 'nameOfTheStore', 
-	initialState: [], 
+	name: 'nameOfTheStore',
+	initialState: [],
 	reducerLogic: {
 		action.type: (state, action) => {
 			return updatedState
@@ -27,4 +27,3 @@ createSlice(
 ```
 
 > Immer is a library to update states immutably instead of using spread operator
-

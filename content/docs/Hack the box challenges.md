@@ -3,20 +3,14 @@ Hack The Box offers hacking labs and dedicated CTF challenges for cybersecurity 
 ## Hack The Box Links
 
 - Official website: [https://www.hackthebox.com](https://www.hackthebox.com/)[hackthebox](https://www.hackthebox.com/)​
-    
 - CTF platform: [https://ctf.hackthebox.com](https://ctf.hackthebox.com/)[ctf.hackthebox](https://ctf.hackthebox.com/)​
-    
 - Current/Upcoming HTB CTFs: Check Holmes CTF 2025 at [https://ctf.hackthebox.com/event/details/holmes-ctf-2025-2536](https://ctf.hackthebox.com/event/details/holmes-ctf-2025-2536)[ctf.hackthebox](https://ctf.hackthebox.com/event/details/holmes-ctf-2025-2536)​
-    
 
 ## Other CTF Platforms
 
 - CTFtime (event listings/schedule): [https://ctftime.org/event/list/](https://ctftime.org/event/list/)[ctftime](https://ctftime.org/event/list/)​
-    
 - CTFd (open-source CTF framework): [https://ctfd.io](https://ctfd.io/)[ctfd](https://ctfd.io/)​
-    
 - CyberTalents: Mentioned as a top platform for hosting/running CTFs alongside HTB[cybertalents](https://cybertalents.com/blog/top-platforms-to-run-your-ctf)​
-    
 
 ## Community Resources
 

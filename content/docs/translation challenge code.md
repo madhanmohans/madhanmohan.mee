@@ -1,27 +1,26 @@
 ```js
 const splitter = RecursiveCharacterTextSplitter({
-	chunkSize: 3000,
-	seaparators: ['\n\n', '\n', ' ', ''],
-	chunkOverlap: 50
-})
+  chunkSize: 3000,
+  seaparators: ['\n\n', '\n', ' ', ''],
+  chunkOverlap: 50,
+});
 ```
 
 ```js
-import { ChatOpenAI } from 'langchain/chat_models/openai'
+import { ChatOpenAI } from 'langchain/chat_models/openai';
 
-import { PromptTemplate } from 'langchain/prompts'
+import { PromptTemplate } from 'langchain/prompts';
 
-import { StringOutputParser } from 'langchain/schema/output_parser'
+import { StringOutputParser } from 'langchain/schema/output_parser';
 
-import { RunnableSequence, RunnablePassthrough } from "langchain/schema/runnable"
+import {
+  RunnableSequence,
+  RunnablePassthrough,
+} from 'langchain/schema/runnable';
 
-  
+const openAIApiKey = process.env.OPENAI_API_KEY;
 
-const openAIApiKey = process.env.OPENAI_API_KEY
-
-const llm = new ChatOpenAI({ openAIApiKey })
-
-  
+const llm = new ChatOpenAI({ openAIApiKey });
 
 const punctuationTemplate = `Given a sentence, add punctuation where needed.
 
@@ -29,11 +28,9 @@ sentence: {sentence}
 
 sentence with punctuation:
 
-`
+`;
 
-const punctuationPrompt = PromptTemplate.fromTemplate(punctuationTemplate)
-
-  
+const punctuationPrompt = PromptTemplate.fromTemplate(punctuationTemplate);
 
 const grammarTemplate = `Given a sentence correct the grammar.
 
@@ -41,11 +38,9 @@ sentence: {punctuated_sentence}
 
 sentence with correct grammar:
 
-`
+`;
 
-const grammarPrompt = PromptTemplate.fromTemplate(grammarTemplate)
-
-  
+const grammarPrompt = PromptTemplate.fromTemplate(grammarTemplate);
 
 const translationTemplate = `Given a sentence, translate that sentence into {language}
 
@@ -53,77 +48,55 @@ sentence: {grammatically_correct_sentence}
 
 translated sentence:
 
-`
+`;
 
-const translationPrompt = PromptTemplate.fromTemplate(translationTemplate)
-
-  
+const translationPrompt = PromptTemplate.fromTemplate(translationTemplate);
 
 const punctuationChain = RunnableSequence.from([
+  punctuationPrompt,
 
-punctuationPrompt,
+  llm,
 
-llm,
-
-new StringOutputParser()
-
-])
+  new StringOutputParser(),
+]);
 
 const grammarChain = RunnableSequence.from([
+  grammarPrompt,
 
-grammarPrompt,
+  llm,
 
-llm,
-
-new StringOutputParser()
-
-])
+  new StringOutputParser(),
+]);
 
 const translationChain = RunnableSequence.from([
+  translationPrompt,
 
-translationPrompt,
+  llm,
 
-llm,
-
-new StringOutputParser()
-
-])
-
-  
+  new StringOutputParser(),
+]);
 
 const chain = RunnableSequence.from([
+  {
+    punctuated_sentence: punctuationChain,
 
-{
+    original_input: new RunnablePassthrough(),
+  },
 
-punctuated_sentence: punctuationChain,
+  {
+    grammatically_correct_sentence: grammarChain,
 
-original_input: new RunnablePassthrough()
+    language: ({ original_input }) => original_input.language,
+  },
 
-},
-
-{
-
-grammatically_correct_sentence: grammarChain,
-
-language: ({ original_input }) => original_input.language
-
-},
-
-translationChain
-
-])
-
-  
+  translationChain,
+]);
 
 const response = await chain.invoke({
+  sentence: 'i dont liked mondays',
 
-sentence: 'i dont liked mondays',
+  language: 'french',
+});
 
-language: 'french'
-
-})
-
-  
-
-console.log(response)
+console.log(response);
 ```

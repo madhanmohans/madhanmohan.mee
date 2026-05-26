@@ -37,10 +37,15 @@ async function getSearchDatabase(): Promise<AnyOrama> {
 
         const extractTextFromReactNode = (node: unknown): string => {
           if (typeof node === 'string') return node;
-          if (Array.isArray(node)) return node.map(extractTextFromReactNode).join('');
+          if (Array.isArray(node))
+            return node.map(extractTextFromReactNode).join('');
           if (node && typeof node === 'object' && 'props' in node) {
-            const props = (node as Record<string, unknown>).props as Record<string, unknown>;
-            if (props?.children) return extractTextFromReactNode(props.children);
+            const props = (node as Record<string, unknown>).props as Record<
+              string,
+              unknown
+            >;
+            if (props?.children)
+              return extractTextFromReactNode(props.children);
           }
           return '';
         };
@@ -82,7 +87,8 @@ export async function GET(request: Request) {
       }),
     );
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : 'Unknown search error';
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unknown search error';
     console.error('Search API Error:', errorMessage);
     return NextResponse.json({ error: errorMessage }, { status: 500 });
   }

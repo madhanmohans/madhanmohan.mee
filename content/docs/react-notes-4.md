@@ -1,5 +1,4 @@
-In regular JavaScript, style _values_ are almost always strings. Even if a style value is numeric, you usually have to write it as a string so that you can specify a unit. For example, you’d write `'450px'` or `'20%'`.
-
+In regular JavaScript, style *values* are almost always strings. Even if a style value is numeric, you usually have to write it as a string so that you can specify a unit. For example, you’d write `'450px'` or `'20%'`.
 
 ## example usage
 
@@ -11,7 +10,6 @@ In regular JavaScript, style _values_ are almost always strings. Even if a sty
 
 n React, the `value` prop of an input element is used to control the value of the input and keep it in sync with the component’s state. Without setting the `value` prop, changes made to the input would not be reflected in the component’s state, leading to inconsistencies and potential bugs down the line.
 
-
 `<input type='text' />`
 
 it is a uncontrolled component, it manages its own state
@@ -19,7 +17,7 @@ it is a uncontrolled component, it manages its own state
 ```
 let input = document.querySelector('input[type="text"]');
 
-let typedText = input.value; 
+let typedText = input.value;
 
 // input.value will be equal to whatever text is currently in the text box.
 ```
@@ -40,4 +38,5 @@ now it has become controlled component, React controls its state by using `input
 | Non-empty array  | when any value in the dependency array changes |
 
 ## react programming patterns
+
 The presentational component’s only job is to contain [JSX](https://www.codecademy.com/resources/docs/react/jsx). It should be an exported component and should not render itself because a presentational component will always get rendered by a container component.

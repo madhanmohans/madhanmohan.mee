@@ -102,7 +102,11 @@ export function NoteEditor({
   }, [editorMode, saveContent, cancelEditing]);
 
   useEffect(() => {
-    if (editorMode === 'edit' && !isFetchingContent && editorTextareaRef.current) {
+    if (
+      editorMode === 'edit' &&
+      !isFetchingContent &&
+      editorTextareaRef.current
+    ) {
       editorTextareaRef.current.focus();
     }
   }, [editorMode, isFetchingContent]);
@@ -151,7 +155,10 @@ export function NoteEditor({
       const textarea = event.currentTarget;
       const cursorStart = textarea.selectionStart;
       const cursorEnd = textarea.selectionEnd;
-      const updatedContent = editorContent.substring(0, cursorStart) + '  ' + editorContent.substring(cursorEnd);
+      const updatedContent =
+        editorContent.substring(0, cursorStart) +
+        '  ' +
+        editorContent.substring(cursorEnd);
       setEditorContent(updatedContent);
       setHasUnsavedChanges(true);
       requestAnimationFrame(() => {
@@ -172,7 +179,11 @@ export function NoteEditor({
       <div className="flex items-center gap-2 mb-4 min-h-8">
         <AnimatePresence mode="wait" initial={false}>
           {editorMode === 'view' && (
-            <motion.div key="view-toolbar" className="flex items-center gap-2 ml-auto" {...fadeTransitionProps}>
+            <motion.div
+              key="view-toolbar"
+              className="flex items-center gap-2 ml-auto"
+              {...fadeTransitionProps}
+            >
               <AnimatePresence>
                 {showSavedFlash && (
                   <motion.span
@@ -194,7 +205,8 @@ export function NoteEditor({
                   buttonVariants({
                     color: 'secondary',
                     size: 'sm',
-                    className: 'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground active:scale-95',
+                    className:
+                      'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground active:scale-95',
                   }),
                 )}
               >
@@ -205,7 +217,11 @@ export function NoteEditor({
           )}
 
           {(editorMode === 'edit' || editorMode === 'confirm-discard') && (
-            <motion.div key="edit-toolbar" className="flex items-center gap-2 w-full" {...fadeTransitionProps}>
+            <motion.div
+              key="edit-toolbar"
+              className="flex items-center gap-2 w-full"
+              {...fadeTransitionProps}
+            >
               <button
                 onClick={saveContent}
                 disabled={isSavingContent || !hasUnsavedChanges}
@@ -227,7 +243,8 @@ export function NoteEditor({
                   buttonVariants({
                     color: 'secondary',
                     size: 'sm',
-                    className: 'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground active:scale-95',
+                    className:
+                      'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground active:scale-95',
                   }),
                 )}
               >
@@ -245,16 +262,34 @@ export function NoteEditor({
                     exit={{ opacity: 0, x: -6 }}
                     transition={{ duration: 0.15, ease: 'easeOut' }}
                   >
-                    <span className="text-xs text-fd-muted-foreground">Discard changes?</span>
+                    <span className="text-xs text-fd-muted-foreground">
+                      Discard changes?
+                    </span>
                     <button
-                      onClick={() => { setEditorMode('view'); setHasUnsavedChanges(false); }}
-                      className={cn(buttonVariants({ color: 'secondary', size: 'sm', className: 'gap-1 [&_svg]:size-3 text-red-500 active:scale-95' }))}
+                      onClick={() => {
+                        setEditorMode('view');
+                        setHasUnsavedChanges(false);
+                      }}
+                      className={cn(
+                        buttonVariants({
+                          color: 'secondary',
+                          size: 'sm',
+                          className:
+                            'gap-1 [&_svg]:size-3 text-red-500 active:scale-95',
+                        }),
+                      )}
                     >
                       Discard
                     </button>
                     <button
                       onClick={() => setEditorMode('edit')}
-                      className={cn(buttonVariants({ color: 'secondary', size: 'sm', className: 'active:scale-95' }))}
+                      className={cn(
+                        buttonVariants({
+                          color: 'secondary',
+                          size: 'sm',
+                          className: 'active:scale-95',
+                        }),
+                      )}
                     >
                       Keep editing
                     </button>
@@ -263,7 +298,9 @@ export function NoteEditor({
               </AnimatePresence>
 
               {hasUnsavedChanges && editorMode !== 'confirm-discard' && (
-                <span className="text-xs text-fd-muted-foreground ml-2">Unsaved changes</span>
+                <span className="text-xs text-fd-muted-foreground ml-2">
+                  Unsaved changes
+                </span>
               )}
               <span className="text-xs text-fd-muted-foreground ml-auto">
                 ⌘S to save · Esc to cancel
@@ -292,9 +329,15 @@ export function NoteEditor({
             Loading…
           </motion.div>
         ) : (
-          <motion.div key="editor" className="grid grid-cols-2 gap-4 min-h-[70vh]" {...fadeTransitionProps}>
+          <motion.div
+            key="editor"
+            className="grid grid-cols-2 gap-4 min-h-[70vh]"
+            {...fadeTransitionProps}
+          >
             <div className="flex flex-col">
-              <div className="text-xs text-fd-muted-foreground mb-1.5 font-medium">Editor</div>
+              <div className="text-xs text-fd-muted-foreground mb-1.5 font-medium">
+                Editor
+              </div>
               <textarea
                 ref={editorTextareaRef}
                 value={editorContent}
@@ -313,25 +356,35 @@ export function NoteEditor({
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-2 mb-1.5">
-                <span className="text-xs text-fd-muted-foreground font-medium">Preview</span>
+                <span className="text-xs text-fd-muted-foreground font-medium">
+                  Preview
+                </span>
                 {isPreviewLoading && (
                   <motion.div
                     className="size-3 rounded-full border-2 border-fd-muted-foreground border-t-transparent"
                     animate={{ rotate: 360 }}
-                    transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
+                    transition={{
+                      duration: 0.8,
+                      repeat: Infinity,
+                      ease: 'linear',
+                    }}
                   />
                 )}
               </div>
               <div className="flex-1 w-full overflow-y-auto rounded-lg border border-fd-border bg-fd-card p-4">
                 {previewError ? (
-                  <div className="text-red-500 text-xs whitespace-pre-wrap font-mono">{previewError}</div>
+                  <div className="text-red-500 text-xs whitespace-pre-wrap font-mono">
+                    {previewError}
+                  </div>
                 ) : previewCompiled ? (
                   <div className="prose prose-sm dark:prose-invert max-w-none [&_pre]:overflow-x-auto [&_code]:text-sm">
                     <MdxPreview compiled={previewCompiled} />
                   </div>
                 ) : (
                   <div className="flex items-center justify-center h-full text-xs text-fd-muted-foreground">
-                    {editorContent.trim() ? 'Compiling…' : 'Start typing to see preview'}
+                    {editorContent.trim()
+                      ? 'Compiling…'
+                      : 'Start typing to see preview'}
                   </div>
                 )}
               </div>

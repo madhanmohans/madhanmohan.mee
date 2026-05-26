@@ -4,13 +4,16 @@ Parent: [[Database Management Systems]]
 Tags: #DBMS
 
 ## ==Introduction to Database Management Systems:==
+
 - DBMS is a system that is used to manage [[database]]
 - Functionalities of DBMS:
-	- Define
-	- Construct
-	- Manipulate
-	- Share
+  - Define
+  - Construct
+  - Manipulate
+  - Share
+
 ---
+
 ## ==References:==
 
 <div class="videoWrapper">

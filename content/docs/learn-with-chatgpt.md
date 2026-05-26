@@ -7,7 +7,9 @@
 7. Leverage dual coding for reinforced learning. Prompt: "Explain how to combine verbal and visual information using the dual coding theory to enhance understanding and retention of [x topic]."
 8. Incorporate storytelling to make abstract concepts relatable. Prompt: "Explain how to use storytelling techniques to transform abstract concepts in [x topic] into relatable narratives, making them more memorable and easier to understand."
 9. Create thematic connections for better retention. Prompt: "Describe how to build thematic connections between different aspects of [x topic] to form a coherent mental structure, facilitating easier recall and deeper understanding.
+
 ---
+
 It can certainly be used as a learning tool. You just need to know what to give it for prompts.Came across this series of possibilities on LinkedIn earlier.
 Utilize the Pareto Principle for learning- "Identify the 20% of [topic or skill] that will yield 80% of the desired results and provide a focused learning plan to master it."
 Utilize the Feynman Technique for deeper understanding- "Explain [topic or skill] in the simplest terms possible as if teaching it to a complete beginner."- "Identify gaps in my understanding and suggest resources to fill them."

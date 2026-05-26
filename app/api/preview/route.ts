@@ -18,10 +18,9 @@ export async function POST(request: Request) {
 
   try {
     const result = await compiler.compile({ source: content });
-    return new Response(
-      JSON.stringify({ compiled: result.compiled }),
-      { headers: { 'Content-Type': 'application/json' } },
-    );
+    return new Response(JSON.stringify({ compiled: result.compiled }), {
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (error) {
     const message =
       error instanceof Error ? error.message : 'Preview compilation failed';

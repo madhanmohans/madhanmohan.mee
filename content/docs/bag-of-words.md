@@ -9,12 +9,15 @@ Ignores word order (unlike [[rnn]])
 Produces [[fixed-length]] vectors
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [[sequential]]
 - [Bag of Words Explained](https://machinelearningmastery.com/gentle-introduction-bag-words-model/)
 - [sklearn CountVectorizer](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html)
 
 ---
-## ==*References==
+
+## ==\*References==
 
 #ml-notes

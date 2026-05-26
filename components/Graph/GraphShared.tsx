@@ -31,7 +31,10 @@ export interface NodeType {
 
 export type Node = NodeObject<NodeType>;
 
-export interface LinkObject<NodeType = Record<string, unknown>, LinkType = Record<string, unknown>> {
+export interface LinkObject<
+  NodeType = Record<string, unknown>,
+  LinkType = Record<string, unknown>,
+> {
   source?: string | number | NodeObject<NodeType>;
   target?: string | number | NodeObject<NodeType>;
   [others: string]: any;
@@ -65,7 +68,6 @@ export interface MiniLink {
   target: string;
 }
 
-
 export function stripInlineMarkdown(text: string) {
   return text
     .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
@@ -89,9 +91,12 @@ export function MiniMarkdown({ content }: { content: string }) {
         .replace(/==\*?([^=]+)==\*?/g, '$1')
         .replace(/\*{1,2}([^*]+)\*{1,2}/g, '$1');
       elements.push(
-        <p key={i} className="font-semibold text-fd-foreground mt-1.5 first:mt-0 text-[11px] uppercase tracking-wider opacity-60">
+        <p
+          key={i}
+          className="font-semibold text-fd-foreground mt-1.5 first:mt-0 text-[11px] uppercase tracking-wider opacity-60"
+        >
           {text}
-        </p>
+        </p>,
       );
       continue;
     }
@@ -102,14 +107,16 @@ export function MiniMarkdown({ content }: { content: string }) {
         <div key={i} className="flex gap-1 items-start leading-snug">
           <span className="opacity-40 shrink-0">·</span>
           <span>{stripInlineMarkdown(listMatch[1])}</span>
-        </div>
+        </div>,
       );
       continue;
     }
 
     if (line.trim()) {
       elements.push(
-        <p key={i} className="leading-snug opacity-80">{stripInlineMarkdown(line)}</p>
+        <p key={i} className="leading-snug opacity-80">
+          {stripInlineMarkdown(line)}
+        </p>,
       );
     }
   }
@@ -124,7 +131,9 @@ export function createForceGraphRef<T extends ForceGraphInstance>(
   onInit?: (instance: T) => void,
 ) {
   return {
-    get current() { return graphRef.current; },
+    get current() {
+      return graphRef.current;
+    },
     set current(instance: T | undefined) {
       graphRef.current = instance;
       if (instance) onInit?.(instance);
@@ -132,7 +141,10 @@ export function createForceGraphRef<T extends ForceGraphInstance>(
   };
 }
 
-export function enrichGraphNodesWithNeighbors(graph: Graph): { nodes: Node[]; links: Link[] } {
+export function enrichGraphNodesWithNeighbors(graph: Graph): {
+  nodes: Node[];
+  links: Link[];
+} {
   const { nodes, links } = structuredClone(graph);
   for (const node of nodes) {
     node.neighbors = links.flatMap((link: any) => {

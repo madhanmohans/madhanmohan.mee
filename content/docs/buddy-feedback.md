@@ -1,4 +1,5 @@
 Create APIs with Java and Springboot
+
 - Write Tests
 - Springboot - MVC structure
 - Test cases for MVC
@@ -8,9 +9,9 @@ Create APIs with Java and Springboot
 - State management (eg. checkboxing 10 mails)
 - Rendering/History
 - API Integration
-OOPS in Java  
-SOLID Principles using Java  
-CQRS  
+  OOPS in Java  
+  SOLID Principles using Java  
+  CQRS
 - You should know the scope of the class
 - Keep methods private untill asked to be public
 - Dependency injection in Springboot

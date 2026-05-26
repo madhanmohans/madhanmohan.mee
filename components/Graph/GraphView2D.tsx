@@ -1,11 +1,21 @@
 'use client';
-import React, { type RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  type RefObject,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
 import { forceCollide, forceCenter, forceLink, forceManyBody } from 'd3-force';
 import { useRouter } from 'fumadocs-core/framework';
 import { AnimatePresence, motion } from 'framer-motion';
 import type { Graph, GraphViewProps } from './GraphShared';
-import { MiniMarkdown, createForceGraphRef, enrichGraphNodesWithNeighbors } from './GraphShared';
+import {
+  MiniMarkdown,
+  createForceGraphRef,
+  enrichGraphNodesWithNeighbors,
+} from './GraphShared';
 import type { ForceGraphInstance } from './GraphShared';
 
 function configureGraphForces(forceGraphInstance: ForceGraphInstance) {
@@ -18,7 +28,10 @@ function configureGraphForces(forceGraphInstance: ForceGraphInstance) {
 function GhostGraph({
   containerRef,
   graph,
-}: { graph: Graph; containerRef: RefObject<HTMLDivElement | null> }) {
+}: {
+  graph: Graph;
+  containerRef: RefObject<HTMLDivElement | null>;
+}) {
   const graphRef = useRef<ForceGraphInstance>(undefined);
 
   const clonedGraph = useMemo(() => {
@@ -32,7 +45,9 @@ function GhostGraph({
     const radius = 3;
     context.beginPath();
     context.arc(node.x!, node.y!, radius, 0, 2 * Math.PI, false);
-    context.fillStyle = computedStyles.getPropertyValue('--color-fd-muted-foreground') || '#6b6b6b';
+    context.fillStyle =
+      computedStyles.getPropertyValue('--color-fd-muted-foreground') ||
+      '#6b6b6b';
     context.fill();
   };
 
@@ -64,7 +79,10 @@ function GhostGraph({
 function InteractiveGraph({
   containerRef,
   graph,
-}: GraphViewProps & { graph: Graph; containerRef: RefObject<HTMLDivElement | null> }) {
+}: GraphViewProps & {
+  graph: Graph;
+  containerRef: RefObject<HTMLDivElement | null>;
+}) {
   const graphRef = useRef<ForceGraphInstance>(undefined);
   const hoveredNodeRef = useRef<any>(null);
   const router = useRouter();
@@ -81,7 +99,10 @@ function InteractiveGraph({
     hoveredNodeRef.current = hoveredNode;
 
     if (hoveredNode) {
-      const screenCoordinates = forceGraphInstance.graph2ScreenCoords(hoveredNode.x, hoveredNode.y);
+      const screenCoordinates = forceGraphInstance.graph2ScreenCoords(
+        hoveredNode.x,
+        hoveredNode.y,
+      );
       setTooltip({
         x: screenCoordinates.x + 4,
         y: screenCoordinates.y + 4,
@@ -106,7 +127,9 @@ function InteractiveGraph({
     const hoveredNode = hoveredNodeRef.current;
     const isActive =
       hoveredNode?.id === node.id ||
-      (hoveredNode?.neighbors && typeof node.id === 'string' && hoveredNode.neighbors.includes(node.id));
+      (hoveredNode?.neighbors &&
+        typeof node.id === 'string' &&
+        hoveredNode.neighbors.includes(node.id));
 
     context.fillStyle = isActive
       ? '#c0392b'
@@ -145,7 +168,10 @@ function InteractiveGraph({
   function zoomByFactor(factor: number) {
     const forceGraphInstance = graphRef.current;
     if (!forceGraphInstance) return;
-    forceGraphInstance.zoom((forceGraphInstance.zoom() as number) * factor, 300);
+    forceGraphInstance.zoom(
+      (forceGraphInstance.zoom() as number) * factor,
+      300,
+    );
   }
 
   function zoomToFitView() {
@@ -173,11 +199,29 @@ function InteractiveGraph({
       />
 
       <div className="graph-zoom-controls">
-        <button className="graph-zoom-btn" onClick={() => zoomByFactor(1.4)} title="Zoom in">+</button>
+        <button
+          className="graph-zoom-btn"
+          onClick={() => zoomByFactor(1.4)}
+          title="Zoom in"
+        >
+          +
+        </button>
         <div className="graph-zoom-divider" />
-        <button className="graph-zoom-btn" onClick={() => zoomByFactor(1 / 1.4)} title="Zoom out">−</button>
+        <button
+          className="graph-zoom-btn"
+          onClick={() => zoomByFactor(1 / 1.4)}
+          title="Zoom out"
+        >
+          −
+        </button>
         <div className="graph-zoom-divider" />
-        <button className="graph-zoom-btn graph-zoom-fit" onClick={zoomToFitView} title="Fit to view">⤢</button>
+        <button
+          className="graph-zoom-btn graph-zoom-fit"
+          onClick={zoomToFitView}
+          title="Fit to view"
+        >
+          ⤢
+        </button>
       </div>
 
       <AnimatePresence>
@@ -200,7 +244,9 @@ function InteractiveGraph({
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.12, ease: 'easeOut' }}
           >
-            <p className="font-semibold text-fd-foreground text-[12px] mb-2 border-b border-fd-border pb-1.5">{tooltip.title}</p>
+            <p className="font-semibold text-fd-foreground text-[12px] mb-2 border-b border-fd-border pb-1.5">
+              {tooltip.title}
+            </p>
             {tooltip.content && (
               <div className="text-fd-muted-foreground max-h-48 overflow-y-auto">
                 <MiniMarkdown content={tooltip.content} />
@@ -216,7 +262,9 @@ function InteractiveGraph({
 export default function GraphView2D(props: GraphViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMounted, setIsMounted] = useState(false);
-  const [fetchedGraphData, setFetchedGraphData] = useState<Graph | null>(props.graph ?? null);
+  const [fetchedGraphData, setFetchedGraphData] = useState<Graph | null>(
+    props.graph ?? null,
+  );
 
   useEffect(() => {
     setIsMounted(true);
@@ -233,7 +281,10 @@ export default function GraphView2D(props: GraphViewProps) {
 
   if (props.ghost) {
     return (
-      <div ref={containerRef} className="absolute inset-0 size-full overflow-hidden">
+      <div
+        ref={containerRef}
+        className="absolute inset-0 size-full overflow-hidden"
+      >
         {isMounted && fetchedGraphData && (
           <GhostGraph graph={fetchedGraphData} containerRef={containerRef} />
         )}
@@ -258,7 +309,11 @@ export default function GraphView2D(props: GraphViewProps) {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, ease: [0.165, 0.84, 0.44, 1] }}
           >
-            <InteractiveGraph {...props} graph={fetchedGraphData} containerRef={containerRef} />
+            <InteractiveGraph
+              {...props}
+              graph={fetchedGraphData}
+              containerRef={containerRef}
+            />
           </motion.div>
         )}
       </AnimatePresence>

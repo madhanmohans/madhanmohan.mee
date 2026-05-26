@@ -10,7 +10,7 @@ Technology Stack:
 
 Mention that the pipeline should be built in Python, using Apache Spark for data transformation, Amazon S3 for storage, and CloudWatch for logging.
 
-Data Sources: 
+Data Sources:
 
 Specify the different data sources (web traffic logs, sales transactions, and social media feeds) that the pipeline should handle.
 
@@ -32,7 +32,7 @@ Requirements:
 The pipeline must be built in Python.
 Apache Spark is used for data transformation.
 
-Amazon S3 will be used for storing 
+Amazon S3 will be used for storing
 processed data.
 
 CloudWatch is required for error logging.
@@ -43,7 +43,8 @@ It should include data cleaning and transformation, error handling, and integrat
 The pipeline must be scalable and deployable within a CI/CD pipeline.
 
 Rules:
+
 1. Write a modular code without code smells.
 2. Add simple commands for understanding.
 3. Include file names and folder structure
-4. Finally give instruction to run step by step. 
+4. Finally give instruction to run step by step.

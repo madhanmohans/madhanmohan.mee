@@ -7,10 +7,13 @@ Examples: mBERT, XLM-R
 Enables zero-shot cross-lingual transfer
 
 ---
+
 ## ==References==
+
 - [[language-translation]]
 - [Multilingual BERT](https://github.com/google-research/bert/blob/master/multilingual.md)
 - [XLM-RoBERTa](https://huggingface.co/docs/transformers/model_doc/xlm-roberta)
+
 ---
 
 #ml-notes

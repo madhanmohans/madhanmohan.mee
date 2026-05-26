@@ -1,4 +1,3 @@
-
 ## webstorage comparison
 
 **Cookies**
@@ -37,15 +36,16 @@
 
 **When to Use Which Storage?**
 
-|Storage|Use Case|
-|---|---|
-|**Cookie**|Store small data to be sent to the server with each request, e.g., session tokens, authentication cookies|
-|**Local Storage**|Store larger amounts of data (up to 5MB) that need to persist across sessions and tabs, e.g., application state, preferences|
-|**Session Storage**|Store temporary data specific to a single browser tab or session, e.g., temporary authentication state, session variables|
+| Storage             | Use Case                                                                                                                     |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **Cookie**          | Store small data to be sent to the server with each request, e.g., session tokens, authentication cookies                    |
+| **Local Storage**   | Store larger amounts of data (up to 5MB) that need to persist across sessions and tabs, e.g., application state, preferences |
+| **Session Storage** | Store temporary data specific to a single browser tab or session, e.g., temporary authentication state, session variables    |
 
 ---
+
 > Hard reload will not delete cookies.
->  
-localStorage is saved in a SQLite file in the user’s profile (e.g., on Mac: `~/Library/Application Support/Google/Chrome/Default/Local Storage`).
-> 
-**Session Storage** is not the same as server-side sessions; it is a client-side storage solution.
+>
+> localStorage is saved in a SQLite file in the user’s profile (e.g., on Mac: `~/Library/Application Support/Google/Chrome/Default/Local Storage`).
+>
+> **Session Storage** is not the same as server-side sessions; it is a client-side storage solution.

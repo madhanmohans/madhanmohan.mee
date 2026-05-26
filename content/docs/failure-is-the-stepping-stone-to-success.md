@@ -3,7 +3,7 @@ Created: 2021-10-13T22:08
 tags:
   - Draft
 ---
-  
+
 In everyone’s life there will be struggles nagging our routine, hovering sometimes meaninglessly around us dutifully draining our energy. The most important aspect in the ongoing battle with the struggles is that the choices we make out of or against those struggles.
 That has a potent to branch out in a totally different way which may make a huge change in course of events in our lives.
 This may be the reason that great people insist the notion around the quote 'Failure is the stepping stone to success' . What they may mean, if we assume it in that way, is willpower or determination is not the factor in the equation rather facing the struggles (fortunately losing to it, which enhances the chance of our lives to be different than before, by teaching us something that we hadn't known before) may result in giant leaps and branches of understanding within oneself to do better; to try out other possible ways of doing the same thing, which drastically can change ones life’s course. (If not in the near future may be in the long run.)

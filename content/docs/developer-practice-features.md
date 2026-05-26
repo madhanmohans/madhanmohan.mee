@@ -10,20 +10,20 @@
 **Task Categories**:
 
 1. **Performance Optimization**
-    - "Replace nested loops in `userService.ts`"
-    - "Cache repeated calculations in `analytics.js`"
-    - "Lazy load heavy components in `Dashboard.tsx`"
-    - Reward: Performance badge progress
+   - "Replace nested loops in `userService.ts`"
+   - "Cache repeated calculations in `analytics.js`"
+   - "Lazy load heavy components in `Dashboard.tsx`"
+   - Reward: Performance badge progress
 2. **Memory Management**
-    - "Fix memory leak in event listeners"
-    - "Optimize image loading in gallery"
-    - "Remove unused imports across 5 files"
-    - Reward: "Efficiency Expert" progress
+   - "Fix memory leak in event listeners"
+   - "Optimize image loading in gallery"
+   - "Remove unused imports across 5 files"
+   - Reward: "Efficiency Expert" progress
 3. **Algorithm Improvement**
-    - "Replace O(n²) with O(n log n) in search"
-    - "Implement binary search in sorted data"
-    - "Use memoization for recursive functions"
-    - Reward: "Algorithm Wizard" badge
+   - "Replace O(n²) with O(n log n) in search"
+   - "Implement binary search in sorted data"
+   - "Use memoization for recursive functions"
+   - Reward: "Algorithm Wizard" badge
 
 ---
 
@@ -53,7 +53,7 @@ function searchUsers(users, query) {  // 💡 Optimization available
 
 **Suggestion Types**:
 - Performance improvements
-- Readability enhancements  
+- Readability enhancements
 - Modern syntax upgrades (ES6+)
 - Security fixes
 - Accessibility improvements

@@ -1,4 +1,5 @@
 ## Two Fer
+
 ```JavaScript
 public class Twofer {
     public String twofer(String name) {
@@ -14,7 +15,9 @@ public class Twofer {
     }
 }
 ```
+
 ## Resistor Color
+
 ```JavaScript
 class ResistorColor {
     int colorCode(String color) {
@@ -27,4 +30,5 @@ class ResistorColor {
     }
 }
 ```
+
 [[exceptions]]

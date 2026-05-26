@@ -1,5 +1,5 @@
-
 ### todos
+
 - [ ] create a PR creating agents workflow from github issues
 - [ ] create claude.md for general code quality and rules
 
@@ -12,6 +12,7 @@ how will we verify this works?
 how will we monitor this in production?
 what metrics will tell us if this is failing?
 ```
+
 ai code review tools: codium pr-agent/qodo, github copilot workspace, what-the-diff, grit.
 
 let background agents to run async tasks - can integrate this with github issues and let them solve and I can review those PRs later whenever I am free. 
@@ -21,11 +22,15 @@ prompts should have who is the agent, what is needed, how to go about the conver
 ## for pr agents (mention in github issues)
 
 ### rules
+
 explicit constraints (don't touch x, must preserve y)
+
 ### tasks
+
 linter warnings, test cases, migration, refactoring, strategies
 
 ### prompt for planning how to go about a feature
+
 ```markdown
 who: act as a product-minded engineer who understands both technical and business constraints
 
@@ -48,9 +53,11 @@ output: markdown table with columns: approach, implementation complexity (1-10),
 
 focus on infra budgets, SLAs, latency requirements, rate limits, memory and compute constraints. 
 ```
+
 ## feature development prompts
 
 use well tested apis - write comprehensive code - force the AI to run tests
+
 ## testing prompts
 
 "list all edge cases that could break this function, then write property-based tests for them".

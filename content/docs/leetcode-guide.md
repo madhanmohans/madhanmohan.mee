@@ -1,4 +1,4 @@
-#leetcode 
+#leetcode
 
 [Question List](https://seanprashad.com/leetcode-patterns/)
 
@@ -9,7 +9,10 @@
 - [ ] [[climbing-stairs|Climbing Stairs]]
 - [ ] [[best-time-to-buy-and-sell-stocks|Best time to buy and sell stocks]]
 - [ ] [[maximum-subarray|Maximum Subarray]]
+
 ---
+
 ### Dynamic Programming Challenge:
+
 - [ ] [[fibonacci-sequence|Fiboncacci Series]]
 - [ ] [[tribonacci-series|Tribonacci Series]]

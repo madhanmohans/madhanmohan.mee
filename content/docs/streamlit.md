@@ -7,12 +7,15 @@ Fast prototyping → no HTML/CSS/JS needed
 Commonly used with [[ngrok]] for sharing, integrates with [[mlflow]] for model serving
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [[mlops]]
 - [Streamlit Documentation](https://docs.streamlit.io/)
 - [Streamlit for ML Apps Tutorial](https://streamlit.io/gallery)
 
 ---
-## ==*References==
+
+## ==\*References==
 
 #ml-notes

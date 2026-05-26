@@ -1,10 +1,15 @@
 ## AI Agents
+
 - [AutoGen Tutorial](https://www.codecademy.com/article/autogen-tutorial-build-ai-agents)[codecademy](https://www.codecademy.com/article/autogen-tutorial-build-ai-agents)​
+
 ## AI Leaderboards
+
 - [LMArena Overview](https://lmarena.ai/leaderboard)[lmarena](https://lmarena.ai/leaderboard)​
+
 ## AI YouTube Videos
 
- [[how-i-use-llm]]
+[[how-i-use-llm]]
+
 - [Deep Dive into LLMs](https://www.youtube.com/watch?v=7xTGNNLPyMI)youtube​
 
 ## World Models & 3D AI
@@ -15,6 +20,7 @@
 - [World Labs Marble](https://techcrunch.com/2025/11/12/fei-fei-lis-world-labs-speeds-up-the-world-model-race-with-marble-its-first-commercial-product/)[techcrunch](https://techcrunch.com/2025/11/12/fei-fei-lis-world-labs-speeds-up-the-world-model-race-with-marble-its-first-commercial-product/)​
 - [Odyssey 3D Worlds](https://techcrunch.com/2025/05/28/odysseys-new-ai-model-streams-3d-interactive-worlds/)[techcrunch](https://techcrunch.com/2025/05/28/odysseys-new-ai-model-streams-3d-interactive-worlds/)​
 - [Decart Minecraft Sim](https://techcrunch.com/2024/10/31/decarts-ai-simulates-a-real-time-playable-version-of-minecraft/)[techcrunch](https://techcrunch.com/2024/10/31/decarts-ai-simulates-a-real-time-playable-version-of-minecraft/)​
+
 ## AI X Profiles
 
 - [World Labs](https://x.com/theworldlabs)[x](https://x.com/theworldlabs)​

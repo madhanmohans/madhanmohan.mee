@@ -4,15 +4,15 @@ import { Check, ChevronDown, Copy, ExternalLinkIcon } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { useCopyButton } from 'fumadocs-ui/utils/use-copy-button';
 import { buttonVariants } from 'fumadocs-ui/components/ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from 'fumadocs-ui/components/ui/popover';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from 'fumadocs-ui/components/ui/popover';
 
 const markdownContentCache = new Map<string, string>();
 
-export function LLMCopyButton({
-  markdownUrl,
-}: {
-  markdownUrl: string;
-}) {
+export function LLMCopyButton({ markdownUrl }: { markdownUrl: string }) {
   const [isFetchingMarkdown, setIsFetchingMarkdown] = useState(false);
   const [isCopied, handleCopyClick] = useCopyButton(async () => {
     const cachedContent = markdownContentCache.get(markdownUrl);
@@ -53,11 +53,7 @@ export function LLMCopyButton({
   );
 }
 
-export function ViewOptions({
-  markdownUrl,
-}: {
-  markdownUrl: string;
-}) {
+export function ViewOptions({ markdownUrl }: { markdownUrl: string }) {
   const [windowOrigin, setWindowOrigin] = useState('');
 
   useEffect(() => {
@@ -65,7 +61,9 @@ export function ViewOptions({
   }, []);
 
   const openInPlatformLinks = useMemo(() => {
-    const absoluteMarkdownUrl = windowOrigin ? new URL(markdownUrl, windowOrigin).toString() : markdownUrl;
+    const absoluteMarkdownUrl = windowOrigin
+      ? new URL(markdownUrl, windowOrigin).toString()
+      : markdownUrl;
     const queryPrompt = `Read ${absoluteMarkdownUrl}, I want to ask questions about it.`;
 
     return [

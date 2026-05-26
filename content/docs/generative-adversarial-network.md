@@ -8,7 +8,9 @@ Two competing networks: Generator vs Discriminator
 → Used for image synthesis, style transfer
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [GAN Paper - Goodfellow et al](https://arxiv.org/abs/1406.2661)
 - [GAN Tutorial - NIPS 2016](https://arxiv.org/abs/1701.00160)
-#ml-notes
+  #ml-notes

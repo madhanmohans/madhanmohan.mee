@@ -1,15 +1,17 @@
 ==31/07/2022 17:41==
 
 Parent: [[]]
-Tags: #programming 
+Tags: #programming
 
 ## ==Finding problems while learning to code:==
+
 > It is a way better way to learn to code something if we have a certain problem statement in hand.
 > Find a problem that is really pressing even if its genuine.
 > Code for it.
 > You will learn many things along the way.
 
 ---
+
 ## ==References:==
 
 <div class="videoWrapper">

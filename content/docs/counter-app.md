@@ -1,16 +1,20 @@
 Two Test suites
+
 - Rendering
 - Functionality
+
 ---
+
 ## 3 As
+
 1. Arrange - `const counter = shallow(<Counter />);`
 2. Act - `const counterValue = counter.find(Text);`
 3. Assert - assert(
-  
+
 ## what are Hooks
 
-- **Hooks** 
-	- Hooks are a new addition in React 16.8. They let you use state and other React features without writing a class. Hooks are functions that let you "hook into" React state and lifecycle features from function components. They do not work inside classes — they let you use React without classes. Instead, Hooks offer a more direct API to the React concepts you already know: props, state, context, refs, and lifecycle. This will not fundamentally change how you write React applications; it will, however, enable some new features you might find helpful.
+- **Hooks**
+  - Hooks are a new addition in React 16.8. They let you use state and other React features without writing a class. Hooks are functions that let you "hook into" React state and lifecycle features from function components. They do not work inside classes — they let you use React without classes. Instead, Hooks offer a more direct API to the React concepts you already know: props, state, context, refs, and lifecycle. This will not fundamentally change how you write React applications; it will, however, enable some new features you might find helpful.
 
 Other React features that can be used with Hooks include
 
@@ -23,7 +27,9 @@ Other React features that can be used with Hooks include
 - **Imperative Handle**: The Imperative Handle Hook, `useImperativeHandle`, customizes the instance value that is exposed to parent components when using `ref`.
 - **Layout Effect**: The Layout Effect Hook, `useLayoutEffect`, runs synchronously immediately after React has performed all DOM mutations. This can be useful if you need to make layout measurements.
 - **Debug Value**: The Debug Value Hook, `useDebugValue`, can be used to display a label for custom hooks in React DevTools.
+
 ## 3 Rules of Hooks
+
 - used
-    - setting, getting values in a state
-    - get values from services
+  - setting, getting values in a state
+  - get values from services

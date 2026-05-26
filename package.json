@@ -8,6 +8,8 @@
     "dev": "next dev",
     "start": "next start",
     "types:check": "fumadocs-mdx && next typegen && tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "postinstall": "fumadocs-mdx"
   },
   "dependencies": {
@@ -41,6 +43,7 @@
     "@types/react-dom": "^19.2.3",
     "@types/three": "^0.184.1",
     "postcss": "^8.5.6",
+    "prettier": "^3.8.3",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3"
   }

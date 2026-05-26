@@ -1,5 +1,5 @@
 ---
-title: "Dynamic Array"
+title: 'Dynamic Array'
 ---
 
 # Dynamic Array

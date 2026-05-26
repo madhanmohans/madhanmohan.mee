@@ -11,13 +11,17 @@ Compared with [[pytorch]]
 [[tensorflow-lite]] for [[edge-computing]] deployment
 
 Extensions:
+
 - [[tensorflow-extended]] for production
 - TensorFlow Lite for mobile
+
 ---
-## ==*References==
+
+## ==\*References==
+
 - [TensorFlow Official Documentation](https://www.tensorflow.org/)
 - [TensorFlow Guide - Machine Learning Mastery](https://machinelearningmastery.com/tensorflow-tutorial-deep-learning-with-tf-keras/)
-#ml-notes
+  #ml-notes
 - [[mlflow]]
 - [Introduction to TensorFlow Udacity](https://www.udacity.com/course/intro-to-tensorflow-for-deep-learning--ud187)
 

@@ -3,6 +3,7 @@ tags:
   - programming
   - react
 ---
+
 Node js - server side tech - backend - written in c, cpp, js
 
 Architecture: MVVM, MVC

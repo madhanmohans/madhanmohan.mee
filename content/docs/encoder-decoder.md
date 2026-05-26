@@ -8,12 +8,15 @@ Decoder: generates output from context
 Used for [[language-translation]], summarization, Q&A
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [[attention-is-all-you-need]]
 - [Encoder-Decoder Models](https://machinelearningmastery.com/encoder-decoder-models-text-summarization-keras/)
 - [Seq2Seq Tutorial](https://www.tensorflow.org/tutorials/text/nmt_with_attention)
 
 ---
-## ==*References==
+
+## ==\*References==
 
 #ml-notes

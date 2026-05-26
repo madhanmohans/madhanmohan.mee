@@ -1,0 +1,7 @@
+.next
+.source
+node_modules
+public
+.git
+*.tsbuildinfo
+package-lock.json

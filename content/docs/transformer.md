@@ -9,13 +9,16 @@ No [[rnn]] → parallel processing → faster training
 Basis for GPT, BERT, T5
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [[lstm]]
 - [[multilingual-language-model]]
 - [Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/)
 - [Transformer Tutorial](https://www.tensorflow.org/text/tutorials/transformer)
 
 ---
-## ==*References==
+
+## ==\*References==
 
 #ml-notes

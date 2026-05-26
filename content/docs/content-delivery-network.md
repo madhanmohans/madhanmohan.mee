@@ -1,5 +1,5 @@
 ---
-title: "Content Delivery Network"
+title: 'Content Delivery Network'
 ---
 
 # Content Delivery Network

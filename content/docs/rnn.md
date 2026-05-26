@@ -7,18 +7,22 @@ Recurrent Neural Network
 Parameter sharing across time steps (unlike [[bag-of-words]])
 
 Problems:
+
 - [[exploding-gradient]]
 - [[vanishing-gradient]]
 
 Solution: [[lstm]] and [[gru]]
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [[transformer]]
 - [Understanding RNN](https://colah.github.io/posts/2015-08-Understanding-LSTMs/)
 - [RNN Tutorial](https://www.tensorflow.org/guide/keras/rnn)
 
 ---
-## ==*References==
+
+## ==\*References==
 
 #ml-notes

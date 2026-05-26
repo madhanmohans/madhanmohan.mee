@@ -1,5 +1,5 @@
 ---
-title: "ML Notes"
+title: 'ML Notes'
 ---
 
 # ML Notes

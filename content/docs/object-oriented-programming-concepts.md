@@ -11,11 +11,11 @@ Tags: #OOPS
 - Polymorphism - Operator Overloading and Functional Overloading
 - Inheritance - Super Class(Base Class) -> Sub Class - Reusability
 - Abstraction - Hides properties and functionalities
-	- Abstraction using Classes
-	- Abstraction using Headers
+  - Abstraction using Classes
+  - Abstraction using Headers
 
 ---
+
 ## ==References:==
 
 - https://www.geeksforgeeks.org/object-oriented-programming-in-cpp/
-

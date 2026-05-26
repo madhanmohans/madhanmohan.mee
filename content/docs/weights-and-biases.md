@@ -7,12 +7,15 @@ Similar to [[mlflow]] but with more visualization features
 Used for monitoring [[model-drift]] and [[data-drift]]
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [[mlops]]
 - [Weights & Biases Documentation](https://docs.wandb.ai/)
 - [W&B vs MLflow Comparison](https://wandb.ai/site/experiment-tracking)
 
 ---
-## ==*References==
+
+## ==\*References==
 
 #ml-notes

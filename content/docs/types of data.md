@@ -1,6 +1,11 @@
 ### structured
-- Cloud SQL 
+
+- Cloud SQL
+
 ### unstructured
+
 - cloud storage
+
 ### semi-structured
+
 - BigQuery

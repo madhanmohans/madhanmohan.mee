@@ -7,19 +7,12 @@ Next.js, TypeScript, React, Tailwind CSS, Shadcn/UI, Framer Motion, TradingView,
 ### What You’ll Be Doing
 
 - Build a real-time, high-performance trading interface with seamless third-party integrations.
-    
 - Design and implement intuitive, modular, and performant UI components.
-    
 - Manage client-side state efficiently using Redux, Zustand, or Jotai.
-    
 - Handle live streaming data feeds and maintain near-zero latency updates.
-    
 - Optimize bundle size, render performance, and critical rendering paths.
-    
 - Implement smooth transitions, data visualizations, and skeleton screens for top-tier UX.
-    
 - Collaborate closely with the design and backend teams to deliver a cohesive experience.
-    
 - Maintain high standards of code quality, testing, and performance optimization.
 
 ## Deliverables

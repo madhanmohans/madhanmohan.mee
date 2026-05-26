@@ -5,22 +5,22 @@
 **Types**:
 
 1. **Story Missions** (Main Quest Line)
-    - Tutorial: "First Steps in the Code Kingdom"
-    - Beginner: "The Refactoring Trials"
-    - Intermediate: "Patterns of Power"
-    - Advanced: "Architecture Mastery"
-    - Each unlocks new areas in the pixel world
+   - Tutorial: "First Steps in the Code Kingdom"
+   - Beginner: "The Refactoring Trials"
+   - Intermediate: "Patterns of Power"
+   - Advanced: "Architecture Mastery"
+   - Each unlocks new areas in the pixel world
 2. **Daily Missions** (Reset at midnight local time)
-    - "Write 100 lines of documented code"
-    - "Refactor 3 functions"
-    - "Fix 5 linter warnings"
-    - "Apply 1 design pattern"
-    - Completion grants coins + XP
+   - "Write 100 lines of documented code"
+   - "Refactor 3 functions"
+   - "Fix 5 linter warnings"
+   - "Apply 1 design pattern"
+   - Completion grants coins + XP
 3. **Side Missions** (Optional, repeatable)
-    - Codebase exploration challenges
-    - Performance optimization hunts
-    - Technical debt cleanup
-    - Test coverage improvements
+   - Codebase exploration challenges
+   - Performance optimization hunts
+   - Technical debt cleanup
+   - Test coverage improvements
 
 **Rewards Structure**:
 
@@ -36,8 +36,8 @@
 **Daily Check-in Flow**:
 
 ```
-User opens IDE → Welcome animation plays → 
-Character greets you → Streak counter updates → 
+User opens IDE → Welcome animation plays →
+Character greets you → Streak counter updates →
 Daily bonus revealed → Mission board appears
 ```
 

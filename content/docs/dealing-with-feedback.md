@@ -1,4 +1,3 @@
-  
 Today, I wanted to share four ways to deal with feedbacks that I came across from the book No Rules Rules by Erin Meyer and Reed Hastings in the \#Blinkist app.
 Feedbacks are crucial to estimate, and in turn, enhance more realistically. Since anything you put out, it needs to be manifested in the most efficient way possible by itself.
 Here are the four triable ways to respond to feedback:

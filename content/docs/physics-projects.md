@@ -1,19 +1,21 @@
-
 Good Morning frands
 
 Need you to collaborate and coordinate on these mini-projects, choose which interests you.
 
-1. 21 Day Challenge: 
+1. 21 Day Challenge:
+
 - Learn anything new about the topic for 20 minutes.
 - A group-quiz will be conducted in the evening.
 - Post your progress daily on social media tagging Physiyal and team.
 
 2. Newsletter :
+
 - Condensed physics materials for physics interested people
 - They will be able to subscribe to the service
 - Mail in the form of a newsletter will be sent to them on a weekly/daily basis
 
 3. Blog:-
+
 - Blogs on both physics-related(concepts, experiments, people, theory, hypothesis, paradoxes, applications, physics book reviews/recommendations etc.) stuff and learning-related(how to learn, online tools, techniques, how I learn - my process, online learning, useful websites, learning routine, effective learning methods, etc.) stuff.
 - Anyone can write about it, help will be provided.
 

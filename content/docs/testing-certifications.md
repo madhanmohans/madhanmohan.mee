@@ -1,4 +1,3 @@
-
 Training, & Affiliations
 
 Trained in Perfomance Testing (J-meter and load runner).

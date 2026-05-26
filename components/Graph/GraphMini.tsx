@@ -1,12 +1,19 @@
 'use client';
 
-import { HIT_RADIUS, GRAPH_HEIGHT, MAX_SIMULATION_TICKS, MIN_ZOOM, MAX_ZOOM, GRAPH_API_URL } from './constants';
+import {
+  HIT_RADIUS,
+  GRAPH_HEIGHT,
+  MAX_SIMULATION_TICKS,
+  MIN_ZOOM,
+  MAX_ZOOM,
+  GRAPH_API_URL,
+} from './constants';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Waypoints } from 'lucide-react';
 import type { Graph } from '@/components/Graph/GraphView';
-import type { MiniNode, GraphMiniProps, MiniLink } from './IGraphMini';
+import type { MiniNode, GraphMiniProps, MiniLink } from './GraphShared';
 
 export function GraphMini({ pageUrl }: GraphMiniProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -32,8 +39,14 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
     connectedNodeIds.add(pageUrl);
 
     for (const link of fetchedGraphData.links) {
-      const sourceId = typeof link.source === 'object' ? (link.source as { id: string }).id : link.source as string;
-      const targetId = typeof link.target === 'object' ? (link.target as { id: string }).id : link.target as string;
+      const sourceId =
+        typeof link.source === 'object'
+          ? (link.source as { id: string }).id
+          : (link.source as string);
+      const targetId =
+        typeof link.target === 'object'
+          ? (link.target as { id: string }).id
+          : (link.target as string);
       if (sourceId === pageUrl) connectedNodeIds.add(targetId);
       if (targetId === pageUrl) connectedNodeIds.add(sourceId);
     }
@@ -43,27 +56,46 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
       .map((node) => ({
         id: node.id as string,
         text: node.text,
-        x: 0, y: 0, vx: 0, vy: 0,
+        x: 0,
+        y: 0,
+        vx: 0,
+        vy: 0,
         isCurrent: node.id === pageUrl,
       }));
 
     if (nodes.length === 0) {
       nodes.push({
-        id: pageUrl, text: 'Current',
-        x: 0, y: 0, vx: 0, vy: 0,
+        id: pageUrl,
+        text: 'Current',
+        x: 0,
+        y: 0,
+        vx: 0,
+        vy: 0,
         isCurrent: true,
       });
     }
 
     const links: MiniLink[] = fetchedGraphData.links
       .filter((link) => {
-        const sourceId = typeof link.source === 'object' ? (link.source as { id: string }).id : link.source as string;
-        const targetId = typeof link.target === 'object' ? (link.target as { id: string }).id : link.target as string;
+        const sourceId =
+          typeof link.source === 'object'
+            ? (link.source as { id: string }).id
+            : (link.source as string);
+        const targetId =
+          typeof link.target === 'object'
+            ? (link.target as { id: string }).id
+            : (link.target as string);
         return connectedNodeIds.has(sourceId) && connectedNodeIds.has(targetId);
       })
       .map((link) => ({
-        source: typeof link.source === 'object' ? (link.source as { id: string }).id : link.source as string,
-        target: typeof link.target === 'object' ? (link.target as { id: string }).id : link.target as string,
+        source:
+          typeof link.source === 'object'
+            ? (link.source as { id: string }).id
+            : (link.source as string),
+        target:
+          typeof link.target === 'object'
+            ? (link.target as { id: string }).id
+            : (link.target as string),
       }));
 
     return { nodes, links };
@@ -93,14 +125,21 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
     for (const node of simulatedNodesRef.current) {
       const dx = node.x - worldX;
       const dy = node.y - worldY;
-      if (dx * dx + dy * dy <= scaleCompensatedHitRadius * scaleCompensatedHitRadius) return node;
+      if (
+        dx * dx + dy * dy <=
+        scaleCompensatedHitRadius * scaleCompensatedHitRadius
+      )
+        return node;
     }
     return null;
   }
 
   function handleCanvasClick(event: React.MouseEvent<HTMLCanvasElement>) {
     const canvasCoordinates = getCanvasCoordinates(event);
-    const worldCoordinates = screenToWorld(canvasCoordinates.x, canvasCoordinates.y);
+    const worldCoordinates = screenToWorld(
+      canvasCoordinates.x,
+      canvasCoordinates.y,
+    );
     const clickedNode = findNodeAt(worldCoordinates.x, worldCoordinates.y);
     if (clickedNode) {
       event.preventDefault();
@@ -110,7 +149,10 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
 
   function handleCanvasMouseMove(event: React.MouseEvent<HTMLCanvasElement>) {
     const canvasCoordinates = getCanvasCoordinates(event);
-    const worldCoordinates = screenToWorld(canvasCoordinates.x, canvasCoordinates.y);
+    const worldCoordinates = screenToWorld(
+      canvasCoordinates.x,
+      canvasCoordinates.y,
+    );
     const hoveredNode = findNodeAt(worldCoordinates.x, worldCoordinates.y);
     const canvas = canvasRef.current;
     if (canvas) {
@@ -139,22 +181,37 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
 
     const simulationNodes = localSubgraph.nodes.map((node, index) => ({
       ...node,
-      x: node.isCurrent ? width / 2 : width / 2 + (Math.cos(index * 2.4) * Math.min(width, height) * 0.3),
-      y: node.isCurrent ? height / 2 : height / 2 + (Math.sin(index * 2.4) * Math.min(width, height) * 0.3),
+      x: node.isCurrent
+        ? width / 2
+        : width / 2 + Math.cos(index * 2.4) * Math.min(width, height) * 0.3,
+      y: node.isCurrent
+        ? height / 2
+        : height / 2 + Math.sin(index * 2.4) * Math.min(width, height) * 0.3,
       vx: 0,
       vy: 0,
     }));
 
     simulatedNodesRef.current = simulationNodes;
 
-    const nodeByIdLookup = new Map(simulationNodes.map((node) => [node.id, node]));
+    const nodeByIdLookup = new Map(
+      simulationNodes.map((node) => [node.id, node]),
+    );
     const simulationLinks = localSubgraph.links
-      .map((link) => ({ source: nodeByIdLookup.get(link.source), target: nodeByIdLookup.get(link.target) }))
-      .filter((link): link is { source: MiniNode; target: MiniNode } => !!link.source && !!link.target);
+      .map((link) => ({
+        source: nodeByIdLookup.get(link.source),
+        target: nodeByIdLookup.get(link.target),
+      }))
+      .filter(
+        (link): link is { source: MiniNode; target: MiniNode } =>
+          !!link.source && !!link.target,
+      );
 
     const computedStyles = getComputedStyle(container);
-    const mutedForegroundColor = computedStyles.getPropertyValue('--color-fd-muted-foreground').trim() || '#6b6b6b';
-    const textForegroundColor = computedStyles.getPropertyValue('color').trim() || '#ccc';
+    const mutedForegroundColor =
+      computedStyles.getPropertyValue('--color-fd-muted-foreground').trim() ||
+      '#6b6b6b';
+    const textForegroundColor =
+      computedStyles.getPropertyValue('color').trim() || '#ccc';
     const linkStrokeColor = `color-mix(in oklab, ${mutedForegroundColor} 40%, transparent)`;
 
     let animationFrameId: number;
@@ -203,7 +260,14 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
       context.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
       context.clearRect(0, 0, width, height);
 
-      context.setTransform(devicePixelRatio * scale, 0, 0, devicePixelRatio * scale, devicePixelRatio * offsetX, devicePixelRatio * offsetY);
+      context.setTransform(
+        devicePixelRatio * scale,
+        0,
+        0,
+        devicePixelRatio * scale,
+        devicePixelRatio * offsetX,
+        devicePixelRatio * offsetY,
+      );
 
       context.strokeStyle = linkStrokeColor;
       context.lineWidth = 1 / scale;
@@ -226,7 +290,9 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
         context.font = `${fontSize}px CommitMono, monospace`;
         context.textAlign = 'center';
         context.textBaseline = 'top';
-        context.fillStyle = node.isCurrent ? textForegroundColor : mutedForegroundColor;
+        context.fillStyle = node.isCurrent
+          ? textForegroundColor
+          : mutedForegroundColor;
 
         let label = node.text;
         if (label.length > 16) label = label.slice(0, 14) + '…';
@@ -257,13 +323,20 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
       const mouseY = event.clientY - canvasRect.top;
 
       const zoomFactor = event.deltaY < 0 ? 1.08 : 1 / 1.08;
-      const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, scale * zoomFactor));
+      const newScale = Math.min(
+        MAX_ZOOM,
+        Math.max(MIN_ZOOM, scale * zoomFactor),
+      );
 
       const scaleRatio = newScale / scale;
       const newOffsetX = mouseX - (mouseX - offsetX) * scaleRatio;
       const newOffsetY = mouseY - (mouseY - offsetY) * scaleRatio;
 
-      canvasTransformRef.current = { scale: newScale, offsetX: newOffsetX, offsetY: newOffsetY };
+      canvasTransformRef.current = {
+        scale: newScale,
+        offsetX: newOffsetX,
+        offsetY: newOffsetY,
+      };
       shouldRedrawRef.current = true;
     }
 
@@ -325,10 +398,17 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
       activeTouches = Array.from(event.touches);
 
       if (activeTouches.length === 2) {
-        lastPinchDistance = getTouchDistance(activeTouches[0], activeTouches[1]);
+        lastPinchDistance = getTouchDistance(
+          activeTouches[0],
+          activeTouches[1],
+        );
         const canvasRect = canvas.getBoundingClientRect();
-        lastPinchMidX = (activeTouches[0].clientX + activeTouches[1].clientX) / 2 - canvasRect.left;
-        lastPinchMidY = (activeTouches[0].clientY + activeTouches[1].clientY) / 2 - canvasRect.top;
+        lastPinchMidX =
+          (activeTouches[0].clientX + activeTouches[1].clientX) / 2 -
+          canvasRect.left;
+        lastPinchMidY =
+          (activeTouches[0].clientY + activeTouches[1].clientY) / 2 -
+          canvasRect.top;
       } else if (activeTouches.length === 1) {
         isTouchPanActive = true;
         touchPanStartX = activeTouches[0].clientX;
@@ -346,11 +426,16 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
         const { scale, offsetX, offsetY } = canvasTransformRef.current;
         const distance = getTouchDistance(touches[0], touches[1]);
         const canvasRect = canvas.getBoundingClientRect();
-        const midX = (touches[0].clientX + touches[1].clientX) / 2 - canvasRect.left;
-        const midY = (touches[0].clientY + touches[1].clientY) / 2 - canvasRect.top;
+        const midX =
+          (touches[0].clientX + touches[1].clientX) / 2 - canvasRect.left;
+        const midY =
+          (touches[0].clientY + touches[1].clientY) / 2 - canvasRect.top;
 
         const zoomFactor = distance / lastPinchDistance;
-        const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, scale * zoomFactor));
+        const newScale = Math.min(
+          MAX_ZOOM,
+          Math.max(MIN_ZOOM, scale * zoomFactor),
+        );
         const scaleRatio = newScale / scale;
         const newOffsetX = midX - (midX - offsetX) * scaleRatio;
         const newOffsetY = midY - (midY - offsetY) * scaleRatio;

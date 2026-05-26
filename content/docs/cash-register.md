@@ -2,7 +2,7 @@ Not cheap and fast
 What if printer is broken, the CashRegister will fail in production
 Spy?
 verify(mockPrinter).printer(”purchased item”);
-  
+
 Mock is a fake object which has the same contract as the dependency
 Mock Printer is spying on the dependency for testing
 Cash Register → Purchase → Item

@@ -17,10 +17,10 @@
 - [ ] Merge Nodes in between zeroes
 - [ ] Implement Linkedlist
 - [ ] OS Concepts QA
-- [ ] Class diagram    
+- [ ] Class diagram
 - [ ] Functional interface
-- [ ] Diamond problem 
+- [ ] Diamond problem
 - [ ] Pagination
-- [ ] Microprocessor vs microcontroller  
+- [ ] Microprocessor vs microcontroller
 - [ ] Rest API
-- [ ] API 
+- [ ] API

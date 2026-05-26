@@ -6,7 +6,9 @@ Interactive demos of NVIDIA's AI technologies
 → Includes image generation, style transfer tools
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [NVIDIA AI Playground](https://www.nvidia.com/en-us/research/ai-playground/)
 - [NVIDIA Research Projects](https://www.nvidia.com/en-us/research/)
-#ml-notes
+  #ml-notes

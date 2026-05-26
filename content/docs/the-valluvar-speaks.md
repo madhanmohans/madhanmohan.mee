@@ -15,12 +15,12 @@ key architectural decisions :
 > offline-first sync: store user data locally in encrypted format. sync to cloud only when connected and with user permission. conflict resolution prioritizes local changes.
 
 about the app:
+
 > chatbot for thirukural
 > when given context like humanity, bravery, love, leadership, should give thirukurals related to that, searching across the book (top 3)
 
-
-
 ---
-## ==*References ==
+
+## ==\*References ==
 
 https://x.com/rohit4verse/status/2009663737469542875

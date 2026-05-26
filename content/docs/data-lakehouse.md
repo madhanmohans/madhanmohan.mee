@@ -2,5 +2,7 @@
 - warehouse-like management and performance on object storage
 
 ---
-## ==*References ==
+
+## ==\*References ==
+
 https://aws.amazon.com/what-is/data-lakehouse/

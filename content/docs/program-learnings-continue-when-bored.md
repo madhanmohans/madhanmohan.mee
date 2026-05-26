@@ -2,10 +2,11 @@
 tags:
   - learning
   - technology
-Parent: "[[Technology]]"
+Parent: '[[Technology]]'
 Created Time: 2024-10-17T16:08:00
 Last Edited Time: 2024-10-17T16:08:00
 ---
+
 ## ==Learnings - Continue when bored:==
 
 - [ ] [Git Branching Course](https://learngitbranching.js.org/?authuser=0)
@@ -18,8 +19,10 @@ Last Edited Time: 2024-10-17T16:08:00
 - [ ] [Introduction to Large Language Models](https://udemy.com/course/introduction-to-large-language-models-llms-in-python/learn/lecture/39115184#overview)
 - [ ] [Spring Loose coupling + Basic Terminlogies](https://dev.to/souvikdas/spring-loose-coupling-basic-terminlogies-2cpe)
 - [ ] [SpringBoot RoadMap](https://roadmap.sh/spring-boot)
-- [ ] [E Commerce Backend]([https://docs.google.com/document/d/1vJk11xr3XAHfOS0f6s_vvNc3OfpMBNez3LgO6PaFZI8/edit#heading=h.eeg4mlxbx6rn](https://docs.google.com/document/d/1vJk11xr3XAHfOS0f6s_vvNc3OfpMBNez3LgO6PaFZI8/edit#heading=h.eeg4mlxbx6rn))
+- [ ] [E Commerce Backend](<[https://docs.google.com/document/d/1vJk11xr3XAHfOS0f6s_vvNc3OfpMBNez3LgO6PaFZI8/edit#heading=h.eeg4mlxbx6rn](https://docs.google.com/document/d/1vJk11xr3XAHfOS0f6s_vvNc3OfpMBNez3LgO6PaFZI8/edit#heading=h.eeg4mlxbx6rn)>)
+
 ---
+
 ## ==References:==
 
 https://github.com/Prathyusha1211/ProtectedRoutesDemo/tree/master/src/Components

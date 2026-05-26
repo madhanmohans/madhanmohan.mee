@@ -4,8 +4,9 @@ Parent: [[Big Data Analytics]]
 Tags: #College
 
 ## ==Hadoop:==
+
 ![[hadoopNotes.jpg]]
 
 ---
-## ==References:==
 
+## ==References:==

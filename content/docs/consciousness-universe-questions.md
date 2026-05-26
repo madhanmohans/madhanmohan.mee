@@ -7,8 +7,9 @@ Tags: #Consciousness
 
 ```ad-question
 Why Consciousness exists?
-Why universe exists? 
+Why universe exists?
 ```
+
 ```ad-summary
 We don't know.
 We don't know.
@@ -21,6 +22,7 @@ Since we live in the aforementioned effect, which also introduced the notion of 
 
 Why universe exists? == What happened before big bang that led to the big bang?
 ```
----
-## ==References:==
 
+---
+
+## ==References:==

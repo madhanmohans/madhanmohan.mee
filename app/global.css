@@ -134,7 +134,12 @@ header * {
 }
 
 /* Headings */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   text-wrap: balance;
   font-family: 'CommitMono', monospace;
   font-weight: 400;
@@ -152,7 +157,8 @@ h2 {
   letter-spacing: -0.015em;
 }
 
-p, li {
+p,
+li {
   text-wrap: pretty;
   line-height: 1.7;
 }
@@ -277,12 +283,14 @@ pre {
 }
 
 code {
-  font-feature-settings: 'calt' 1, 'ss01' 1;
+  font-feature-settings:
+    'calt' 1,
+    'ss01' 1;
 }
 
 /* --- Button active/pressed state --- */
 button:active,
-a[role="button"]:active {
+a[role='button']:active {
   transform: scale(0.98);
   transition: transform 0.1s var(--ease-out-cubic);
 }
@@ -320,7 +328,9 @@ table {
   letter-spacing: 0.01em;
   padding: var(--space-2) var(--space-3);
   border-radius: 16px;
-  transition: background 0.3s var(--ease-out-cubic), color 0.3s var(--ease-out-cubic);
+  transition:
+    background 0.3s var(--ease-out-cubic),
+    color 0.3s var(--ease-out-cubic);
 }
 
 .view-toggle-btn[data-active='true'] {
@@ -344,7 +354,9 @@ table {
 /* --- Graph mini container hover --- */
 .graph-mini-container:hover {
   border-color: var(--color-fd-ring) !important;
-  box-shadow: 0 0 0 1px var(--color-fd-ring), 0 1px 3px rgba(0,0,0,0.04) !important;
+  box-shadow:
+    0 0 0 1px var(--color-fd-ring),
+    0 1px 3px rgba(0, 0, 0, 0.04) !important;
 }
 
 /* --- Radical negative space: generous content padding --- */
@@ -357,7 +369,6 @@ table {
   opacity: 0.5;
   filter: invert(1);
 }
-
 
 /* --- Transparent everything so html bg and grainy texture shows through --- */
 body,
@@ -379,7 +390,7 @@ article,
 .bg-fd-background,
 .bg-fd-card,
 .bg-fd-secondary\/50,
-[class*="bg-fd-"] {
+[class*='bg-fd-'] {
   background: transparent !important;
   backdrop-filter: none !important;
 }
@@ -491,7 +502,7 @@ article,
 }
 
 /* Tour target highlight ring */
-[data-tour-active="true"] {
+[data-tour-active='true'] {
   outline: 2px solid var(--color-fd-ring);
   outline-offset: 4px;
   border-radius: 2px;
@@ -527,7 +538,9 @@ article,
   border: none;
   color: var(--color-fd-muted-foreground);
   cursor: pointer;
-  transition: color 0.15s var(--ease-out-cubic), background 0.15s var(--ease-out-cubic);
+  transition:
+    color 0.15s var(--ease-out-cubic),
+    background 0.15s var(--ease-out-cubic);
   user-select: none;
 }
 

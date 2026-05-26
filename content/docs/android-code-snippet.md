@@ -10,7 +10,3 @@ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             signin.setText(Html.fromHtml("<font color='blue'></font>"));
         }
 ```
-   
-
-
-        

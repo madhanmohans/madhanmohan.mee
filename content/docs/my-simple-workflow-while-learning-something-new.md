@@ -1,5 +1,3 @@
 - **Things to memorize** (Code snippets)
-	-  **Add cards to Anki using Obsidian**
-- **Personal Notes** (Concepts)
-		- **Youtube**
-			- **Yinote -> Export to GDocs -> Obisidian**
+  - **Add cards to Anki using Obsidian**
+- **Personal Notes** (Concepts) - **Youtube** - **Yinote -> Export to GDocs -> Obisidian**

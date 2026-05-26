@@ -28,7 +28,9 @@
 28. `delete`: Deletes a property from an object.
 29. `in`: Returns true if the specified property is in the specified object.
 30. `this`: Refers to the object it belongs to.
+
 ---
+
 `Array.prototype.push()`: Adds one or more elements to the end of an array and returns the new length of the array.
 `Array.prototype.pop()`: Removes the last element from an array and returns that element.
 `Array.prototype.shift()`: Removes the first element from an array and returns that element.
@@ -59,4 +61,5 @@
 `Math.round()`: Returns the value of a number rounded to the nearest integer.
 `Date.now()`: Returns the numeric value corresponding to the current time.
 `setTimeout()`: Sets a delay for executing a function.
+
 ---

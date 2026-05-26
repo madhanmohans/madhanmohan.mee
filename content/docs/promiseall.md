@@ -1,10 +1,10 @@
 ---
-Created Time: ""
-tags: 
+Created Time: ''
+tags:
 Parent:
 ---
-## ==*js-promise ==
 
+## ==\*js-promise ==
 
 ```
 > typeof new Promise((resolve, reject) => {})
@@ -14,7 +14,7 @@ Parent:
 > promise is just an object
 
 - tries the request, if the request errors out, reject with the error.
-  
+
 ```
 GET('/user/1')
 	.then((user) => {
@@ -22,7 +22,7 @@ GET('/user/1')
 	})
 ```
 
-*can be interpreted as*
+_can be interpreted as_
 
 ```
 const GET = function(url) {
@@ -32,7 +32,7 @@ const GET = function(url) {
 				reject(error)
 			}
 			resolve(apiResponse)
-		})	
+		})
 	})
 }
 ```
@@ -44,14 +44,14 @@ class SimplifiedPromise {
 	constructor(functionToBeExecuted) {
 		this.promiseChain = [];
 		this.handleError = () => {}; // error-handling function
-	
+
 		// With `bind`, `this` is guaranteed to be the PromiseSimple instance,
 		this.onResolve = this.onResolve.bind(this);
 		this.onReject = this.onReject.bind(this);
-		
+
 		functionToBeExecuted(this.onResolve, this.onReject);
 	}
-	
+
 	then(handleSuccess) // adding function to the promiseChain
 		push handleSucess to promiseChain
 		return this promise
@@ -69,8 +69,10 @@ class SimplifiedPromise {
 > The functionToBeExecuted starts the work, `onResolve` handles success (running `.then()` functions), and onReject handles failure (running the `.catch()` function).
 
 > will need `bind` when passing methods as callbacks (e.g., to event listeners, setTimeout, or other functions) where `this` might change.
+
 ---
-## ==*References ==
+
+## ==\*References ==
 
 https://levelup.gitconnected.com/understand-javascript-promises-by-building-a-promise-from-scratch-84c0fd855720
 https://grok.com/share/bGVnYWN5_cddd5abb-c084-4a43-9444-98e57dac6863

@@ -49,7 +49,8 @@ function markTourCompleted(tourId: string): void {
 export function Tour({ id, steps }: TourProps) {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [isTourVisible, setIsTourVisible] = useState(false);
-  const [tooltipPosition, setTooltipPosition] = useState<TooltipPosition | null>(null);
+  const [tooltipPosition, setTooltipPosition] =
+    useState<TooltipPosition | null>(null);
   const tourCardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -82,8 +83,14 @@ export function Tour({ id, steps }: TourProps) {
     if (!isTourVisible) return;
     const keyboardEventHandler = (event: KeyboardEvent) => {
       if (event.key === 'Escape') dismissTour();
-      if (event.key === 'ArrowRight' || event.key === ' ') { event.preventDefault(); advanceStep(); }
-      if (event.key === 'ArrowLeft') { event.preventDefault(); goBackStep(); }
+      if (event.key === 'ArrowRight' || event.key === ' ') {
+        event.preventDefault();
+        advanceStep();
+      }
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        goBackStep();
+      }
     };
     window.addEventListener('keydown', keyboardEventHandler);
     return () => window.removeEventListener('keydown', keyboardEventHandler);
@@ -95,15 +102,21 @@ export function Tour({ id, steps }: TourProps) {
     const previousStep = steps[currentStepIndex - 1];
 
     if (previousStep?.selector) {
-      document.querySelector(previousStep.selector)?.removeAttribute('data-tour-active');
+      document
+        .querySelector(previousStep.selector)
+        ?.removeAttribute('data-tour-active');
     }
     if (currentStep.selector && currentStep.placement !== 'center') {
-      document.querySelector(currentStep.selector)?.setAttribute('data-tour-active', 'true');
+      document
+        .querySelector(currentStep.selector)
+        ?.setAttribute('data-tour-active', 'true');
     }
 
     return () => {
       if (currentStep.selector) {
-        document.querySelector(currentStep.selector)?.removeAttribute('data-tour-active');
+        document
+          .querySelector(currentStep.selector)
+          ?.removeAttribute('data-tour-active');
       }
     };
   }, [currentStepIndex, isTourVisible, steps]);
@@ -117,15 +130,29 @@ export function Tour({ id, steps }: TourProps) {
       return;
     }
 
-    const targetElement = document.querySelector(currentStep.selector) as HTMLElement | null;
-    if (!targetElement) { setTooltipPosition(null); return; }
+    const targetElement = document.querySelector(
+      currentStep.selector,
+    ) as HTMLElement | null;
+    if (!targetElement) {
+      setTooltipPosition(null);
+      return;
+    }
 
     const targetRect = targetElement.getBoundingClientRect();
 
     const targetCenterX = targetRect.left + targetRect.width / 2;
     const unclampedLeft = targetCenterX - TOOLTIP_CARD_WIDTH / 2;
-    const left = Math.max(TOOLTIP_MIN_MARGIN, Math.min(unclampedLeft, window.innerWidth - TOOLTIP_CARD_WIDTH - TOOLTIP_MIN_MARGIN));
-    const arrowOffsetLeft = Math.max(TOOLTIP_MIN_MARGIN, targetCenterX - left - 6);
+    const left = Math.max(
+      TOOLTIP_MIN_MARGIN,
+      Math.min(
+        unclampedLeft,
+        window.innerWidth - TOOLTIP_CARD_WIDTH - TOOLTIP_MIN_MARGIN,
+      ),
+    );
+    const arrowOffsetLeft = Math.max(
+      TOOLTIP_MIN_MARGIN,
+      targetCenterX - left - 6,
+    );
 
     const top =
       (currentStep.placement ?? 'bottom') === 'bottom'
@@ -136,14 +163,29 @@ export function Tour({ id, steps }: TourProps) {
   }, [currentStepIndex, isTourVisible, steps]);
 
   const currentStep = steps[currentStepIndex];
-  const isCenteredPlacement = !currentStep.selector || currentStep.placement === 'center';
+  const isCenteredPlacement =
+    !currentStep.selector || currentStep.placement === 'center';
   const isLastStep = currentStepIndex === steps.length - 1;
 
   const positionedCardStyle = isCenteredPlacement
-    ? { top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 300 }
+    ? {
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 300,
+      }
     : tooltipPosition
-    ? { top: tooltipPosition.top, left: tooltipPosition.left, width: TOOLTIP_CARD_WIDTH }
-    : { top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 300 };
+      ? {
+          top: tooltipPosition.top,
+          left: tooltipPosition.left,
+          width: TOOLTIP_CARD_WIDTH,
+        }
+      : {
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 300,
+        };
 
   return (
     <>
@@ -175,12 +217,17 @@ export function Tour({ id, steps }: TourProps) {
             transition={{ duration: 0.22, ease: [0.165, 0.84, 0.44, 1] }}
             onClick={(event) => event.stopPropagation()}
           >
-            {!isCenteredPlacement && tooltipPosition?.arrowLeft !== undefined && (
-              <div className="tour-arrow" style={{ left: tooltipPosition.arrowLeft }} />
-            )}
+            {!isCenteredPlacement &&
+              tooltipPosition?.arrowLeft !== undefined && (
+                <div
+                  className="tour-arrow"
+                  style={{ left: tooltipPosition.arrowLeft }}
+                />
+              )}
 
             <div className="tour-counter">
-              {String(currentStepIndex + 1).padStart(2, '0')} / {String(steps.length).padStart(2, '0')}
+              {String(currentStepIndex + 1).padStart(2, '0')} /{' '}
+              {String(steps.length).padStart(2, '0')}
             </div>
 
             <div className="tour-title">{currentStep.title}</div>
@@ -192,9 +239,14 @@ export function Tour({ id, steps }: TourProps) {
               </button>
               <div className="tour-nav">
                 {currentStepIndex > 0 && (
-                  <button className="tour-btn" onClick={goBackStep}>←</button>
+                  <button className="tour-btn" onClick={goBackStep}>
+                    ←
+                  </button>
                 )}
-                <button className="tour-btn tour-btn-primary" onClick={advanceStep}>
+                <button
+                  className="tour-btn tour-btn-primary"
+                  onClick={advanceStep}
+                >
                   {isLastStep ? 'done' : 'next →'}
                 </button>
               </div>

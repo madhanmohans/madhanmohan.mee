@@ -1,17 +1,20 @@
 ### ways we can use open source models
+
 - huggingface.js inference
-	- find models from hugging face library
-	- `import { HfInference } from '@huggingface/inference'`
+  - find models from hugging face library
+  - `import { HfInference } from '@huggingface/inference'`
 - huggingface.js hub
-	- find models from our web app
-	- `import { listModels } from "@huggingface/hub";`
+  - find models from our web app
+  - `import { listModels } from "@huggingface/hub";`
 - transformers.js
-	- download the model in browser and run
-	- `import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.8.0'`
+  - download the model in browser and run
+  - `import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.8.0'`
 - ollama
-	- download the model in local machine
-	- start in a port and hit it
+  - download the model in local machine
+  - start in a port and hit it
+
 ### tasks we can perform
+
 - text generation
 - text classification
 - text translation

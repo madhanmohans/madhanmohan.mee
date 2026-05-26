@@ -1,10 +1,10 @@
-grid-column-start 
+grid-column-start
 grid-column-end
 
 grid-row-start
 grid-row-end
 
-= 
+=
 
 grid area: row start / row end / column start / column end
 

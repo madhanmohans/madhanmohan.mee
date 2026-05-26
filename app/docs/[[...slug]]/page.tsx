@@ -1,5 +1,10 @@
 import { getPageImage, source } from '@/lib/source';
-import { DocsBody, DocsDescription, DocsPage, DocsTitle } from 'fumadocs-ui/layouts/docs/page';
+import {
+  DocsBody,
+  DocsDescription,
+  DocsPage,
+  DocsTitle,
+} from 'fumadocs-ui/layouts/docs/page';
 import { notFound } from 'next/navigation';
 import { getMDXComponents } from '@/MDXComponents';
 import type { Metadata } from 'next';
@@ -30,7 +35,9 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
       }}
     >
       <DocsTitle>{docPage.data.title}</DocsTitle>
-      <DocsDescription className="mb-0">{docPage.data.description}</DocsDescription>
+      <DocsDescription className="mb-0">
+        {docPage.data.description}
+      </DocsDescription>
       <div
         data-tour="llm-actions"
         className="flex flex-row gap-2 items-center border-b pb-6"
@@ -67,7 +74,9 @@ export async function generateStaticParams() {
   return source.generateParams();
 }
 
-export async function generateMetadata(props: PageProps<'/docs/[[...slug]]'>): Promise<Metadata> {
+export async function generateMetadata(
+  props: PageProps<'/docs/[[...slug]]'>,
+): Promise<Metadata> {
   const params = await props.params;
   const docPage = source.getPage(params.slug);
   if (!docPage) notFound();

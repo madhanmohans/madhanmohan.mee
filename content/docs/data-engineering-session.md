@@ -1,16 +1,16 @@
 - Data engineering
-    - building data warehouse, lake
-    - building piplines
-    - building consumable layer fo DS
+  - building data warehouse, lake
+  - building piplines
+  - building consumable layer fo DS
 - Data OPS
-    - monitoriing and support, life cycle mgmt
-    - ci/cd pipelines, infra automation
+  - monitoriing and support, life cycle mgmt
+  - ci/cd pipelines, infra automation
 - UI/UX
-    - consumed for apps already there,
-    - or a new app
+  - consumed for apps already there,
+  - or a new app
 
 > to cater out both or any business and technical stakeholders
-> 
+>
 > can be any combination from above
 
 Eg:  
@@ -36,7 +36,8 @@ Data Ops → onprem
 
 key insights: splitting transactional and analytics systems
 
-### history of data warehouse technologies  
+### history of data warehouse technologies
+
 from teradata through Hadoop hbase → cloud (min opx)
 
 sql interface before, after big data, programmatic way

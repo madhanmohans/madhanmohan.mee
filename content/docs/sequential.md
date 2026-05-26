@@ -7,11 +7,14 @@ Data where order matters → time series, text, audio
 Requires [[fixed-length]] input for traditional models
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [Sequential Model Guide](https://keras.io/guides/sequential_model/)
 - [Time Series Analysis](https://machinelearningmastery.com/time-series-forecasting/)
 
 ---
-## ==*References==
+
+## ==\*References==
 
 #ml-notes

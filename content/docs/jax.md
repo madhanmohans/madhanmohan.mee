@@ -9,7 +9,9 @@ Used for building NLP models
 Offers automatic differentiation and GPU/TPU acceleration
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [JAX Official Documentation](https://jax.readthedocs.io/)
 - [JAX Tutorial - Google Research](https://github.com/google/jax)
-#ml-notes
+  #ml-notes

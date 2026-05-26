@@ -4,14 +4,20 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { GraphView } from '@/components/Graph/GraphView';
 import { Tour } from '@/components/Tour';
-import { welcomePageTourStep, secondBrainPageTourStep, aboutPageTourStep } from './constants';
+import {
+  welcomePageTourStep,
+  secondBrainPageTourStep,
+  aboutPageTourStep,
+} from './constants';
 
 export default function HomePage() {
   const [hoveredNavLink, setHoveredNavLink] = useState<string | null>(null);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, []);
 
   return (
@@ -50,7 +56,11 @@ export default function HomePage() {
       </div>
       <Tour
         id="home"
-        steps={[welcomePageTourStep, secondBrainPageTourStep, aboutPageTourStep]}
+        steps={[
+          welcomePageTourStep,
+          secondBrainPageTourStep,
+          aboutPageTourStep,
+        ]}
       />
     </div>
   );

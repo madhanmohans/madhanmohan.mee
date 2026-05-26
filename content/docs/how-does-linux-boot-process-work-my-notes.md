@@ -1,4 +1,5 @@
-#toPublish 
+#toPublish
+
 - BIOS or UEFI firmware gets the main parts of the computer ready for action.
 - BIOS is tied to the Master Boot Record (MBR) system, while UEFI uses the GUID Partition Table (GPT), offering more flexibility and better security.
 - BIOS has slower boot time and less secure boot, while UEFI has faster boot time and secure boot.

@@ -2,7 +2,10 @@
 
 import dynamic from 'next/dynamic';
 
-const Tour = dynamic(() => import('@/components/Tour').then((module) => module.Tour), { ssr: false });
+const Tour = dynamic(
+  () => import('@/components/Tour').then((module) => module.Tour),
+  { ssr: false },
+);
 
 export function DocsTour() {
   return (

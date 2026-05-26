@@ -7,7 +7,9 @@ Google Cloud's automated machine learning suite
 → Alternative to [[driverless-ai]]
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [Google Cloud AutoML](https://cloud.google.com/automl)
 - [AutoML: A Survey of the State-of-the-Art](https://arxiv.org/abs/1908.00709)
-#ml-notes
+  #ml-notes

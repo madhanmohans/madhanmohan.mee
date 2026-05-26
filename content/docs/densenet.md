@@ -7,7 +7,9 @@ Dense [[convolutional-neural-network]] with direct connections between all layer
 → More parameter efficient than ResNet
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [DenseNet Paper - Densely Connected CNNs](https://arxiv.org/abs/1608.06993)
 - [Understanding DenseNet Architecture](https://towardsdatascience.com/understanding-and-visualizing-densenets-7f688092391a)
-#ml-notes
+  #ml-notes

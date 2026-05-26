@@ -5,14 +5,19 @@ React, Typescript, TailwindCSS, Redux, Next.js, Android Studio, Flask, Scikit-le
 React, Next.js 14/15, Redux Toolkit + RTK Query, React Router v6+, Context API, Shadcn/ui, Tailwind CSS, Sass, CSS Modules, Styled-Components, Vite, Jest + RTL, Cypress/Playwright, Web Vitals, Lighthouse, Lazy Loading
 
 ### [[questions]]
+
 ### [[relevant techs]]
 
 ### [[general-structure]]
+
 ### Interview prep - startup A
+
 ### Interview prep - crypto startup
+
 ### [[to-learn-in-scrimba]]
 
 ## to revisit
+
 [[initial-learnings-typescript]]
 [[css grid]]
 [[tanstack query]]

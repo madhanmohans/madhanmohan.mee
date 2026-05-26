@@ -1,7 +1,7 @@
 ==25/07/2022 08:15==
 
 Parent: [[]]
-Tags: #DBMS 
+Tags: #DBMS
 
 ## ==Key-value pairs:==
 
@@ -11,6 +11,7 @@ Tags: #DBMS
 - Get Set commands
 - Used in applications where limited memory and fast get/set is required like in gaming leaderboards.
 - Used in [[pub-sub messaging model]]
----
-## ==References:==
 
+---
+
+## ==References:==

@@ -10,9 +10,7 @@ import { visit } from 'unist-util-visit';
 // Convert a filename like "ideas-flowing-big" to "Ideas Flowing Big"
 function filenameToTitle(filePath: string): string {
   const name = path.basename(filePath, path.extname(filePath));
-  return name
-    .replace(/[-_]+/g, ' ')
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+  return name.replace(/[-_]+/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 // Schema function: receives { path, source } context from fumadocs-mdx.
@@ -66,9 +64,26 @@ function remarkLowercaseCodeBlocks() {
 export default defineConfig({
   mdxOptions: {
     remarkImageOptions: false,
-    remarkPlugins: [remarkWikilinks, remarkStripHeadingLinks, remarkMark, remarkConvertMarkToHtml, remarkLowercaseCodeBlocks],
+    remarkPlugins: [
+      remarkWikilinks,
+      remarkStripHeadingLinks,
+      remarkMark,
+      remarkConvertMarkToHtml,
+      remarkLowercaseCodeBlocks,
+    ],
     rehypePlugins: [
-      [rehypeRaw, { passThrough: ['mdxjsEsm', 'mdxJsxFlowElement', 'mdxJsxTextElement', 'mdxFlowExpression', 'mdxTextExpression'] }]
-    ]
+      [
+        rehypeRaw,
+        {
+          passThrough: [
+            'mdxjsEsm',
+            'mdxJsxFlowElement',
+            'mdxJsxTextElement',
+            'mdxFlowExpression',
+            'mdxTextExpression',
+          ],
+        },
+      ],
+    ],
   },
 });

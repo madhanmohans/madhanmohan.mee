@@ -1,14 +1,14 @@
 - framework
 - to build context-aware reasoning application
 - langchain comes in 2 flavours
-	- typical python framework
-	- langchain.js for web apps
+  - typical python framework
+  - langchain.js for web apps
 
 info source -> splitter -> embeddings -> vector store
 
 ```mermaid
 flowchart LR
-	userInput[userInput] 
+	userInput[userInput]
 	userInput --> transform[create a standalone question]
 	transform --> embed[create the vector embedding of that question]
 	embed --> store[send it to vector store to get the answer vector]
@@ -29,12 +29,14 @@ recommendation engines use these clusters to curate content and what to recommen
 search engines give results that are more semantically accurate rather than keyword matching
 
 what langchain tries to achieve is transform
+
 ```mermaid
 flowchart LR
 data --> meaning
 ```
 
 vector store used here is supabase
+
 - stores embeddings
 - performs similarity search
 
@@ -75,7 +77,9 @@ vectors --> store[vector store]
 > openai's embedding model: text-embedding-3-small, text-embedding-ada-002
 
 ### similarity metrics
+
 computed using
+
 - cosine similarity
 - euclidean distance
 - dot product
@@ -83,47 +87,46 @@ computed using
 HNSW - Hierarchical Navigable Small World - for indexing
 
 ```js
-vectorStore.similaritySearch("man", 10, {source: "books" })
+vectorStore.similaritySearch('man', 10, { source: 'books' });
 ```
 
 ### [[translation challenge code]]
+
 ### [[challenge with initial approach]]
 
 ### solution
+
 ```js
 const standaloneQuestionChain = standaloneQuestionPrompt
-	.pipe(llm)
-	.pipe(new StringOutputParser())
+  .pipe(llm)
+  .pipe(new StringOutputParser());
 
 const retrieverChain = RunnableSequence.from([
-	prevResult => prevResult.standalone_question,
-	retriever,
-	combineDocuments
-])
+  (prevResult) => prevResult.standalone_question,
+  retriever,
+  combineDocuments,
+]);
 
-const answerChain = answerPrompt
-	.pipe(llm)
-	.pipe(new StringOutputParser())
+const answerChain = answerPrompt.pipe(llm).pipe(new StringOutputParser());
 
 const chain = RunnableSequence.from([
-{
-	standalone_question: standaloneQuestionChain,
-	original_input: new RunnablePassthrough() // assigns input object
-},
-{
-	context: retrieverChain,
-	question: ({ original_input }) => original_input.question
-},
-	answerChain
-])
+  {
+    standalone_question: standaloneQuestionChain,
+    original_input: new RunnablePassthrough(), // assigns input object
+  },
+  {
+    context: retrieverChain,
+    question: ({ original_input }) => original_input.question,
+  },
+  answerChain,
+]);
 
 const response = await chain.invoke({
-	question: 'What are the technical requirements for running Scrimba? I only have a very old laptop which is not that powerful.'
+  question:
+    'What are the technical requirements for running Scrimba? I only have a very old laptop which is not that powerful.',
+});
 
-})
-
-console.log(response)
+console.log(response);
 ```
-
 
 ### [[final-code]]

@@ -4,31 +4,33 @@ tags:
   - react
 Parent:
 ---
-## ==*creating-a-virtual-dom ==
+
+## ==\*creating-a-virtual-dom ==
 
 - virtual DOM is the representation of a real DOM
 - we can represent real dom elements as javascript objects
 
-> { type: '...', props: { ... }, children: [ ... ] } 
+> { type: '...', props: { ... }, children: [ ... ] }
 > ('h1', null, 'child') <h1>child</h1>
+
 - here `children` can be a string or another 'node'(element)
 
 > [[transpiler]] - transpiling `/** @jsx convertRealDomToVirtualDom */`
-[@babel/plugin-transform-react-jsx](https://babeljs.io/docs/babel-plugin-transform-react-jsx/)
+> [@babel/plugin-transform-react-jsx](https://babeljs.io/docs/babel-plugin-transform-react-jsx/)
 
-we can leave `props` for now and we can create a function that constructs the real DOM by taking a virtual DOM. 
+we can leave `props` for now and we can create a function that constructs the real DOM by taking a virtual DOM.
 
 ```
 function createElement(virtualDomNode) {
 	if (typeof virtualDomNode === 'string') {
-		return document.createTextNode(virtualDomNode);	
+		return document.createTextNode(virtualDomNode);
 	}
 
 	const $element = document.createElement(virtualDomNode.type);
-	
+
 	node.children.map(createElement)
 		.forEach($element.appendChild.bind($element));
-	
+
 	return $element;
 }
 
@@ -55,6 +57,7 @@ realDomRoot.appendChild(createElement(heading));
 - there is a function that compares the current virtual DOM tree with the new virtual DOM tree and updates the real DOM. the process is called as 'diffing'
 
 ---
-## ==*References ==
+
+## ==\*References ==
 
 https://medium.com/@deathmood/how-to-write-your-own-virtual-dom-ee74acc13060

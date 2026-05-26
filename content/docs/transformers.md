@@ -8,7 +8,9 @@ Attention-based architecture without recurrence
 → Key innovation: positional encoding
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [Attention Is All You Need - Original Paper](https://arxiv.org/abs/1706.03762)
 - [The Illustrated Transformer](http://jalammar.github.io/illustrated-transformer/)
-#ml-notes
+  #ml-notes

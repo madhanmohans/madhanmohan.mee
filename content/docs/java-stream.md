@@ -2,9 +2,10 @@
 - There is no chance to modify the original collection
 - There is no increased storage
 - Internal Iteration
-![[Untitled 11.png|Untitled 11.png]]
+  ![[Untitled 11.png|Untitled 11.png]]
 - Performance is better than for loop and iterator
 - We can use multiple intermediate operations on a stream
+
 ```Java
 .stream()
 .filter()
@@ -27,7 +28,7 @@ flowchart LR
     G -.-> D
     G -.-> E
     F --> H[Output]
-    
+
     style G fill:#f9f,stroke:#333,stroke-width:0px
     style H fill:#bbf,stroke:#333,stroke-width:2px
 ```

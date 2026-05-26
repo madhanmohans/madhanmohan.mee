@@ -3,6 +3,7 @@
 [[tfx]] - End-to-end platform for deploying [[ml-production-pipelines]]
 
 Components:
+
 - Data validation
 - Transform
 - Trainer
@@ -12,13 +13,16 @@ Components:
 Integrates with [[mlflow]] for production workflows
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [[mlops]]
 - [[ci-cd-ct]]
 - [TFX Guide](https://www.tensorflow.org/tfx/guide)
 - [TFX Production Pipeline Tutorial](https://www.tensorflow.org/tfx/tutorials)
 
 ---
-## ==*References==
+
+## ==\*References==
 
 #ml-notes

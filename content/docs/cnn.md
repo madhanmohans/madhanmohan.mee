@@ -17,7 +17,9 @@ Filters found using [[gradient-descent]]
 Vulnerable to [[adversarial-attack]]
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [CNN Explained - Stanford CS231n](http://cs231n.github.io/convolutional-networks/)
 - [Convolutional Neural Networks - TensorFlow](https://www.tensorflow.org/tutorials/images/cnn)
-#ml-notes
+  #ml-notes

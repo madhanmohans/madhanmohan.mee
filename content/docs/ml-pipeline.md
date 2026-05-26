@@ -9,11 +9,14 @@ Production version: [[ml-production-pipelines]]
 Part of [[mlops]] ecosystem
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [ML Pipeline Tutorial](https://towardsdatascience.com/a-beginners-guide-to-machine-learning-pipelines-6d9fc5f7e7f3)
 - [Designing ML Pipelines](https://www.tensorflow.org/tfx/guide)
 
 ---
-## ==*References==
+
+## ==\*References==
 
 #ml-notes

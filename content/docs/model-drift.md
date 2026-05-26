@@ -3,6 +3,7 @@
 Model performance degrades over time → predictions become less accurate
 
 Causes:
+
 - [[data-drift]]
 - Concept drift
 - Changing relationships
@@ -10,12 +11,15 @@ Causes:
 Monitored in [[mlops]] using [[weights-and-biases]] or [[mlflow]]
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [[ml-production-pipelines]]
 - [Understanding Model Drift](https://www.evidently.ai/blog/ml-model-drift)
 - [Detecting Model Drift](https://machinelearningmastery.com/gentle-introduction-concept-drift-machine-learning/)
 
 ---
-## ==*References==
+
+## ==\*References==
 
 #ml-notes

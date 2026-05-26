@@ -14,4 +14,4 @@ tags:
 - [ ] - Sign in page (for both users)
 - [ ] - Overall app Background design
 - [ ] - App Name and Icon
-- [X] - Dark mode compatibility
+- [x] - Dark mode compatibility

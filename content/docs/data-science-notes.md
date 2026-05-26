@@ -1,4 +1,3 @@
-
 1. Viz (5D --> 2d)
 2. More features (100) -> DT will overfit -> reduce features (10 col) merge the information of 100 cols to 10 cols
 3. Principle component (important features) Feature selection/feature enginenering

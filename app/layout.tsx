@@ -8,10 +8,12 @@ export const metadata: Metadata = {
     default: 'madhanmohan.mee',
     template: '%s — madhanmohan.mee',
   },
-  description: 'A personal second brain — notes, knowledge graph, and documentation.',
+  description:
+    'A personal second brain — notes, knowledge graph, and documentation.',
   openGraph: {
     title: 'madhanmohan.mee',
-    description: 'A personal second brain — notes, knowledge graph, and documentation.',
+    description:
+      'A personal second brain — notes, knowledge graph, and documentation.',
     type: 'website',
   },
 };

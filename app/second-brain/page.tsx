@@ -41,8 +41,14 @@ export default function SecondBrainPage() {
             <button
               className="px-2.5 py-1 text-[11px] font-mono tracking-wider transition-colors duration-150"
               style={{
-                background: activeDimension === '2d' ? 'var(--color-fd-accent)' : 'transparent',
-                color: activeDimension === '2d' ? 'var(--color-fd-primary)' : 'var(--color-fd-muted-foreground)',
+                background:
+                  activeDimension === '2d'
+                    ? 'var(--color-fd-accent)'
+                    : 'transparent',
+                color:
+                  activeDimension === '2d'
+                    ? 'var(--color-fd-primary)'
+                    : 'var(--color-fd-muted-foreground)',
               }}
               onClick={() => setActiveDimension('2d')}
             >
@@ -51,8 +57,14 @@ export default function SecondBrainPage() {
             <button
               className="px-2.5 py-1 text-[11px] font-mono tracking-wider transition-colors duration-150"
               style={{
-                background: activeDimension === '3d' ? 'var(--color-fd-accent)' : 'transparent',
-                color: activeDimension === '3d' ? 'var(--color-fd-primary)' : 'var(--color-fd-muted-foreground)',
+                background:
+                  activeDimension === '3d'
+                    ? 'var(--color-fd-accent)'
+                    : 'transparent',
+                color:
+                  activeDimension === '3d'
+                    ? 'var(--color-fd-primary)'
+                    : 'var(--color-fd-muted-foreground)',
               }}
               onClick={() => setActiveDimension('3d')}
             >
@@ -60,11 +72,11 @@ export default function SecondBrainPage() {
             </button>
           </div>
 
-          <div className="flex border border-fd-border rounded-2xl" data-tour="view-toggle">
-            <button
-              className="view-toggle-btn"
-              data-active={true}
-            >
+          <div
+            className="flex border border-fd-border rounded-2xl"
+            data-tour="view-toggle"
+          >
+            <button className="view-toggle-btn" data-active={true}>
               <Waypoints size={16} />
             </button>
             <button
@@ -72,7 +84,7 @@ export default function SecondBrainPage() {
               data-active={false}
               onClick={() => router.push('/docs')}
             >
-              <Notebook size={16}/>
+              <Notebook size={16} />
             </button>
           </div>
         </div>
@@ -91,7 +103,8 @@ export default function SecondBrainPage() {
         )}
 
         {!graphData && (
-          <div className="flex items-center justify-center h-96 text-fd-muted-foreground"
+          <div
+            className="flex items-center justify-center h-96 text-fd-muted-foreground"
             style={{ fontSize: '13px', letterSpacing: '0.01em' }}
           >
             loading...

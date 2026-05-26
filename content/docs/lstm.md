@@ -9,6 +9,7 @@ Long Short-Term Memory networks
 Solves [[vanishing-gradient]] and [[exploding-gradient]] in [[rnn]]
 
 Uses gates to control information flow:
+
 - Forget gate
 - Input gate
 - Output gate
@@ -16,7 +17,9 @@ Uses gates to control information flow:
 Before [[transformer]] architectures dominated NLP
 
 ---
-## ==*References==
+
+## ==\*References==
+
 - [Understanding LSTM Networks](https://colah.github.io/posts/2015-08-Understanding-LSTMs/)
 - [LSTM Original Paper - Hochreiter & Schmidhuber](https://www.bioinf.jku.at/publications/older/2604.pdf)
 - [[gru]]
@@ -26,11 +29,8 @@ Before [[transformer]] architectures dominated NLP
 
 #ml-notes
 
-
 # lstm
 
-
-
 ---
-## ==*References==
 
+## ==\*References==

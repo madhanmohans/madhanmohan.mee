@@ -2,13 +2,17 @@
 tags:
   - react
 ---
+
 ### 1. Use of State Management like Redux: How Does It Work?
+
 Redux is a predictable state container for JavaScript apps, commonly used with React to manage global state. It works on three core principles:
+
 - **Single Source of Truth**: The entire app’s state is stored in a single object (the store).
 - **State is Read-Only**: The only way to change the state is by dispatching actions, which are payloads describing what happened.
 - **Changes via Pure Reducers**: Reducers are pure functions that take the current state and an action, returning a new state.
 
 **How it works**:
+
 - **Store**: Holds the app’s state.
 - **Actions**: Plain objects with a `type` (and optional payload) that describe changes (e.g., `{ type: 'INCREMENT', payload: 1 }`).
 - **Reducers**: Functions that specify how the state changes in response to actions (e.g., `(state, action) => newState`).
@@ -18,7 +22,9 @@ Redux is a predictable state container for JavaScript apps, commonly used with R
 ---
 
 ### 2. Performance: How to Load Resources Only Necessary for the Current Screen?
+
 To load only necessary resources for the current screen (lazy loading):
+
 - **Code Splitting**: Use `React.lazy()` and `Suspense` to load components dynamically only when needed.
   ```jsx
   const LazyComponent = React.lazy(() => import('./LazyComponent'));
@@ -39,6 +45,7 @@ To load only necessary resources for the current screen (lazy loading):
 ---
 
 ### 3. How to Cache Data (Header-Based and State-Based)?
+
 - **Header-Based Caching**:
   - Use HTTP headers like `Cache-Control`, `ETag`, or `Last-Modified` to control browser or CDN caching.
   - Example: `Cache-Control: max-age=3600` caches responses for 1 hour.
@@ -60,25 +67,29 @@ To load only necessary resources for the current screen (lazy loading):
 ---
 
 ### 4. Difference Between Using Redux and Context
-| **Aspect**          | **Redux**                                                                 | **Context**                                                              |
-|---------------------|---------------------------------------------------------------------------|--------------------------------------------------------------------------|
-| **Purpose**         | Global state management with predictable updates via actions/reducers.     | Share state across components without prop drilling.                     |
-| **Complexity**      | More complex (store, reducers, actions, middleware).                      | Simpler, built into React.                                               |
-| **Use Case**        | Large apps with complex state, frequent updates, or async operations.      | Small to medium apps with simple shared state (e.g., theme, user data).  |
-| **Scalability**     | Scales well for large apps with many components and state changes.         | Can cause unnecessary re-renders in large apps if not optimized.          |
-| **Middleware**      | Supports middleware (e.g., `redux-thunk`) for async logic.                | No built-in middleware; requires custom solutions.                       |
-| **Debugging**       | DevTools for time-travel debugging and action logging.                    | No built-in debugging tools.                                             |
+
+| **Aspect**      | **Redux**                                                              | **Context**                                                             |
+| --------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| **Purpose**     | Global state management with predictable updates via actions/reducers. | Share state across components without prop drilling.                    |
+| **Complexity**  | More complex (store, reducers, actions, middleware).                   | Simpler, built into React.                                              |
+| **Use Case**    | Large apps with complex state, frequent updates, or async operations.  | Small to medium apps with simple shared state (e.g., theme, user data). |
+| **Scalability** | Scales well for large apps with many components and state changes.     | Can cause unnecessary re-renders in large apps if not optimized.        |
+| **Middleware**  | Supports middleware (e.g., `redux-thunk`) for async logic.             | No built-in middleware; requires custom solutions.                      |
+| **Debugging**   | DevTools for time-travel debugging and action logging.                 | No built-in debugging tools.                                            |
 
 **When to Use**:
+
 - Use **Redux** for complex state logic, large-scale apps, or when middleware is needed.
 - Use **Context** for lightweight, localized state (e.g., theme, auth status).
 
 ---
 
 ### 5. What is Prop Drilling and How to Avoid It?
+
 **Prop Drilling**: Passing props through multiple layers of components, even if intermediate components don’t use them. This makes code harder to maintain.
 
 **How to Avoid**:
+
 - **Context API**: Share state globally without passing props.
   ```jsx
   const MyContext = React.createContext();
@@ -101,9 +112,11 @@ To load only necessary resources for the current screen (lazy loading):
 ---
 
 ### 6. How to Avoid Unwanted Re-renders of Components (useEffect Parameters)?
+
 Unwanted re-renders occur when a component re-renders unnecessarily due to state or prop changes.
 
 **Avoiding Re-renders**:
+
 - **useEffect Dependencies**: Ensure the dependency array includes only necessary variables to prevent excessive runs.
   ```jsx
   useEffect(() => {
@@ -128,16 +141,18 @@ Unwanted re-renders occur when a component re-renders unnecessarily due to state
 ---
 
 ### 7. Controlled vs. Uncontrolled Components
-| **Aspect**          | **Controlled Components**                                          | **Uncontrolled Components**                                      |
-|---------------------|-------------------------------------------------------------|-------------------------------------------------------------|
-| **Definition**      | Input elements whose value is controlled by React state.     | Input elements that manage their own state via the DOM.      |
-| **Example**         | `<input value={state} onChange={(e) => setState(e.target.value)} />` | `<input defaultValue="initial" ref={inputRef} />`           |
-| **State Management**| State is managed in React (single source of truth).          | State is managed by the DOM; accessed via refs.              |
-| **Use Case**        | Forms with validation, dynamic updates, or conditional logic.| Simple forms or when you need direct DOM access.             |
-| **Pros**            | Predictable, easier to validate and manipulate.              | Simpler for basic forms, less boilerplate.                   |
-| **Cons**            | More code for state management.                             | Harder to control or validate dynamically.                   |
+
+| **Aspect**           | **Controlled Components**                                            | **Uncontrolled Components**                             |
+| -------------------- | -------------------------------------------------------------------- | ------------------------------------------------------- |
+| **Definition**       | Input elements whose value is controlled by React state.             | Input elements that manage their own state via the DOM. |
+| **Example**          | `<input value={state} onChange={(e) => setState(e.target.value)} />` | `<input defaultValue="initial" ref={inputRef} />`       |
+| **State Management** | State is managed in React (single source of truth).                  | State is managed by the DOM; accessed via refs.         |
+| **Use Case**         | Forms with validation, dynamic updates, or conditional logic.        | Simple forms or when you need direct DOM access.        |
+| **Pros**             | Predictable, easier to validate and manipulate.                      | Simpler for basic forms, less boilerplate.              |
+| **Cons**             | More code for state management.                                      | Harder to control or validate dynamically.              |
 
 **Example**:
+
 - **Controlled**:
   ```jsx
   function Form() {
@@ -156,9 +171,11 @@ Unwanted re-renders occur when a component re-renders unnecessarily due to state
 ---
 
 ### 8. Layers of Safety and the Test Pyramid
+
 The **test pyramid** prioritizes writing more low-level tests (faster, cheaper) and fewer high-level tests (slower, more complex).
 
 **Layers**:
+
 1. **Unit Tests**:
    - Test individual functions or components in isolation.
    - **React Testing Library (RTL)**: Renders components, simulates user interactions, and queries the DOM.
@@ -182,6 +199,7 @@ The **test pyramid** prioritizes writing more low-level tests (faster, cheaper) 
    - Example: Check if the login page renders and submits.
 
 **Test Pyramid Structure**:
+
 - **Base**: Many unit tests (fast, isolated).
 - **Middle**: Fewer integration tests (test component interactions).
 - **Top**: Few end-to-end or smoke tests (test full workflows).
@@ -189,6 +207,7 @@ The **test pyramid** prioritizes writing more low-level tests (faster, cheaper) 
 ---
 
 ### 9. Good Practices to Follow
+
 1. **Component Thinking (Storybook/Styleguidist)**:
    - Build reusable, isolated components and document them in tools like Storybook.
    - Example: Create a `Button` component with stories for different variants.
@@ -205,7 +224,9 @@ The **test pyramid** prioritizes writing more low-level tests (faster, cheaper) 
 ---
 
 ### 10. Sample Code: Integrating Redux with React
+
 #### 1. Create Redux Store and Reducer
+
 ```jsx
 // store.js
 import { createStore } from 'redux';
@@ -229,6 +250,7 @@ export default store;
 ```
 
 #### 2. Connect Store to React Components
+
 ```jsx
 // App.js
 import { Provider } from 'react-redux';
@@ -246,6 +268,7 @@ export default App;
 ```
 
 #### 3. Dispatch Actions Using `useDispatch`
+
 ```jsx
 // Counter.js
 import { useSelector, useDispatch } from 'react-redux';
@@ -268,6 +291,7 @@ export default Counter;
 ---
 
 ### 11. Importance of Immutability in React/Redux
+
 - **React**: Immutability ensures React detects changes via reference comparison (`===`). Updating state immutably (e.g., using spread operators) triggers re-renders only when necessary.
   ```jsx
   setState((prev) => ({ ...prev, key: newValue }));
@@ -283,7 +307,9 @@ export default Counter;
 ---
 
 ### 12. Handling Asynchronous Tasks in Redux (e.g., API Calls)
+
 Use middleware like `redux-thunk` to handle async operations.
+
 - **Thunk**: Allows dispatching functions instead of plain action objects, enabling async logic.
 - **Setup**:
   ```jsx
@@ -319,6 +345,7 @@ Use middleware like `redux-thunk` to handle async operations.
 ---
 
 ### 13. Improving Performance and Preventing Unnecessary Re-renders
+
 - **React.memo**: Prevents re-rendering if props are unchanged.
   ```jsx
   const MyComponent = React.memo(({ data }) => <div>{data}</div>);
@@ -337,9 +364,11 @@ Use middleware like `redux-thunk` to handle async operations.
 ---
 
 ### 14. Testing with Jest and React Testing Library
+
 - **Jest**: A test runner that provides assertions, mocks, and test suites.
 - **React Testing Library (RTL)**: Focuses on testing user interactions, not implementation details.
 - **Example**:
+
   ```jsx
   import { render, screen, fireEvent } from '@testing-library/react';
   import Button from './Button';
@@ -355,6 +384,7 @@ Use middleware like `redux-thunk` to handle async operations.
 ---
 
 ### 15. Debugging Issues in an Application
+
 - **React DevTools**: Inspect component hierarchy, props, and state.
 - **Browser DevTools**: Check network requests, console logs, and performance.
 - **Debugging Tools**:
@@ -370,7 +400,9 @@ Use middleware like `redux-thunk` to handle async operations.
 ---
 
 ### 16. Past Projects, Use Cases, Challenges
+
 Since I don’t have access to your past projects, here’s how to approach this:
+
 - **Use Cases**: Describe key features (e.g., real-time chat, form validation, or API-driven dashboards).
 - **Challenges**:
   - Managing complex state (solved with Redux or Context).
@@ -381,6 +413,7 @@ Since I don’t have access to your past projects, here’s how to approach this
 ---
 
 ### 17. Restricting Sensitive Content and Permissions
+
 - **Role-Based Access Control (RBAC)**:
   - Store user roles (e.g., admin, viewer) in state (Redux/Context) or JWT.
   - Conditionally render components based on roles.
@@ -409,6 +442,7 @@ Since I don’t have access to your past projects, here’s how to approach this
 ---
 
 ### 18. Building a Secure Authentication System
+
 - **Frontend**:
   - Use a form with controlled inputs for username/password.
   - Validate inputs (e.g., email format, password strength).
@@ -439,12 +473,16 @@ Since I don’t have access to your past projects, here’s how to approach this
         <input
           type="email"
           value={credentials.email}
-          onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
+          onChange={(e) =>
+            setCredentials({ ...credentials, email: e.target.value })
+          }
         />
         <input
           type="password"
           value={credentials.password}
-          onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+          onChange={(e) =>
+            setCredentials({ ...credentials, password: e.target.value })
+          }
         />
         <button type="submit">Login</button>
       </form>
@@ -455,19 +493,23 @@ Since I don’t have access to your past projects, here’s how to approach this
 ---
 
 ### 19. Debugging Slow Form Input
+
 - **Steps**:
   1. **Profile Performance**: Use React DevTools Profiler orstages the component.
   2. **Check for Re-renders**: Ensure the component isn’t re-rendering excessively (use `React.memo` or `useCallback`).
   3. **Optimize State Updates**: Avoid unnecessary state updates or complex computations in `onChange`.
   4. **Debounce Input**: Use a debouncing library (e.g., `lodash.debounce`) to reduce event frequency.
-    ```jsx
-    const debouncedOnChange = debounce((value) => setState(value), 300);
-    ```
+
+  ```jsx
+  const debouncedOnChange = debounce((value) => setState(value), 300);
+  ```
+
   5. **Simplify Logic**: Move expensive logic out of the render cycle using `useMemo`.
 
 ---
 
 ### 20. Handling File Uploads in a Form
+
 - Use the `input` element with `type="file"`.
 - **Example**:
   ```jsx
@@ -493,6 +535,7 @@ Since I don’t have access to your past projects, here’s how to approach this
 ---
 
 ### 21. Unit vs. Integration Tests
+
 - **Unit Tests**: Test a single unit (e.g., a function or component) in isolation.
   - Example: Test a button’s `onClick` handler.
 - **Integration Tests**: Test interactions between components or systems (e.g., form submission and API response).
@@ -503,6 +546,7 @@ Since I don’t have access to your past projects, here’s how to approach this
 ---
 
 ### 22. Jest vs. React Testing Library
+
 - **Jest**: A test runner providing assertions, mocks, and test organization.
 - **React Testing Library (RTL)**: A library for testing React components by simulating user interactions.
 - **Difference**:
@@ -513,6 +557,7 @@ Since I don’t have access to your past projects, here’s how to approach this
 ---
 
 ### 23. Ternary Operator vs. `&&` for Conditional Rendering
+
 - **Ternary Operator** (`condition ? <ComponentA /> : <ComponentB />`):
   - Pros: Explicitly defines both outcomes, clearer for complex conditions.
   - Cons: More verbose.
@@ -524,25 +569,33 @@ Since I don’t have access to your past projects, here’s how to approach this
 ---
 
 ### 24. Transforming Any Value to Boolean
+
 Use the double NOT operator (`!!`) or `Boolean()`:
+
 ```jsx
 const value = 'hello';
 const bool = !!value; // true
 const bool2 = Boolean(value); // true
 ```
+
 - `!!` coerces any value to a boolean (`null`, `undefined`, `0`, `''` → `false`; others → `true`).
 
 ---
 
 ### 25. Scenario Causing an Infinite Loop
+
 An infinite loop in React can occur due to:
+
 - **Incorrect `useEffect` Dependencies**:
+
   ```jsx
   useEffect(() => {
     setState(state + 1); // Updates state every render
   }, [state]);
   ```
+
   - **Fix**: Remove `state` from dependencies or use a condition to prevent updates.
+
 - **State Updates in Render**: Calling `setState` directly in the render function.
   ```jsx
   function Component() {
@@ -555,6 +608,7 @@ An infinite loop in React can occur due to:
 ---
 
 ### 26. Checking Accessibility of an Application
+
 - **Tools**:
   - **Lighthouse**: Run accessibility audits in Chrome DevTools.
   - **axe DevTools**: Browser extension for accessibility testing.

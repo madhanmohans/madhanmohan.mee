@@ -12,143 +12,108 @@
    ↓
 7. When user clicks logout: Token is destroyed
 
-
 ```js
 // client a
 
-const allAccounts= [1, 2, 3, 4, 5, 6];
-
-  
+const allAccounts = [1, 2, 3, 4, 5, 6];
 
 // user a -> access to the below accounts
 
 const userEntitledAccounts = [1, 2, 3, 4];
 
-  
-
 // user a -> filters by account 1 and 2
 
 const userFilteredAccounts = [1, 2];
 
-  
+const availableReports = [
+  {
+    reportId: 1,
 
-const availableReports = [{
+    accountIds: [1, 3],
+  },
+  {
+    reportId: 2,
 
-reportId: 1,
+    accountIds: [1, 5],
+  },
+  {
+    reportId: 3,
 
-accountIds: [1, 3]
+    accountIds: [1, 6],
+  },
+  {
+    reportId: 4,
 
-}, {
+    accountIds: [2, 3],
+  },
 
-reportId: 2,
+  {
+    reportId: 5,
 
-accountIds: [1, 5]
-
-}, {
-
-reportId: 3,
-
-accountIds: [1, 6]
-
-}, {
-
-reportId: 4,
-
-accountIds: [2, 3]
-
-},
-
-{
-
-reportId: 5,
-
-accountIds: [3, 4]
-
-}];
-
-  
-  
+    accountIds: [3, 4],
+  },
+];
 
 // Ensure the final reports include at least one of the user's filtered accounts and all accounts the user is entitled to access.
 
 const getFinalReportIds = () => {
+  return availableReports
+    .filter((report) => {
+      const isAnEntitledAccount = report.accountIds.every((account) =>
+        userEntitledAccounts.includes(account),
+      );
 
-return availableReports.filter(report => {
+      const isAFilteredAccount = report.accountIds.some((account) =>
+        userFilteredAccounts.includes(account),
+      );
 
-const isAnEntitledAccount = report.accountIds.every((account) => userEntitledAccounts.includes(account));
-
-const isAFilteredAccount = report.accountIds.some((account) => userFilteredAccounts.includes(account));
-
-return isAnEntitledAccount && isAFilteredAccount;
-
-}
-
-).map((report) => report.reportId)
-
-}
-
-  
-  
+      return isAnEntitledAccount && isAFilteredAccount;
+    })
+    .map((report) => report.reportId);
+};
 
 const getFinalReportIdsV1 = () => {
+  return availableReports.reduce((finalReports, report) => {
+    const isAnEntitledAccount = report.accountIds.every((account) =>
+      userEntitledAccounts.includes(account),
+    );
 
-return availableReports.reduce((finalReports, report) => {
+    const isAFilteredAccount = report.accountIds.some((account) =>
+      userFilteredAccounts.includes(account),
+    );
 
-const isAnEntitledAccount = report.accountIds.every((account) => userEntitledAccounts.includes(account));
+    if (isAnEntitledAccount && isAFilteredAccount) {
+      finalReports.push(report.reportId);
+    }
 
-const isAFilteredAccount = report.accountIds.some((account) => userFilteredAccounts.includes(account));
-
-  
-
-if (isAnEntitledAccount && isAFilteredAccount) {
-
-finalReports.push(report.reportId);
-
-}
-
-return finalReports;
-
-}, [])
-
-}
-
-  
+    return finalReports;
+  }, []);
+};
 
 console.log(getFinalReportIdsV1());
 
-  
-
 const testGetFinalReportIds = () => {
+  const expectedFinalReportIds = [1, 4];
 
-const expectedFinalReportIds = [1, 4];
-
-console.log(JSON.stringify(getFinalReportIds()) === JSON.stringify(expectedFinalReportIds));
-
-}
-
-  
+  console.log(
+    JSON.stringify(getFinalReportIds()) ===
+      JSON.stringify(expectedFinalReportIds),
+  );
+};
 
 testGetFinalReportIds();
 
-
 // reduce
 
-  
-  
-
-const arr1 = [[1, 2], [3, 4], [5, 6]];
-
-  
-  
+const arr1 = [
+  [1, 2],
+  [3, 4],
+  [5, 6],
+];
 
 arr1.reduce((acc, curr, index) => {
-
-return acc.concat(curr);
-
+  return acc.concat(curr);
 }, []);
-
-  
-  
 
 // console.log(arr1.reduce((acc, curr) =>
 

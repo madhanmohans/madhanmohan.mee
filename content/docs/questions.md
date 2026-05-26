@@ -17,7 +17,7 @@
 - specificity
 - css selectors
 - javascript module
-- how to optimize react performance 
+- how to optimize react performance
 - Importance of keys in lists 
 - can we use keys outside of lists
 - can we use async function as callback for useeffect
@@ -36,7 +36,7 @@
 - "Production page is blank but works fine in development - how do you debug and resolve?" 
 - Differences between Debouncing and Throttling, and their implementation
 - Hands-on coding with the Array `reduce()` method
-- responsiveness for all devices 
+- responsiveness for all devices
 - tailwindcss - spacing, breakpoints, utilities
 - currying
 - how this works 
