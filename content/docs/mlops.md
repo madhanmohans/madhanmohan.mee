@@ -13,7 +13,7 @@ Tools: [[mlflow]], [[weights-and-biases]], [[tensorflow-extended]]
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [[ml-pipeline]]
 - [MLOps Guide](https://ml-ops.org/)
@@ -22,6 +22,6 @@ Tools: [[mlflow]], [[weights-and-biases]], [[tensorflow-extended]]
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

@@ -10,7 +10,7 @@ Binary format, more efficient than [[json-format]]
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Protocol Buffers - Google Developers](https://developers.google.com/protocol-buffers)
 - [Protobuf Guide](https://protobuf.dev/)

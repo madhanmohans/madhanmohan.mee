@@ -6,7 +6,7 @@ Covers basics of building neural networks
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [[embedded-machine-learning-coursera]]
 - [[ml-in-production-coursera]]
@@ -14,6 +14,6 @@ Covers basics of building neural networks
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

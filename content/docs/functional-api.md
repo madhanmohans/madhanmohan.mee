@@ -8,7 +8,7 @@ More flexible than [[sequential-api]]
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Functional API - Keras](https://keras.io/guides/functional_api/)
 - [Keras Functional API Tutorial](https://www.tensorflow.org/guide/keras/functional)

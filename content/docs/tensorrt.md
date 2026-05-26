@@ -8,7 +8,7 @@ Optimizes models for production deployment
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [TensorRT Official Documentation](https://developer.nvidia.com/tensorrt)
 - [TensorRT Tutorial - NVIDIA Developer](https://docs.nvidia.com/deeplearning/tensorrt/quick-start-guide/index.html)

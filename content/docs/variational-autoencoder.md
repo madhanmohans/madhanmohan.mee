@@ -8,7 +8,7 @@ Generative model with probabilistic encoder-decoder structure
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [VAE Paper - Kingma & Welling](https://arxiv.org/abs/1312.6114)
 - [Understanding Variational Autoencoders](https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73)

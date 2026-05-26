@@ -1,5 +1,3 @@
-# Transformers
-
 Attention-based architecture without recurrence
 
 → Replaces [[recurrent-neural-network]]in [[NLP]]
@@ -9,8 +7,9 @@ Attention-based architecture without recurrence
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Attention Is All You Need - Original Paper](https://arxiv.org/abs/1706.03762)
 - [The Illustrated Transformer](http://jalammar.github.io/illustrated-transformer/)
-  #ml-notes
+
+#ml-notes

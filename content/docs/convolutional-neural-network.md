@@ -9,7 +9,7 @@
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [CNN Explainer - Interactive Visualization](https://poloclub.github.io/cnn-explainer/)
 - [A Guide to Convolution Arithmetic](https://arxiv.org/abs/1603.07285)

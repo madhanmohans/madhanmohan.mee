@@ -17,7 +17,7 @@ Extensions:
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [TensorFlow Official Documentation](https://www.tensorflow.org/)
 - [TensorFlow Guide - Machine Learning Mastery](https://machinelearningmastery.com/tensorflow-tutorial-deep-learning-with-tf-keras/)

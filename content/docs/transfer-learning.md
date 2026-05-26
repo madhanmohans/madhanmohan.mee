@@ -1,5 +1,3 @@
-# Transfer Learning
-
 Reusing pre-trained model knowledge for new related tasks
 
 → Reduces training time and data requirements
@@ -8,8 +6,9 @@ Reusing pre-trained model knowledge for new related tasks
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Transfer Learning Guide](https://www.tensorflow.org/tutorials/images/transfer_learning)
 - [A Survey on Transfer Learning](https://ieeexplore.ieee.org/document/5288526)
-  #ml-notes
+
+#ml-notes

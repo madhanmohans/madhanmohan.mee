@@ -4,7 +4,7 @@ tags:
   - '#buidlingasecondbrain'
 ---
 
-## ==\*Followup post ideas for building a second brain ==
+## ==Followup post ideas for building a second brain==
 
 Outsource your brain and focus on meaningful work and less distracted life.
 
@@ -22,9 +22,7 @@ One intentional pause allows the breathing space for our brain to think of that 
 
 ---
 
-## ==\*References ==
-
-![[Screen Recording 2024-10-28 at 9.50.33 PM.mov]]
+## ==References==
 
 Recently, I have imported my notes from the past 3 years from various sources and captured them in [Obsidian - A Note Taking Tool](https://obsidian.md/)
 

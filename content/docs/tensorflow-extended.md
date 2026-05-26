@@ -14,7 +14,7 @@ Integrates with [[mlflow]] for production workflows
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [[mlops]]
 - [[ci-cd-ct]]
@@ -23,6 +23,6 @@ Integrates with [[mlflow]] for production workflows
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

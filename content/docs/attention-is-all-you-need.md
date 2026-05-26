@@ -12,7 +12,7 @@ Enabled [[multilingual-language-model]]
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Attention Is All You Need Paper](https://arxiv.org/abs/1706.03762)
 - [Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/)
@@ -20,6 +20,6 @@ Enabled [[multilingual-language-model]]
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

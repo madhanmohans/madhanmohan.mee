@@ -8,7 +8,7 @@ Commonly used with [[ngrok]] for sharing, integrates with [[mlflow]] for model s
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [[mlops]]
 - [Streamlit Documentation](https://docs.streamlit.io/)
@@ -16,6 +16,6 @@ Commonly used with [[ngrok]] for sharing, integrates with [[mlflow]] for model s
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

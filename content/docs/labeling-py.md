@@ -6,7 +6,7 @@ Used in ML workflows to annotate training data → essential for [[supervised-le
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [[mlflow]]
 - [Label Studio Documentation](https://labelstud.io/guide/)
@@ -14,6 +14,6 @@ Used in ML workflows to annotate training data → essential for [[supervised-le
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

@@ -8,7 +8,7 @@ Provides ready-to-use models and custom model support
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [ML Kit - Google Developers](https://developers.google.com/ml-kit)
 - [ML Kit Documentation](https://firebase.google.com/docs/ml-kit)

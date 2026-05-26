@@ -11,7 +11,7 @@ Types:
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Pooling Layers - Stanford CS231n](http://cs231n.github.io/convolutional-networks/#pool)
 - [Max Pooling Explained - Papers With Code](https://paperswithcode.com/method/max-pooling)

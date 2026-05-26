@@ -8,7 +8,7 @@ Natural Language Processing - AI field for human language understanding
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [NLP Overview - Stanford CS224N](https://web.stanford.edu/class/cs224n/)
 - [Natural Language Processing with Transformers Book](https://www.oreilly.com/library/view/natural-language-processing/9781098136789/)

@@ -10,7 +10,7 @@ Used to find [[cnn]] filters
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Gradient Descent - Google ML Crash Course](https://developers.google.com/machine-learning/crash-course/reducing-loss/gradient-descent)
 - [Understanding Gradient Descent - Towards Data Science](https://towardsdatascience.com/gradient-descent-algorithm-a-deep-dive-cf04e8115f21)

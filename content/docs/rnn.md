@@ -15,7 +15,7 @@ Solution: [[lstm]] and [[gru]]
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [[transformer]]
 - [Understanding RNN](https://colah.github.io/posts/2015-08-Understanding-LSTMs/)
@@ -23,6 +23,6 @@ Solution: [[lstm]] and [[gru]]
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

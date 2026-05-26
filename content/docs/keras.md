@@ -10,7 +10,7 @@ Saves models in [[h5-format]]
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Keras Official Documentation](https://keras.io/)
 - [Keras Tutorial - TensorFlow](https://www.tensorflow.org/guide/keras)

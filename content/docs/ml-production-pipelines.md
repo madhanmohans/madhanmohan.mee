@@ -16,7 +16,7 @@ Requires [[ci-cd-ct]] practices
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [[mlops]]
 - [[ml-pipeline]]
@@ -25,6 +25,6 @@ Requires [[ci-cd-ct]] practices
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

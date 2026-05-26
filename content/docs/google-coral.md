@@ -8,7 +8,7 @@ Provides hardware and tools for on-device ML
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Google Coral Official Site](https://coral.ai/)
 - [Getting Started with Coral - Google](https://coral.ai/docs/)

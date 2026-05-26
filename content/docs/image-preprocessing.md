@@ -13,13 +13,13 @@ Steps:
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Image Preprocessing Guide](https://www.tensorflow.org/tutorials/images/data_augmentation)
 - [Data Augmentation Techniques](https://machinelearningmastery.com/image-augmentation-deep-learning-keras/)
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

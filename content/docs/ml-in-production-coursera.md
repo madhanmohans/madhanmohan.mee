@@ -10,7 +10,7 @@ Covers:
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [[embedded-machine-learning-coursera]]
 - [[introduction-to-tensorflow-udacity]]
@@ -18,6 +18,6 @@ Covers:
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

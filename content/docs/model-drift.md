@@ -12,7 +12,7 @@ Monitored in [[mlops]] using [[weights-and-biases]] or [[mlflow]]
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [[ml-production-pipelines]]
 - [Understanding Model Drift](https://www.evidently.ai/blog/ml-model-drift)
@@ -20,6 +20,6 @@ Monitored in [[mlops]] using [[weights-and-biases]] or [[mlflow]]
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

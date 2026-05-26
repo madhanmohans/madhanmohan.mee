@@ -10,7 +10,7 @@ Abbreviation: pyt
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [PyTorch Documentation](https://pytorch.org/docs/stable/index.html)
 - [PyTorch Tutorials](https://pytorch.org/tutorials/)

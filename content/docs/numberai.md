@@ -6,6 +6,6 @@ AI company focused on numerical reasoning and mathematical problem-solving
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Company Website](https://number.ai/)

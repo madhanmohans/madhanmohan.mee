@@ -10,7 +10,7 @@ Produces [[fixed-length]] vectors
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [[sequential]]
 - [Bag of Words Explained](https://machinelearningmastery.com/gentle-introduction-bag-words-model/)
@@ -18,6 +18,6 @@ Produces [[fixed-length]] vectors
 
 ---
 
-## ==\*References==
+## ==References==
 
 #ml-notes

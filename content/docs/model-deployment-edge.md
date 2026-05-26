@@ -18,7 +18,7 @@ Customizable: [[tensorflow-lite]], Google Cloud
 
 ---
 
-## ==\*References==
+## ==References==
 
 - [Edge Deployment Guide - TensorFlow](https://www.tensorflow.org/lite/guide)
 - [Mobile ML Deployment - Google Developers](https://developers.google.com/ml-kit)
