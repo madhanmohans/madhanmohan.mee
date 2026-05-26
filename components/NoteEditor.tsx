@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Check, Pencil, Save, X } from 'lucide-react';
-import { MdxPreview } from '@/components/mdx-preview';
+import { MdxPreview } from '@/components/MDXPreview';
 import { cn } from '@/lib/cn';
 import { buttonVariants } from 'fumadocs-ui/components/ui/button';
 import { AnimatePresence, motion } from 'framer-motion';

@@ -46,6 +46,26 @@ export interface GraphViewProps {
   ghost?: boolean;
 }
 
+export interface GraphMiniProps {
+  pageUrl: string;
+}
+
+export interface MiniNode {
+  id: string;
+  text: string;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  isCurrent: boolean;
+}
+
+export interface MiniLink {
+  source: string;
+  target: string;
+}
+
+
 export function stripInlineMarkdown(text: string) {
   return text
     .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
@@ -112,7 +132,7 @@ export function createForceGraphRef<T extends ForceGraphInstance>(
   };
 }
 
-export function enrichGraphNodesWithNeighbors(graph: Graph, linkField: string = 'source'): { nodes: Node[]; links: Link[] } {
+export function enrichGraphNodesWithNeighbors(graph: Graph): { nodes: Node[]; links: Link[] } {
   const { nodes, links } = structuredClone(graph);
   for (const node of nodes) {
     node.neighbors = links.flatMap((link: any) => {

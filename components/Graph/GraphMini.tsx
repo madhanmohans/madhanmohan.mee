@@ -1,35 +1,12 @@
 'use client';
 
+import { HIT_RADIUS, GRAPH_HEIGHT, MAX_SIMULATION_TICKS, MIN_ZOOM, MAX_ZOOM, GRAPH_API_URL } from './constants';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Waypoints } from 'lucide-react';
-import type { Graph } from '@/components/graph-view';
-
-export interface GraphMiniProps {
-  pageUrl: string;
-}
-
-interface MiniNode {
-  id: string;
-  text: string;
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  isCurrent: boolean;
-}
-
-interface MiniLink {
-  source: string;
-  target: string;
-}
-
-const GRAPH_HEIGHT = 200;
-const HIT_RADIUS = 12;
-const MIN_ZOOM = 0.3;
-const MAX_ZOOM = 4;
-const MAX_SIMULATION_TICKS = 120;
+import type { Graph } from '@/components/Graph/GraphView';
+import type { MiniNode, GraphMiniProps, MiniLink } from './IGraphMini';
 
 export function GraphMini({ pageUrl }: GraphMiniProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -42,7 +19,7 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
   const shouldRedrawRef = useRef(false);
 
   useEffect(() => {
-    fetch('/api/graph')
+    fetch(GRAPH_API_URL)
       .then((response) => response.json())
       .then((data: Graph) => setFetchedGraphData(data))
       .catch(() => {});
@@ -198,7 +175,7 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
         }
       }
       for (const link of simulationLinks) {
-        const dx = link.target.x - link.source.x;
+        const dx = link.target.y - link.source.x;
         const dy = link.target.y - link.source.y;
         const dist = Math.sqrt(dx * dx + dy * dy) || 1;
         const targetDistance = 50;
@@ -232,8 +209,8 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
       context.lineWidth = 1 / scale;
       for (const link of simulationLinks) {
         context.beginPath();
-        context.moveTo(link.source.x, link.source.y);
-        context.lineTo(link.target.x, link.target.y);
+        context.moveTo(link.source.x, link.source?.y);
+        context.lineTo(link.target.x, link.target?.y);
         context.stroke();
       }
 

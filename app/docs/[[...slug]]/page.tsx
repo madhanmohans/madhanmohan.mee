@@ -1,13 +1,13 @@
 import { getPageImage, source } from '@/lib/source';
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from 'fumadocs-ui/layouts/docs/page';
 import { notFound } from 'next/navigation';
-import { getMDXComponents } from '@/mdx-components';
+import { getMDXComponents } from '@/MDXComponents';
 import type { Metadata } from 'next';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
-import { LLMCopyButton, ViewOptions } from '@/components/ai/page-actions';
-import { NoteEditor } from '@/components/note-editor';
-import { GraphMini } from '@/components/graph-mini-dynamic';
-import { DocsTour } from '@/components/docs-tour';
+import { LLMCopyButton, ViewOptions } from '@/components/PageActions';
+import { NoteEditor } from '@/components/NoteEditor';
+import { DocsTour } from '@/components/DocsTour';
+import { GraphMini } from '@/components/Graph/GraphMini';
 
 export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
   const params = await props.params;

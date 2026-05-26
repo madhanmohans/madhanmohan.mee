@@ -1,4 +1,4 @@
-import { buildGraph } from '@/lib/build-graph';
+import { buildGraph } from '@/lib/buildGraph';
 import { NextResponse } from 'next/server';
 
 export async function GET() {

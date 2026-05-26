@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { RootProvider } from 'fumadocs-ui/provider/next';
-import { GrainyBackground } from '@/components/grainy-background';
+import { GrainyBackground } from '@/components/BackgroundVideo';
 import './global.css';
 
 export const metadata: Metadata = {

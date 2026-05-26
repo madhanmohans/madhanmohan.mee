@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { source } from '@/lib/source';
-import type { Graph } from '../components/graph-view';
+import type { Graph } from '../components/Graph/GraphView';
 import type { Page } from 'fumadocs-core/source';
 
 const CONTENT_DIRECTORY = path.resolve(process.cwd(), 'content/docs');

@@ -1,18 +1,18 @@
 'use client';
 import dynamic from 'next/dynamic';
-import type { GraphViewProps } from './graph-shared';
-export type { Graph, Node, Link, NodeType, LinkType, GraphViewProps } from './graph-shared';
+import type { GraphViewProps } from './GraphShared';
+export type { Graph, Node, Link, NodeType, LinkType, GraphViewProps } from './GraphShared';
 
 function LoadingFallback() {
   return <div className="size-full rounded-xl bg-fd-background" />;
 }
 
-const GraphView2D = dynamic(() => import('./graph-view-2d'), {
+const GraphView2D = dynamic(() => import('./GraphView2D'), {
   ssr: false,
   loading: LoadingFallback,
 });
 
-const GraphView3D = dynamic(() => import('./graph-view-3d'), {
+const GraphView3D = dynamic(() => import('./GraphView3D'), {
   ssr: false,
   loading: LoadingFallback,
 });

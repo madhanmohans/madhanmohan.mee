@@ -352,7 +352,7 @@ table {
   max-width: 720px;
 }
 
-/* --- Grainy glowing background video (homepage only) --- */
+/* --- background video (homepage only) --- */
 .grainy-bg {
   opacity: 0.5;
   filter: invert(1);

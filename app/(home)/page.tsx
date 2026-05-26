@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { GraphView } from '@/components/graph-view';
-import { Tour } from '@/components/tour';
+import { GraphView } from '@/components/Graph/GraphView';
+import { Tour } from '@/components/Tour';
 import { welcomePageTourStep, secondBrainPageTourStep, aboutPageTourStep } from './constants';
 
 export default function HomePage() {

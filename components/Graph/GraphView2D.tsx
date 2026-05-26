@@ -4,9 +4,9 @@ import ForceGraph2D from 'react-force-graph-2d';
 import { forceCollide, forceCenter, forceLink, forceManyBody } from 'd3-force';
 import { useRouter } from 'fumadocs-core/framework';
 import { AnimatePresence, motion } from 'framer-motion';
-import type { Graph, GraphViewProps } from './graph-shared';
-import { MiniMarkdown, createForceGraphRef, enrichGraphNodesWithNeighbors } from './graph-shared';
-import type { ForceGraphInstance } from './graph-shared';
+import type { Graph, GraphViewProps } from './GraphShared';
+import { MiniMarkdown, createForceGraphRef, enrichGraphNodesWithNeighbors } from './GraphShared';
+import type { ForceGraphInstance } from './GraphShared';
 
 function configureGraphForces(forceGraphInstance: ForceGraphInstance) {
   forceGraphInstance.d3Force('link', forceLink().distance(30).strength(1));

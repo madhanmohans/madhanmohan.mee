@@ -5,9 +5,9 @@ import ForceGraph3D from 'react-force-graph-3d';
 import { forceCollide, forceCenter, forceLink, forceManyBody } from 'd3-force-3d';
 import { useRouter } from 'fumadocs-core/framework';
 import { AnimatePresence, motion } from 'framer-motion';
-import type { Graph, GraphViewProps } from './graph-shared';
-import { MiniMarkdown, createForceGraphRef, enrichGraphNodesWithNeighbors } from './graph-shared';
-import type { ForceGraphInstance } from './graph-shared';
+import type { Graph, GraphViewProps } from './GraphShared';
+import { MiniMarkdown, createForceGraphRef, enrichGraphNodesWithNeighbors } from './GraphShared';
+import type { ForceGraphInstance } from './GraphShared';
 
 function parseColorNumber(style: CSSStyleDeclaration, name: string, fallback: string): number {
   const element = document.createElement('div');
@@ -80,7 +80,7 @@ function GhostGraph({
 
   return (
     <ForceGraph3D
-      ref={createForceGraphRef(graphRef, (forceGraphInstance) => {
+      ref={createForceGraphRef(graphRef, (forceGraphInstance: Graph) => {
         configureGraphForces(forceGraphInstance);
         const controls = forceGraphInstance.controls();
         if (controls) {

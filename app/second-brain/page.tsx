@@ -1,11 +1,12 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { GraphView, type Graph } from '@/components/graph-view';
+import { GraphView, type Graph } from '@/components/Graph/GraphView';
 import { ChessKing, Notebook, Waypoints } from 'lucide-react';
-import { Tour } from '@/components/tour';
+import { Tour } from '@/components/Tour';
+import { GRAPH_API_URL } from '@/components/Graph/constants';
 
 export default function SecondBrainPage() {
   const router = useRouter();
@@ -13,7 +14,7 @@ export default function SecondBrainPage() {
   const [activeDimension, setActiveDimension] = useState<'2d' | '3d'>('3d');
 
   useEffect(() => {
-    fetch('/api/graph')
+    fetch(GRAPH_API_URL)
       .then((response) => response.json())
       .then((data: Graph) => setGraphData(data))
       .catch(() => {});
