@@ -27,7 +27,7 @@ describe('Docs Layout', () => {
     const { container } = render(
       React.createElement(Layout, {
         children: React.createElement('div', { 'data-testid': 'child' }),
-      }), 
+      }),
     );
 
     expect(

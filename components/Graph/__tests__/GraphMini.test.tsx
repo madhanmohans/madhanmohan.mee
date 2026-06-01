@@ -19,8 +19,7 @@ vi.mock('next/link', () => ({
   }: {
     children: React.ReactNode;
     href: string;
-  }) =>
-    React.createElement('a', { href, ...props }, children),
+  }) => React.createElement('a', { href, ...props }, children),
 }));
 
 describe('GraphMini', () => {
@@ -36,9 +35,7 @@ describe('GraphMini', () => {
   });
 
   it('fetches graph data and renders canvas when data arrives', async () => {
-    const { GraphMini } = await import(
-      '@/components/Graph/GraphMini'
-    );
+    const { GraphMini } = await import('@/components/Graph/GraphMini');
 
     const { container } = render(
       React.createElement(GraphMini, { pageUrl: '/docs/a' }),
@@ -50,9 +47,7 @@ describe('GraphMini', () => {
   });
 
   it('renders "local graph" heading', async () => {
-    const { GraphMini } = await import(
-      '@/components/Graph/GraphMini'
-    );
+    const { GraphMini } = await import('@/components/Graph/GraphMini');
 
     render(React.createElement(GraphMini, { pageUrl: '/docs/a' }));
 
@@ -62,9 +57,7 @@ describe('GraphMini', () => {
   });
 
   it('renders link to /second-brain', async () => {
-    const { GraphMini } = await import(
-      '@/components/Graph/GraphMini'
-    );
+    const { GraphMini } = await import('@/components/Graph/GraphMini');
 
     render(React.createElement(GraphMini, { pageUrl: '/docs/a' }));
 
@@ -76,13 +69,9 @@ describe('GraphMini', () => {
   });
 
   it('returns null before graph data is fetched', async () => {
-    mockFetch.mockImplementation(
-      () => new Promise(() => {}),
-    );
+    mockFetch.mockImplementation(() => new Promise(() => {}));
 
-    const { GraphMini } = await import(
-      '@/components/Graph/GraphMini'
-    );
+    const { GraphMini } = await import('@/components/Graph/GraphMini');
 
     const { container } = render(
       React.createElement(GraphMini, { pageUrl: '/docs/a' }),
@@ -94,9 +83,7 @@ describe('GraphMini', () => {
   it('handles fetch errors gracefully', async () => {
     mockFetch.mockRejectedValue(new Error('Network error'));
 
-    const { GraphMini } = await import(
-      '@/components/Graph/GraphMini'
-    );
+    const { GraphMini } = await import('@/components/Graph/GraphMini');
 
     const { container } = render(
       React.createElement(GraphMini, { pageUrl: '/docs/a' }),
@@ -109,9 +96,7 @@ describe('GraphMini', () => {
   });
 
   it('includes a waypoints icon button', async () => {
-    const { GraphMini } = await import(
-      '@/components/Graph/GraphMini'
-    );
+    const { GraphMini } = await import('@/components/Graph/GraphMini');
 
     render(React.createElement(GraphMini, { pageUrl: '/docs/a' }));
 

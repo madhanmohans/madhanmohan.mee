@@ -30,9 +30,7 @@ describe('Tour', () => {
     render(
       React.createElement(Tour, {
         id: 'home',
-        steps: [
-          { id: 'step1', title: 'Step 1', body: 'First step' },
-        ],
+        steps: [{ id: 'step1', title: 'Step 1', body: 'First step' }],
       }),
     );
 
@@ -46,9 +44,7 @@ describe('Tour', () => {
     render(
       React.createElement(Tour, {
         id: 'home',
-        steps: [
-          { id: 'step1', title: 'Step 1', body: 'First step' },
-        ],
+        steps: [{ id: 'step1', title: 'Step 1', body: 'First step' }],
       }),
     );
 
@@ -81,9 +77,7 @@ describe('Tour', () => {
     render(
       React.createElement(Tour, {
         id: 'home',
-        steps: [
-          { id: 's1', title: 'S1', body: 'B1' },
-        ],
+        steps: [{ id: 's1', title: 'S1', body: 'B1' }],
       }),
     );
 
@@ -95,9 +89,7 @@ describe('Tour', () => {
     render(
       React.createElement(Tour, {
         id: 'home',
-        steps: [
-          { id: 's1', title: 'S1', body: 'B1' },
-        ],
+        steps: [{ id: 's1', title: 'S1', body: 'B1' }],
       }),
     );
 
@@ -114,9 +106,7 @@ describe('Tour', () => {
     render(
       React.createElement(Tour, {
         id: 'home',
-        steps: [
-          { id: 's1', title: 'S1', body: 'B1' },
-        ],
+        steps: [{ id: 's1', title: 'S1', body: 'B1' }],
       }),
     );
 
@@ -196,9 +186,7 @@ describe('Tour', () => {
     render(
       React.createElement(Tour, {
         id: 'home',
-        steps: [
-          { id: 's1', title: 'S1', body: 'B1' },
-        ],
+        steps: [{ id: 's1', title: 'S1', body: 'B1' }],
       }),
     );
 

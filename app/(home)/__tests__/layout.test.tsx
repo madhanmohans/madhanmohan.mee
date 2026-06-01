@@ -8,7 +8,10 @@ vi.mock('fumadocs-ui/layouts/home', () => ({
 }));
 
 vi.mock('@/lib/layout.shared', () => ({
-  baseOptions: () => ({ nav: { title: 'Test' }, themeSwitch: { enabled: true } }),
+  baseOptions: () => ({
+    nav: { title: 'Test' },
+    themeSwitch: { enabled: true },
+  }),
 }));
 
 describe('Home Layout', () => {
@@ -20,7 +23,11 @@ describe('Home Layout', () => {
     const { default: Layout } = await import('@/app/(home)/layout');
     const { container } = render(
       React.createElement(Layout, {
-        children: React.createElement('div', { 'data-testid': 'child' }, 'hello'),
+        children: React.createElement(
+          'div',
+          { 'data-testid': 'child' },
+          'hello',
+        ),
       }),
     );
 

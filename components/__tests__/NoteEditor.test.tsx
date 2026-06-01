@@ -95,7 +95,9 @@ describe('NoteEditor', () => {
 
     fireEvent.click(screen.getByText('Edit'));
 
-    await vi.waitFor(() => expect(screen.getByRole('textbox')).toBeInTheDocument());
+    await vi.waitFor(() =>
+      expect(screen.getByRole('textbox')).toBeInTheDocument(),
+    );
 
     const textarea = screen.getByRole('textbox');
     fireEvent.change(textarea, { target: { value: '# Updated' } });
@@ -115,7 +117,9 @@ describe('NoteEditor', () => {
 
     fireEvent.click(screen.getByText('Edit'));
 
-    await vi.waitFor(() => expect(screen.getByRole('textbox')).toBeInTheDocument());
+    await vi.waitFor(() =>
+      expect(screen.getByRole('textbox')).toBeInTheDocument(),
+    );
 
     const textarea = screen.getByRole('textbox');
     fireEvent.change(textarea, { target: { value: 'Changed' } });
@@ -130,7 +134,9 @@ describe('NoteEditor', () => {
 
     fireEvent.click(screen.getByText('Edit'));
 
-    await vi.waitFor(() => expect(screen.getByRole('textbox')).toBeInTheDocument());
+    await vi.waitFor(() =>
+      expect(screen.getByRole('textbox')).toBeInTheDocument(),
+    );
 
     const textarea = screen.getByRole('textbox');
     fireEvent.keyDown(textarea, { key: 'Tab' });

@@ -21,9 +21,9 @@ describe('GET /llms.mdx/docs/[...slug]', () => {
             : undefined,
       },
       getLLMText: (page: any) =>
-        page.data.getText('processed').then(
-          (text: string) => `# ${page.data.title}\n\n${text}`,
-        ),
+        page.data
+          .getText('processed')
+          .then((text: string) => `# ${page.data.title}\n\n${text}`),
     }));
 
     vi.doMock('next/navigation', () => ({

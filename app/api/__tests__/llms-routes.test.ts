@@ -70,9 +70,9 @@ describe('GET /llms-full.txt', () => {
         ],
       },
       getLLMText: (page: any) =>
-        page.data.getText('processed').then(
-          (text: string) => `# ${page.data.title}\n\n${text}`,
-        ),
+        page.data
+          .getText('processed')
+          .then((text: string) => `# ${page.data.title}\n\n${text}`),
     }));
 
     const { GET } = await import('@/app/llms-full.txt/route');

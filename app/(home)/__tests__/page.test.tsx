@@ -10,8 +10,7 @@ vi.mock('next/link', () => ({
   }: {
     children: React.ReactNode;
     href: string;
-  }) =>
-    React.createElement('a', { href, ...props }, children),
+  }) => React.createElement('a', { href, ...props }, children),
 }));
 
 vi.mock('@/components/Graph/GraphView', () => ({

@@ -20,18 +20,14 @@ describe('GraphView', () => {
   });
 
   it('renders the dynamic graph component', async () => {
-    const { GraphView } = await import(
-      '@/components/Graph/GraphView'
-    );
+    const { GraphView } = await import('@/components/Graph/GraphView');
     const graph = { nodes: [], links: [] };
     render(React.createElement(GraphView, { graph }));
     expect(screen.getByTestId('dynamic-graph')).toBeInTheDocument();
   });
 
   it('renders without crashing when no graph provided', async () => {
-    const { GraphView } = await import(
-      '@/components/Graph/GraphView'
-    );
+    const { GraphView } = await import('@/components/Graph/GraphView');
     const { container } = render(React.createElement(GraphView));
     expect(container.querySelector('div')).toBeInTheDocument();
   });

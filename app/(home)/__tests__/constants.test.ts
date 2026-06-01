@@ -18,9 +18,7 @@ describe('home page tour constants', () => {
 
   it('secondBrainPageTourStep has correct id', () => {
     expect(secondBrainPageTourStep.id).toBe('second-brain');
-    expect(secondBrainPageTourStep.selector).toBe(
-      '[data-tour="second-brain"]',
-    );
+    expect(secondBrainPageTourStep.selector).toBe('[data-tour="second-brain"]');
     expect(secondBrainPageTourStep.placement).toBe('bottom');
   });
 });

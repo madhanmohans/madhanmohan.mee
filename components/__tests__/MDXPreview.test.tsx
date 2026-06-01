@@ -25,9 +25,7 @@ async function loadMdxPreview() {
 
 describe('MdxPreview', () => {
   it('renders loading state initially', async () => {
-    mockExecuteMdx.mockImplementation(
-      () => new Promise(() => {}),
-    );
+    mockExecuteMdx.mockImplementation(() => new Promise(() => {}));
 
     const MdxPreview = await loadMdxPreview();
     render(React.createElement(MdxPreview, { compiled: '# Test' }));

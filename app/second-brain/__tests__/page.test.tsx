@@ -19,18 +19,11 @@ vi.mock('next/link', () => ({
   }: {
     children: React.ReactNode;
     href: string;
-  }) =>
-    React.createElement('a', { href, ...props }, children),
+  }) => React.createElement('a', { href, ...props }, children),
 }));
 
 vi.mock('@/components/Graph/GraphView', () => ({
-  GraphView: ({
-    graph,
-    dimension,
-  }: {
-    graph?: any;
-    dimension?: string;
-  }) =>
+  GraphView: ({ graph, dimension }: { graph?: any; dimension?: string }) =>
     React.createElement('div', {
       'data-testid': 'graph-view',
       'data-dimension': dimension || '',
@@ -53,13 +46,10 @@ beforeEach(() => {
 
 describe('SecondBrainPage', () => {
   it('shows loading state initially', async () => {
-    mockFetch.mockImplementation(
-      () => new Promise(() => {}),
-    );
+    mockFetch.mockImplementation(() => new Promise(() => {}));
 
-    const { default: SecondBrainPage } = await import(
-      '@/app/second-brain/page'
-    );
+    const { default: SecondBrainPage } =
+      await import('@/app/second-brain/page');
     render(React.createElement(SecondBrainPage));
 
     expect(screen.getByText('loading...')).toBeInTheDocument();
@@ -70,9 +60,8 @@ describe('SecondBrainPage', () => {
       json: () => Promise.resolve({ nodes: [], links: [] }),
     });
 
-    const { default: SecondBrainPage } = await import(
-      '@/app/second-brain/page'
-    );
+    const { default: SecondBrainPage } =
+      await import('@/app/second-brain/page');
     render(React.createElement(SecondBrainPage));
 
     await vi.waitFor(() => {
@@ -86,9 +75,8 @@ describe('SecondBrainPage', () => {
       json: () => Promise.resolve({ nodes: [], links: [] }),
     });
 
-    const { default: SecondBrainPage } = await import(
-      '@/app/second-brain/page'
-    );
+    const { default: SecondBrainPage } =
+      await import('@/app/second-brain/page');
     render(React.createElement(SecondBrainPage));
 
     await vi.waitFor(() => {
@@ -107,9 +95,8 @@ describe('SecondBrainPage', () => {
       json: () => Promise.resolve({ nodes: [], links: [] }),
     });
 
-    const { default: SecondBrainPage } = await import(
-      '@/app/second-brain/page'
-    );
+    const { default: SecondBrainPage } =
+      await import('@/app/second-brain/page');
     render(React.createElement(SecondBrainPage));
 
     expect(screen.getByText('2D')).toBeInTheDocument();
@@ -121,9 +108,8 @@ describe('SecondBrainPage', () => {
       json: () => Promise.resolve({ nodes: [], links: [] }),
     });
 
-    const { default: SecondBrainPage } = await import(
-      '@/app/second-brain/page'
-    );
+    const { default: SecondBrainPage } =
+      await import('@/app/second-brain/page');
     render(React.createElement(SecondBrainPage));
 
     const homeLink = screen.getByText((content, element) => {
@@ -137,9 +123,8 @@ describe('SecondBrainPage', () => {
       json: () => Promise.resolve({ nodes: [], links: [] }),
     });
 
-    const { default: SecondBrainPage } = await import(
-      '@/app/second-brain/page'
-    );
+    const { default: SecondBrainPage } =
+      await import('@/app/second-brain/page');
     render(React.createElement(SecondBrainPage));
 
     const viewToggle = document.querySelector('[data-tour="view-toggle"]');
@@ -156,9 +141,8 @@ describe('SecondBrainPage', () => {
       json: () => Promise.resolve({ nodes: [], links: [] }),
     });
 
-    const { default: SecondBrainPage } = await import(
-      '@/app/second-brain/page'
-    );
+    const { default: SecondBrainPage } =
+      await import('@/app/second-brain/page');
     render(React.createElement(SecondBrainPage));
 
     const tour = screen.getByTestId('tour');

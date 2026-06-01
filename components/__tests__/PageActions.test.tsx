@@ -15,17 +15,9 @@ vi.mock('fumadocs-ui/components/ui/popover', () => ({
   Popover: ({ children }: any) =>
     React.createElement('div', { 'data-testid': 'popover' }, children),
   PopoverContent: ({ children }: any) =>
-    React.createElement(
-      'div',
-      { 'data-testid': 'popover-content' },
-      children,
-    ),
+    React.createElement('div', { 'data-testid': 'popover-content' }, children),
   PopoverTrigger: ({ children }: any) =>
-    React.createElement(
-      'div',
-      { 'data-testid': 'popover-trigger' },
-      children,
-    ),
+    React.createElement('div', { 'data-testid': 'popover-trigger' }, children),
 }));
 
 describe('LLMCopyButton', () => {
@@ -78,12 +70,8 @@ describe('ViewOptions', () => {
     );
 
     await vi.waitFor(() => {
-      expect(
-        screen.getByText('Open in Scira AI'),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByText('Open in ChatGPT'),
-      ).toBeInTheDocument();
+      expect(screen.getByText('Open in Scira AI')).toBeInTheDocument();
+      expect(screen.getByText('Open in ChatGPT')).toBeInTheDocument();
       expect(screen.getByText('Open in Claude')).toBeInTheDocument();
       expect(screen.getByText('Open in Cursor')).toBeInTheDocument();
     });

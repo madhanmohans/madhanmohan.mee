@@ -51,10 +51,9 @@ describe('GET /api/notes/[...slug]', () => {
     setupProdEnv();
 
     const { GET } = await import('@/app/api/notes/[...slug]/route');
-    const response = await GET(
-      new Request('http://localhost/api/notes/test'),
-      { params: Promise.resolve({ slug: ['test'] }) },
-    );
+    const response = await GET(new Request('http://localhost/api/notes/test'), {
+      params: Promise.resolve({ slug: ['test'] }),
+    });
 
     expect(response.status).toBe(403);
     expect(await response.text()).toBe('Not available');
@@ -80,10 +79,9 @@ describe('GET /api/notes/[...slug]', () => {
     mockReadFile.mockResolvedValue('# Test Content');
 
     const { GET } = await import('@/app/api/notes/[...slug]/route');
-    const response = await GET(
-      new Request('http://localhost/api/notes/test'),
-      { params: Promise.resolve({ slug: ['test'] }) },
-    );
+    const response = await GET(new Request('http://localhost/api/notes/test'), {
+      params: Promise.resolve({ slug: ['test'] }),
+    });
 
     expect(response.status).toBe(200);
     expect(await response.text()).toBe('# Test Content');

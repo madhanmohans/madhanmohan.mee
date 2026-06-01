@@ -57,9 +57,7 @@ describe('GET /api/search', () => {
     ]);
 
     const { GET } = await import('@/app/api/search/route');
-    const request = new Request(
-      'http://localhost/api/search?query=test',
-    );
+    const request = new Request('http://localhost/api/search?query=test');
     const response = await GET(request);
     const body = await response.json();
 
@@ -99,9 +97,7 @@ describe('GET /api/search', () => {
     ]);
 
     const { GET } = await import('@/app/api/search/route');
-    const request = new Request(
-      'http://localhost/api/search?query=test',
-    );
+    const request = new Request('http://localhost/api/search?query=test');
     await GET(request);
 
     expect(mockInsert).toHaveBeenCalledTimes(2);
@@ -117,9 +113,7 @@ describe('GET /api/search', () => {
     mockGetPages.mockReturnValue([]);
 
     const { GET } = await import('@/app/api/search/route');
-    const request = new Request(
-      'http://localhost/api/search?query=test',
-    );
+    const request = new Request('http://localhost/api/search?query=test');
     const response = await GET(request);
     const body = await response.json();
 

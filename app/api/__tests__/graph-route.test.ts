@@ -8,9 +8,12 @@ vi.mock('@/lib/buildGraph', () => ({
 
 vi.mock('next/server', () => ({
   NextResponse: {
-    json: vi.fn((data) => new Response(JSON.stringify(data), {
-      headers: { 'Content-Type': 'application/json' },
-    })),
+    json: vi.fn(
+      (data) =>
+        new Response(JSON.stringify(data), {
+          headers: { 'Content-Type': 'application/json' },
+        }),
+    ),
   },
 }));
 

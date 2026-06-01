@@ -53,9 +53,7 @@ describe('buildGraph', () => {
       },
     ]);
 
-    mockReadFile.mockResolvedValue(
-      '---\ntitle: Page A\n---\n\nContent.',
-    );
+    mockReadFile.mockResolvedValue('---\ntitle: Page A\n---\n\nContent.');
 
     const { buildGraph } = await import('@/lib/buildGraph');
     const graph = await buildGraph();
@@ -142,8 +140,6 @@ describe('buildGraph', () => {
     expect(normalizeSlug('Hello World')).toBe('hello-world');
     expect(normalizeSlug("What's New!")).toBe('whats-new');
     expect(normalizeSlug('Multiple   Spaces')).toBe('multiple-spaces');
-    expect(normalizeSlug('Leading---Trailing---')).toBe(
-      'leading-trailing',
-    );
+    expect(normalizeSlug('Leading---Trailing---')).toBe('leading-trailing');
   });
 });
