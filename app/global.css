@@ -365,9 +365,14 @@ table {
 }
 
 /* --- background video (homepage only) --- */
-.grainy-bg {
+.background {
+  position: fixed;
+  object-fit: cover;
+  width: max(100vw, 100%);
+  height: max(100vh, 100%);
   opacity: 0.5;
   filter: invert(1);
+  z-index: -1;
 }
 
 /* --- Transparent everything so html bg and grainy texture shows through --- */

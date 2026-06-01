@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { RootProvider } from 'fumadocs-ui/provider/next';
-import { GrainyBackground } from '@/components/BackgroundVideo';
+import { Background } from '@/components/BackgroundVideo';
+import { VIDEO_SOURCE } from './constants';
 import './global.css';
 
 export const metadata: Metadata = {
@@ -29,7 +30,7 @@ export default function Layout({ children }: LayoutProps<'/'>) {
           Skip to content
         </a>
         <RootProvider>
-          <GrainyBackground />
+          <Background videoSource={VIDEO_SOURCE} />
           {children}
         </RootProvider>
       </body>

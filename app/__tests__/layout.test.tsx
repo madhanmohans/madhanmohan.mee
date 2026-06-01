@@ -8,8 +8,7 @@ vi.mock('fumadocs-ui/provider/next', () => ({
 }));
 
 vi.mock('@/components/BackgroundVideo', () => ({
-  GrainyBackground: () =>
-    React.createElement('div', { 'data-testid': 'grainy-bg' }),
+  Background: () => React.createElement('div', { 'data-testid': 'background' }),
 }));
 
 vi.mock('@/app/(home)/layout', () => ({
