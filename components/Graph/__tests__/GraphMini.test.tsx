@@ -28,7 +28,7 @@ describe('GraphMini', () => {
     mockFetch.mockResolvedValue({
       json: () =>
         Promise.resolve({
-          nodes: [{ id: '/docs/a', text: 'A' }],
+          nodes: [{ id: '/column/a', text: 'A' }],
           links: [],
         }),
     });
@@ -38,33 +38,11 @@ describe('GraphMini', () => {
     const { GraphMini } = await import('@/components/Graph/GraphMini');
 
     const { container } = render(
-      React.createElement(GraphMini, { pageUrl: '/docs/a' }),
+      React.createElement(GraphMini, { pageUrl: '/column/a' }),
     );
 
     await vi.waitFor(() => {
       expect(container.querySelector('canvas')).toBeInTheDocument();
-    });
-  });
-
-  it('renders "local graph" heading', async () => {
-    const { GraphMini } = await import('@/components/Graph/GraphMini');
-
-    render(React.createElement(GraphMini, { pageUrl: '/docs/a' }));
-
-    await vi.waitFor(() => {
-      expect(screen.getByText('local graph')).toBeInTheDocument();
-    });
-  });
-
-  it('renders link to /second-brain', async () => {
-    const { GraphMini } = await import('@/components/Graph/GraphMini');
-
-    render(React.createElement(GraphMini, { pageUrl: '/docs/a' }));
-
-    await vi.waitFor(() => {
-      const link = screen.getByLabelText('Open graph view');
-      expect(link).toBeInTheDocument();
-      expect(link).toHaveAttribute('href', '/second-brain');
     });
   });
 
@@ -74,7 +52,7 @@ describe('GraphMini', () => {
     const { GraphMini } = await import('@/components/Graph/GraphMini');
 
     const { container } = render(
-      React.createElement(GraphMini, { pageUrl: '/docs/a' }),
+      React.createElement(GraphMini, { pageUrl: '/column/a' }),
     );
 
     expect(container.textContent).toBe('');
@@ -86,23 +64,12 @@ describe('GraphMini', () => {
     const { GraphMini } = await import('@/components/Graph/GraphMini');
 
     const { container } = render(
-      React.createElement(GraphMini, { pageUrl: '/docs/a' }),
+      React.createElement(GraphMini, { pageUrl: '/column/a' }),
     );
 
     await vi.waitFor(() => {
       expect(container.textContent).toBe('');
       expect(screen.queryByText('local graph')).not.toBeInTheDocument();
-    });
-  });
-
-  it('includes a waypoints icon button', async () => {
-    const { GraphMini } = await import('@/components/Graph/GraphMini');
-
-    render(React.createElement(GraphMini, { pageUrl: '/docs/a' }));
-
-    await vi.waitFor(() => {
-      const btn = screen.getByLabelText('Open graph view');
-      expect(btn.querySelector('svg')).toBeInTheDocument();
     });
   });
 });

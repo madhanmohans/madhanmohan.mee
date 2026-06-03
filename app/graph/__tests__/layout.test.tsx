@@ -4,7 +4,7 @@ import React from 'react';
 
 describe('SecondBrain Layout', () => {
   it('renders children directly', async () => {
-    const { default: Layout } = await import('@/app/second-brain/layout');
+    const { default: Layout } = await import('@/app/graph/layout');
     render(
       React.createElement(Layout, {
         children: React.createElement(

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-describe('GET /llms.mdx/docs/[...slug]', () => {
+describe('GET /llms.mdx/column/[...slug]', () => {
   beforeEach(() => {
     vi.resetModules();
   });
@@ -11,7 +11,7 @@ describe('GET /llms.mdx/docs/[...slug]', () => {
         getPage: (slug: string[]) =>
           slug[0] === 'test'
             ? {
-                url: '/docs/test',
+                url: '/column/test',
                 slugs: ['test'],
                 data: {
                   title: 'Test Page',

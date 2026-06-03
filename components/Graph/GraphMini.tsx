@@ -10,8 +10,6 @@ import {
 } from './constants';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { Waypoints } from 'lucide-react';
 import type { Graph } from '@/components/Graph/GraphView';
 import type { MiniNode, GraphMiniProps, MiniLink } from './GraphShared';
 
@@ -29,7 +27,7 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
     fetch(GRAPH_API_URL)
       .then((response) => response.json())
       .then((data: Graph) => setFetchedGraphData(data))
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const localSubgraph = useMemo(() => {
@@ -504,83 +502,7 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
   if (!localSubgraph) return null;
 
   return (
-    <div style={{ marginTop: '24px' }}>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          margin: '0 0 8px 0',
-        }}
-      >
-        <p
-          style={{
-            fontSize: '11px',
-            fontWeight: 400,
-            letterSpacing: '0.04em',
-            color: 'var(--color-fd-muted-foreground)',
-            margin: 0,
-            fontFamily: "'CommitMono', monospace",
-          }}
-        >
-          local graph
-        </p>
-        <Link
-          href="/second-brain"
-          aria-label="Open graph view"
-          className="graph-mini-open-btn"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '24px',
-            height: '24px',
-            borderRadius: '6px',
-            color: 'var(--color-fd-muted-foreground)',
-            transition: 'color 0.15s ease, background 0.15s ease',
-            textDecoration: 'none',
-            position: 'relative',
-          }}
-          onMouseEnter={(event) => {
-            const element = event.currentTarget;
-            element.style.color = 'var(--color-fd-primary)';
-            element.style.background = 'var(--color-fd-accent)';
-          }}
-          onMouseLeave={(event) => {
-            const element = event.currentTarget;
-            element.style.color = 'var(--color-fd-muted-foreground)';
-            element.style.background = 'transparent';
-          }}
-        >
-          <Waypoints size={14} />
-          <span
-            className="graph-mini-tooltip"
-            style={{
-              position: 'absolute',
-              right: 'calc(100% + 6px)',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              whiteSpace: 'nowrap',
-              fontSize: '11px',
-              fontWeight: 400,
-              letterSpacing: '0.01em',
-              padding: '3px 8px',
-              borderRadius: '6px',
-              background: 'var(--color-fd-popover)',
-              color: 'var(--color-fd-popover-foreground)',
-              border: '1px solid var(--color-fd-border)',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
-              pointerEvents: 'none',
-              opacity: 0,
-              transition: 'opacity 0.15s ease',
-              fontFamily: "'CommitMono', monospace",
-            }}
-          >
-            Open graph view
-          </span>
-        </Link>
-      </div>
-
+    <div>
       <div
         ref={containerRef}
         style={{
@@ -593,6 +515,7 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
           boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
           transition: 'box-shadow 0.2s ease, border-color 0.2s ease',
           position: 'relative',
+          marginBottom: '16px',
         }}
         className="graph-mini-container"
       >

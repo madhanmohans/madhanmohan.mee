@@ -29,7 +29,7 @@ describe('LLMCopyButton', () => {
     const { LLMCopyButton } = await import('@/components/PageActions');
     render(
       React.createElement(LLMCopyButton, {
-        markdownUrl: '/docs/test.mdx',
+        markdownUrl: '/column/test.mdx',
       }),
     );
     expect(screen.getByText('Copy Markdown')).toBeInTheDocument();
@@ -39,7 +39,7 @@ describe('LLMCopyButton', () => {
     const { LLMCopyButton } = await import('@/components/PageActions');
     render(
       React.createElement(LLMCopyButton, {
-        markdownUrl: '/docs/test.mdx',
+        markdownUrl: '/column/test.mdx',
       }),
     );
     expect(screen.getByRole('button')).toBeInTheDocument();
@@ -55,7 +55,7 @@ describe('ViewOptions', () => {
     const { ViewOptions } = await import('@/components/PageActions');
     render(
       React.createElement(ViewOptions, {
-        markdownUrl: '/docs/test.mdx',
+        markdownUrl: '/column/test.mdx',
       }),
     );
     expect(screen.getByText('Open')).toBeInTheDocument();
@@ -65,7 +65,7 @@ describe('ViewOptions', () => {
     const { ViewOptions } = await import('@/components/PageActions');
     render(
       React.createElement(ViewOptions, {
-        markdownUrl: '/docs/test.mdx',
+        markdownUrl: '/column/test.mdx',
       }),
     );
 

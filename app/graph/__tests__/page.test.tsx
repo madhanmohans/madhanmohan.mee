@@ -9,6 +9,7 @@ vi.stubGlobal('fetch', mockFetch);
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: mockPush }),
+  usePathname: () => '/graph',
 }));
 
 vi.mock('next/link', () => ({
@@ -49,7 +50,7 @@ describe('SecondBrainPage', () => {
     mockFetch.mockImplementation(() => new Promise(() => {}));
 
     const { default: SecondBrainPage } =
-      await import('@/app/second-brain/page');
+      await import('@/app/graph/page');
     render(React.createElement(SecondBrainPage));
 
     expect(screen.getByText('loading...')).toBeInTheDocument();
@@ -61,7 +62,7 @@ describe('SecondBrainPage', () => {
     });
 
     const { default: SecondBrainPage } =
-      await import('@/app/second-brain/page');
+      await import('@/app/graph/page');
     render(React.createElement(SecondBrainPage));
 
     await vi.waitFor(() => {
@@ -76,7 +77,7 @@ describe('SecondBrainPage', () => {
     });
 
     const { default: SecondBrainPage } =
-      await import('@/app/second-brain/page');
+      await import('@/app/graph/page');
     render(React.createElement(SecondBrainPage));
 
     await vi.waitFor(() => {
@@ -96,7 +97,7 @@ describe('SecondBrainPage', () => {
     });
 
     const { default: SecondBrainPage } =
-      await import('@/app/second-brain/page');
+      await import('@/app/graph/page');
     render(React.createElement(SecondBrainPage));
 
     expect(screen.getByText('2D')).toBeInTheDocument();
@@ -109,7 +110,7 @@ describe('SecondBrainPage', () => {
     });
 
     const { default: SecondBrainPage } =
-      await import('@/app/second-brain/page');
+      await import('@/app/graph/page');
     render(React.createElement(SecondBrainPage));
 
     const homeLink = screen.getByText((content, element) => {
@@ -124,7 +125,7 @@ describe('SecondBrainPage', () => {
     });
 
     const { default: SecondBrainPage } =
-      await import('@/app/second-brain/page');
+      await import('@/app/graph/page');
     render(React.createElement(SecondBrainPage));
 
     const viewToggle = document.querySelector('[data-tour="view-toggle"]');
@@ -133,7 +134,7 @@ describe('SecondBrainPage', () => {
     expect(buttons.length).toBeGreaterThanOrEqual(2);
     const docsBtn = buttons[1] as HTMLButtonElement;
     fireEvent.click(docsBtn);
-    expect(mockPush).toHaveBeenCalledWith('/docs');
+    expect(mockPush).toHaveBeenCalledWith('/column');
   });
 
   it('renders Tour with correct steps', async () => {
@@ -142,7 +143,7 @@ describe('SecondBrainPage', () => {
     });
 
     const { default: SecondBrainPage } =
-      await import('@/app/second-brain/page');
+      await import('@/app/graph/page');
     render(React.createElement(SecondBrainPage));
 
     const tour = screen.getByTestId('tour');

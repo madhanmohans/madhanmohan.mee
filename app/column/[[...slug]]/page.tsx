@@ -13,8 +13,9 @@ import { LLMCopyButton, ViewOptions } from '@/components/PageActions';
 import { NoteEditor } from '@/components/NoteEditor';
 import { DocsTour } from '@/components/DocsTour';
 import { GraphMini } from '@/components/Graph/GraphMini';
+import { ViewToggle } from '@/components/ViewToggle';
 
-export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
+export default async function Page(props: PageProps<'/column/[[...slug]]'>) {
   const params = await props.params;
   const docPage = source.getPage(params.slug);
   if (!docPage) notFound();
@@ -27,10 +28,13 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
       toc={docPage.data.toc}
       full={docPage.data.full}
       tableOfContent={{
-        footer: (
-          <div data-tour="graph-mini">
-            <GraphMini pageUrl={docPage.url} />
-          </div>
+        header: (
+          <>
+            <ViewToggle />
+            <div data-tour="graph-mini">
+              <GraphMini pageUrl={docPage.url} />
+            </div>
+          </>
         ),
       }}
     >
@@ -75,7 +79,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  props: PageProps<'/docs/[[...slug]]'>,
+  props: PageProps<'/column/[[...slug]]'>,
 ): Promise<Metadata> {
   const params = await props.params;
   const docPage = source.getPage(params.slug);

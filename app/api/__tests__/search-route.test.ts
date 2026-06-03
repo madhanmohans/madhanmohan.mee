@@ -43,7 +43,7 @@ describe('GET /api/search', () => {
         hits: [
           {
             id: 'hit1',
-            document: { url: '/docs/test', title: 'Test' },
+            document: { url: '/column/test', title: 'Test' },
           },
         ],
       }),
@@ -51,7 +51,7 @@ describe('GET /api/search', () => {
 
     mockGetPages.mockReturnValue([
       {
-        url: '/docs/test',
+        url: '/column/test',
         data: { title: 'Test', description: 'A test', toc: [] },
       },
     ]);
@@ -63,7 +63,7 @@ describe('GET /api/search', () => {
 
     expect(body).toHaveLength(1);
     expect(body[0]).toMatchObject({
-      url: '/docs/test',
+      url: '/column/test',
       type: 'page',
     });
   });
@@ -87,7 +87,7 @@ describe('GET /api/search', () => {
 
     mockGetPages.mockReturnValue([
       {
-        url: '/docs/test',
+        url: '/column/test',
         data: {
           title: 'Test',
           description: 'Desc',

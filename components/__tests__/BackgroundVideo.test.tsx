@@ -26,7 +26,7 @@ describe('Background', () => {
   });
 
   it('does not render video when not on home page', async () => {
-    mockUsePathname.mockReturnValue('/docs/test');
+    mockUsePathname.mockReturnValue('/column/test');
 
     const { Background: Background } =
       await import('@/components/BackgroundVideo');

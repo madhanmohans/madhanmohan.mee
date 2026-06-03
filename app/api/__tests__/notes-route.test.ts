@@ -133,7 +133,7 @@ describe('PUT /api/notes/[...slug]', () => {
     setupDevEnv();
     mockGetPage.mockReturnValue({
       path: 'test.md',
-      url: '/docs/test',
+      url: '/column/test',
     });
     mockWriteFile.mockResolvedValue(undefined);
 
@@ -150,6 +150,6 @@ describe('PUT /api/notes/[...slug]', () => {
     const body = await response.json();
     expect(body).toEqual({ ok: true });
     expect(mockWriteFile).toHaveBeenCalled();
-    expect(mockRevalidatePath).toHaveBeenCalledWith('/docs/test');
+    expect(mockRevalidatePath).toHaveBeenCalledWith('/column/test');
   });
 });

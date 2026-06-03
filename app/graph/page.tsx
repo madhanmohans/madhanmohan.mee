@@ -2,14 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { GraphView, type Graph } from '@/components/Graph/GraphView';
-import { ChessKing, Notebook, Waypoints } from 'lucide-react';
+import { BrainCircuit } from 'lucide-react';
 import { Tour } from '@/components/Tour';
+import { ViewToggle } from '@/components/ViewToggle';
 import { GRAPH_API_URL } from '@/components/Graph/constants';
 
 export default function SecondBrainPage() {
-  const router = useRouter();
   const [graphData, setGraphData] = useState<Graph | null>(null);
   const [activeDimension, setActiveDimension] = useState<'2d' | '3d'>('3d');
 
@@ -17,7 +16,7 @@ export default function SecondBrainPage() {
     fetch(GRAPH_API_URL)
       .then((response) => response.json())
       .then((data: Graph) => setGraphData(data))
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   return (
@@ -26,14 +25,8 @@ export default function SecondBrainPage() {
         <Link
           href="/"
           data-tour="home-link"
-          style={{
-            fontFamily: "'Times New Roman', Georgia, serif",
-            fontSize: '18px',
-            fontWeight: 400,
-            letterSpacing: '0.02em',
-          }}
         >
-          <ChessKing />
+          <BrainCircuit />
         </Link>
 
         <div className="flex items-center gap-2">
@@ -71,22 +64,7 @@ export default function SecondBrainPage() {
               3D
             </button>
           </div>
-
-          <div
-            className="flex border border-fd-border rounded-2xl"
-            data-tour="view-toggle"
-          >
-            <button className="view-toggle-btn" data-active={true}>
-              <Waypoints size={16} />
-            </button>
-            <button
-              className="view-toggle-btn"
-              data-active={false}
-              onClick={() => router.push('/docs')}
-            >
-              <Notebook size={16} />
-            </button>
-          </div>
+          <ViewToggle />
         </div>
       </header>
 

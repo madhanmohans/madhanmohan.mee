@@ -23,7 +23,7 @@ describe('Docs Layout', () => {
   });
 
   it('renders children inside DocsLayout', async () => {
-    const { default: Layout } = await import('@/app/docs/layout');
+    const { default: Layout } = await import('@/app/column/layout');
     const { container } = render(
       React.createElement(Layout, {
         children: React.createElement('div', { 'data-testid': 'child' }),

@@ -35,7 +35,7 @@ export default function HomePage() {
       <div className="relative z-10 flex flex-col items-center gap-6 text-center">
         <nav className="flex gap-4" style={{ fontSize: '14px' }}>
           <Link
-            href="/second-brain"
+            href="/graph"
             data-tour="second-brain"
             className="home-nav-link text-fd-muted-foreground hover:text-fd-foreground transition-colors duration-300"
             onMouseEnter={() => setHoveredNavLink('second-brain')}
@@ -44,7 +44,7 @@ export default function HomePage() {
             second brain
           </Link>
           <Link
-            href="/docs/about-static"
+            href="/column/about-static"
             data-tour="about"
             className="home-nav-link text-fd-muted-foreground hover:text-fd-foreground transition-colors duration-300"
             onMouseEnter={() => setHoveredNavLink('about')}
