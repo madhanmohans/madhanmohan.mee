@@ -1,5 +1,3 @@
-![[Pasted image 20250924113607.png]]
-
 Redux Toolkit includes these APIs:
 
 - [`configureStore()`](https://redux-toolkit.js.org/api/configureStore): wraps `createStore` to provide simplified configuration options and good defaults. It can automatically combine your slice reducers, adds whatever Redux middleware you supply, includes `redux-thunk` by default, and enables use of the Redux DevTools Extension.

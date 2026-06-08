@@ -1,6 +1,5 @@
 'use client';
-import React from 'react';
-import { type MutableRefObject } from 'react';
+import React, {type MutableRefObject } from 'react';
 
 export interface Graph {
   links: Link[];
@@ -45,8 +44,8 @@ export type Link = LinkObject<NodeType, Record<string, unknown>>;
 export type LinkType = Record<string, unknown>;
 
 export interface GraphViewProps {
-  graph?: Graph;
-  ghost?: boolean;
+  foregroundGraph?: Graph;
+  backgroundGraph?: boolean;
 }
 
 export interface GraphMiniProps {

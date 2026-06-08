@@ -22,7 +22,7 @@ describe('GraphView', () => {
   it('renders the dynamic graph component', async () => {
     const { GraphView } = await import('@/components/Graph/GraphView');
     const graph = { nodes: [], links: [] };
-    render(React.createElement(GraphView, { graph }));
+    render(React.createElement(GraphView, { foregroundGraph: graph }));
     expect(screen.getByTestId('dynamic-graph')).toBeInTheDocument();
   });
 

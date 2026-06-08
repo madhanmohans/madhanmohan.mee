@@ -1,5 +1,6 @@
 'use client';
-import React, {
+
+import {
   type RefObject,
   useEffect,
   useMemo,
@@ -38,8 +39,8 @@ function parseColorNumber(
   const parsedColorNo = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
   return parsedColorNo
     ? (parseInt(parsedColorNo[1]) << 16) |
-        (parseInt(parsedColorNo[2]) << 8) |
-        parseInt(parsedColorNo[3])
+    (parseInt(parsedColorNo[2]) << 8) |
+    parseInt(parsedColorNo[3])
     : 0x6b6b6b;
 }
 
@@ -130,8 +131,8 @@ function GhostGraph({
         }
       })}
       graphData={clonedGraph}
-      nodeColor={() => '#6b6b6b'}
-      linkColor={() => '#6b6b6b'}
+      nodeColor={() => '#fff'}
+      linkColor={() => '#fff'}
       linkOpacity={0.2}
       linkWidth={0.5}
       nodeVal={3}
@@ -149,7 +150,7 @@ function GhostGraph({
 
 function InteractiveGraph({
   containerRef,
-  graph,
+  foregroundGraph: graph,
 }: GraphViewProps & {
   graph: Graph;
   containerRef: RefObject<HTMLDivElement | null>;
@@ -196,8 +197,6 @@ function InteractiveGraph({
       '--color-fd-muted-foreground',
       '#6b6b6b',
     );
-    const textForegroundColor =
-      computedStyles.getPropertyValue('color').trim() || '#ccc';
 
     const hoveredNode = hoveredNodeRef.current;
     const isActive =
@@ -209,11 +208,11 @@ function InteractiveGraph({
     const color = isActive
       ? 0xc0392b
       : parseColorNumber(
-          computedStyles,
-          '--color-fd-muted-foreground',
-          '#6b6b6b',
-        );
-    const sphereRadius = isActive ? 6 : 4;
+        computedStyles,
+        '--color-fd-muted-foreground',
+        '#6b6b6b',
+      );
+    const sphereRadius = isActive ? 5 : 3;
 
     const group = new THREE.Group();
 
@@ -254,7 +253,7 @@ function InteractiveGraph({
       (hoveredNode.id === link.source.id || hoveredNode.id === link.target.id);
 
     if (isActive) {
-      return '#c0392b';
+      return computedStyles.getPropertyValue('--color-fd-ring');
     }
 
     return parseColorString(
@@ -293,7 +292,6 @@ function InteractiveGraph({
         nodeThreeObject={createNodeThreeObject}
         linkColor={resolveLinkColor}
         linkWidth={resolveLinkWidth}
-        linkOpacity={0.5}
         onNodeHover={handleNodeHover}
         onNodeClick={(clickedNode: any) => {
           router.push(clickedNode.url);
@@ -304,7 +302,7 @@ function InteractiveGraph({
         d3VelocityDecay={0.4}
         cooldownTime={4000}
         warmupTicks={100}
-        showNavInfo={false}
+        showNavInfo={true}
         backgroundColor="rgba(0,0,0,0)"
       />
 
@@ -328,7 +326,7 @@ function InteractiveGraph({
               left: tooltip.x,
               background: 'var(--color-fd-popover)',
               fontFamily: "'CommitMono', monospace",
-              fontSize: '11px',
+              fontSize: '14px',
               letterSpacing: '0.01em',
               boxShadow:
                 '0 1px 2px rgba(17,24,39,0.06), 0 4px 8px rgba(17,24,39,0.04), 0 12px 24px rgba(17,24,39,0.03)',
@@ -338,7 +336,7 @@ function InteractiveGraph({
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.12, ease: 'easeOut' }}
           >
-            <p className="font-semibold text-fd-foreground text-[12px] mb-2 border-b border-fd-border pb-1.5">
+            <p className="font-semibold text-fd-foreground text-[18px] mb-2 border-b border-fd-border pb-1.5">
               {tooltip.title}
             </p>
             {tooltip.content && (
@@ -357,7 +355,7 @@ export default function GraphView3D(props: GraphViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMounted, setIsMounted] = useState(false);
   const [fetchedGraphData, setFetchedGraphData] = useState<Graph | null>(
-    props.graph ?? null,
+    props.foregroundGraph ?? null,
   );
 
   useEffect(() => {
@@ -365,15 +363,15 @@ export default function GraphView3D(props: GraphViewProps) {
   }, []);
 
   useEffect(() => {
-    if (!props.graph) {
+    if (!props.foregroundGraph) {
       fetch('/api/graph')
         .then((response) => response.json())
         .then((data: Graph) => setFetchedGraphData(data))
-        .catch(() => {});
+        .catch(() => { });
     }
-  }, [props.graph]);
+  }, [props.foregroundGraph]);
 
-  if (props.ghost) {
+  if (props.backgroundGraph) {
     return (
       <div
         ref={containerRef}
@@ -390,10 +388,6 @@ export default function GraphView3D(props: GraphViewProps) {
     <div
       ref={containerRef}
       className="relative rounded-xl overflow-hidden bg-fd-background"
-      style={{
-        boxShadow:
-          '0 1px 2px rgba(17,24,39,0.04), 0 4px 8px rgba(17,24,39,0.02), 0 12px 24px rgba(17,24,39,0.015)',
-      }}
     >
       <AnimatePresence>
         {isMounted && fetchedGraphData && (

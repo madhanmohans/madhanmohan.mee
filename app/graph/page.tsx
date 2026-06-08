@@ -10,7 +10,7 @@ import { GRAPH_API_URL } from '@/components/Graph/constants';
 
 export default function SecondBrainPage() {
   const [graphData, setGraphData] = useState<Graph | null>(null);
-  const [activeDimension, setActiveDimension] = useState<'2d' | '3d'>('3d');
+  const [activeDimension, setActiveDimension] = useState<'2d' | '3d'>('2d');
 
   useEffect(() => {
     fetch(GRAPH_API_URL)
@@ -76,7 +76,7 @@ export default function SecondBrainPage() {
               animation: 'fd-page-enter 0.6s var(--ease-out-quart) both',
             }}
           >
-            <GraphView graph={graphData} dimension={activeDimension} />
+            <GraphView foregroundGraph={graphData} dimension={activeDimension} />
           </div>
         )}
 

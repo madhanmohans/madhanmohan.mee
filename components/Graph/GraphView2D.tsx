@@ -1,5 +1,6 @@
 'use client';
-import React, {
+
+import {
   type RefObject,
   useEffect,
   useMemo,
@@ -17,45 +18,64 @@ import {
   enrichGraphNodesWithNeighbors,
 } from './GraphShared';
 import type { ForceGraphInstance } from './GraphShared';
+import {
+  TWO_D_GRAPH_NODE_RADIUS,
+  LINK_DISTANCE,
+  LINK_STRENGTH,
+  CHARGE_STRENGTH,
+  CENTER_STRENGTH,
+  COLLIDE_RADIUS,
+  ALPHA_DECAY,
+  VELOCITY_DECAY,
+  COOLDOWN_TIME,
+  WARMUP_TICKS_BG,
+  WARMUP_TICKS,
+  DEFAULT_LINK_COLOR,
+  HIGHLIGHT_COLOR,
+  LABEL_FONT_SIZE,
+  LINK_WIDTH_BG,
+  LINK_WIDTH,
+  ZOOM_FACTOR,
+  ZOOM_ANIMATION_DURATION,
+  ZOOM_TO_FIT_DURATION,
+  ZOOM_TO_FIT_PADDING,
+  TOOLTIP_ANIMATION_DURATION,
+  TOOLTIP_OFFSET,
+} from './constants';
 
 function configureGraphForces(forceGraphInstance: ForceGraphInstance) {
-  forceGraphInstance.d3Force('link', forceLink().distance(30).strength(1));
-  forceGraphInstance.d3Force('charge', forceManyBody().strength(1));
-  forceGraphInstance.d3Force('center', forceCenter().strength(0.3));
-  forceGraphInstance.d3Force('collision', forceCollide(40));
+  forceGraphInstance.d3Force('link', forceLink().distance(LINK_DISTANCE).strength(LINK_STRENGTH));
+  forceGraphInstance.d3Force('charge', forceManyBody().strength(CHARGE_STRENGTH));
+  forceGraphInstance.d3Force('center', forceCenter().strength(CENTER_STRENGTH));
+  forceGraphInstance.d3Force('collision', forceCollide(COLLIDE_RADIUS));
 }
 
-function GhostGraph({
-  containerRef,
+function GraphBackground({
+  container,
   graph,
 }: {
-  graph: Graph;
-  containerRef: RefObject<HTMLDivElement | null>;
+  graph: Graph; 
+  container: HTMLDivElement;
 }) {
-  const graphRef = useRef<ForceGraphInstance>(undefined);
+    const computedStyles = getComputedStyle(container);
+    const mutedForegroundColor = computedStyles.getPropertyValue('--color-fd-muted-foreground').trim();
+    const graphRef = useRef<ForceGraphInstance>(undefined);
 
   const clonedGraph = useMemo(() => {
     return structuredClone(graph);
   }, [graph]);
 
   const drawNodeOnCanvas = (node: any, context: CanvasRenderingContext2D) => {
-    const containerElement = containerRef.current;
-    if (!containerElement) return;
-    const computedStyles = getComputedStyle(containerElement);
-    const radius = 3;
+    if (!container) return;
     context.beginPath();
-    context.arc(node.x!, node.y!, radius, 0, 2 * Math.PI, false);
-    context.fillStyle =
-      computedStyles.getPropertyValue('--color-fd-muted-foreground') ||
-      '#6b6b6b';
+    context.arc(node.x!, node.y!, TWO_D_GRAPH_NODE_RADIUS, 0, 2 * Math.PI, false);
+    context.fillStyle = mutedForegroundColor
     context.fill();
   };
 
   const resolveLinkColor = () => {
-    const containerElement = containerRef.current;
-    if (!containerElement) return 'rgba(107,107,107,0.3)';
-    const computedStyles = getComputedStyle(containerElement);
-    return `color-mix(in oklab, ${computedStyles.getPropertyValue('--color-fd-muted-foreground')} 30%, transparent)`;
+    if (!container) return DEFAULT_LINK_COLOR;
+    return `color-mix(in oklab, ${mutedForegroundColor} 30%, transparent)`;
   };
 
   return (
@@ -64,21 +84,21 @@ function GhostGraph({
       graphData={clonedGraph}
       nodeCanvasObject={drawNodeOnCanvas}
       linkColor={resolveLinkColor}
-      linkWidth={1}
+      linkWidth={LINK_WIDTH_BG}
       enableNodeDrag={false}
       enableZoomInteraction={false}
       enablePanInteraction={false}
-      d3AlphaDecay={0.0228}
-      d3VelocityDecay={0.4}
-      cooldownTime={4000}
-      warmupTicks={50}
+      d3AlphaDecay={ALPHA_DECAY}
+      d3VelocityDecay={VELOCITY_DECAY}
+      cooldownTime={COOLDOWN_TIME}
+      warmupTicks={WARMUP_TICKS_BG}
     />
   );
 }
 
 function InteractiveGraph({
   containerRef,
-  graph,
+  foregroundGraph: graph,
 }: GraphViewProps & {
   graph: Graph;
   containerRef: RefObject<HTMLDivElement | null>;
@@ -104,8 +124,8 @@ function InteractiveGraph({
         hoveredNode.y,
       );
       setTooltip({
-        x: screenCoordinates.x + 4,
-        y: screenCoordinates.y + 4,
+        x: screenCoordinates.x + TOOLTIP_OFFSET,
+        y: screenCoordinates.y + TOOLTIP_OFFSET,
         title: hoveredNode.text,
         content: hoveredNode.content ?? hoveredNode.description ?? '',
       });
@@ -115,14 +135,11 @@ function InteractiveGraph({
   };
 
   const drawNodeOnCanvas = (node: any, context: CanvasRenderingContext2D) => {
-    const containerElement = containerRef.current;
-    if (!containerElement) return;
-    const computedStyles = getComputedStyle(containerElement);
-    const fontSize = 14;
-    const radius = 5;
-
+    if (!containerRef.current) return;
+    const computedStyles = getComputedStyle(containerRef.current);
+    const mutedForegroundColor = computedStyles.getPropertyValue('--color-fd-muted-foreground').trim();
     context.beginPath();
-    context.arc(node.x!, node.y!, radius, 0, 2 * Math.PI, false);
+    context.arc(node.x!, node.y!, TWO_D_GRAPH_NODE_RADIUS, 0, 2 * Math.PI, false);
 
     const hoveredNode = hoveredNodeRef.current;
     const isActive =
@@ -132,20 +149,20 @@ function InteractiveGraph({
         hoveredNode.neighbors.includes(node.id));
 
     context.fillStyle = isActive
-      ? '#c0392b'
-      : computedStyles.getPropertyValue('--color-fd-muted-foreground');
+      ? HIGHLIGHT_COLOR
+      : mutedForegroundColor;
     context.fill();
 
-    context.font = `${fontSize}px CommitMono, monospace`;
+    context.font = `${LABEL_FONT_SIZE}px CommitMono, monospace`;
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     context.fillStyle = computedStyles.getPropertyValue('color');
-    context.fillText(node.text, node.x!, node.y! + radius + fontSize);
+    context.fillText(node.text, node.x!, node.y! + TWO_D_GRAPH_NODE_RADIUS + LABEL_FONT_SIZE);
   };
 
   const resolveLinkColor = (link: any) => {
     const containerElement = containerRef.current;
-    if (!containerElement) return '#999';
+    if (!containerElement) return DEFAULT_LINK_COLOR;
     const computedStyles = getComputedStyle(containerElement);
     const hoveredNode = hoveredNodeRef.current;
 
@@ -170,12 +187,12 @@ function InteractiveGraph({
     if (!forceGraphInstance) return;
     forceGraphInstance.zoom(
       (forceGraphInstance.zoom() as number) * factor,
-      300,
+      ZOOM_ANIMATION_DURATION,
     );
   }
 
   function zoomToFitView() {
-    graphRef.current?.zoomToFit(400, 60);
+    graphRef.current?.zoomToFit(ZOOM_TO_FIT_DURATION, ZOOM_TO_FIT_PADDING);
   }
 
   return (
@@ -189,19 +206,19 @@ function InteractiveGraph({
         onNodeClick={(clickedNode: any) => {
           router.push(clickedNode.url);
         }}
-        linkWidth={2}
+        linkWidth={LINK_WIDTH}
         enableNodeDrag
         enableZoomInteraction
-        d3AlphaDecay={0.0228}
-        d3VelocityDecay={0.4}
-        cooldownTime={4000}
-        warmupTicks={100}
+        d3AlphaDecay={ALPHA_DECAY}
+        d3VelocityDecay={VELOCITY_DECAY}
+        cooldownTime={COOLDOWN_TIME}
+        warmupTicks={WARMUP_TICKS}
       />
 
       <div className="graph-zoom-controls">
         <button
           className="graph-zoom-btn"
-          onClick={() => zoomByFactor(1.4)}
+          onClick={() => zoomByFactor(ZOOM_FACTOR)}
           title="Zoom in"
         >
           +
@@ -209,7 +226,7 @@ function InteractiveGraph({
         <div className="graph-zoom-divider" />
         <button
           className="graph-zoom-btn"
-          onClick={() => zoomByFactor(1 / 1.4)}
+          onClick={() => zoomByFactor(1 / ZOOM_FACTOR)}
           title="Zoom out"
         >
           −
@@ -242,7 +259,7 @@ function InteractiveGraph({
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.12, ease: 'easeOut' }}
+            transition={{ duration: TOOLTIP_ANIMATION_DURATION, ease: 'easeOut' }}
           >
             <p className="font-semibold text-fd-foreground text-[12px] mb-2 border-b border-fd-border pb-1.5">
               {tooltip.title}
@@ -261,9 +278,10 @@ function InteractiveGraph({
 
 export default function GraphView2D(props: GraphViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const container = containerRef.current;
   const [isMounted, setIsMounted] = useState(false);
   const [fetchedGraphData, setFetchedGraphData] = useState<Graph | null>(
-    props.graph ?? null,
+    props.foregroundGraph ?? null,
   );
 
   useEffect(() => {
@@ -271,22 +289,22 @@ export default function GraphView2D(props: GraphViewProps) {
   }, []);
 
   useEffect(() => {
-    if (!props.graph) {
+    if (!props.foregroundGraph) {
       fetch('/api/graph')
         .then((response) => response.json())
         .then((data: Graph) => setFetchedGraphData(data))
-        .catch(() => {});
+        .catch(() => { });
     }
-  }, [props.graph]);
+  }, [props.foregroundGraph]);
 
-  if (props.ghost) {
+  if (props.backgroundGraph) {
     return (
       <div
         ref={containerRef}
         className="absolute inset-0 size-full overflow-hidden"
       >
         {isMounted && fetchedGraphData && (
-          <GhostGraph graph={fetchedGraphData} containerRef={containerRef} />
+          <GraphBackground graph={fetchedGraphData} container={containerRef.current} />
         )}
       </div>
     );
@@ -311,7 +329,7 @@ export default function GraphView2D(props: GraphViewProps) {
           >
             <InteractiveGraph
               {...props}
-              graph={fetchedGraphData}
+              foregroundGraph={fetchedGraphData}
               containerRef={containerRef}
             />
           </motion.div>

@@ -29,7 +29,7 @@ export default function HomePage() {
           transition: 'opacity 0.8s var(--ease-out-quart)',
         }}
       >
-        <GraphView ghost />
+        <GraphView backgroundGraph />
       </div>
 
       <div className="relative z-10 flex flex-col items-center gap-6 text-center">
