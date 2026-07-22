@@ -43,15 +43,15 @@ export default function HomePage() {
           >
             second brain
           </Link>
-          <Link
-            href="/column/about-static"
+          <a
+            href="/resume.html"
             data-tour="about"
             className="home-nav-link text-fd-muted-foreground hover:text-fd-foreground transition-colors duration-300"
             onMouseEnter={() => setHoveredNavLink('about')}
             onMouseLeave={() => setHoveredNavLink(null)}
           >
             about
-          </Link>
+          </a>
         </nav>
       </div>
       <Tour
