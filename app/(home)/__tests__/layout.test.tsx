@@ -23,6 +23,7 @@ describe('Home Layout', () => {
     const { default: Layout } = await import('@/app/(home)/layout');
     const { container } = render(
       React.createElement(Layout, {
+        params: Promise.resolve({}),
         children: React.createElement(
           'div',
           { 'data-testid': 'child' },

@@ -20,7 +20,7 @@ describe('remarkStripHeadingLinks', () => {
       ],
     };
 
-    remarkStripHeadingLinks()(tree, null as any, () => {});
+    remarkStripHeadingLinks()(tree);
     const heading = tree.children[0] as any;
     expect(heading.children[0].type).toBe('text');
     expect(heading.children[0].value).toBe('Clickable Title');
@@ -38,7 +38,7 @@ describe('remarkStripHeadingLinks', () => {
       ],
     };
 
-    remarkStripHeadingLinks()(tree, null as any, () => {});
+    remarkStripHeadingLinks()(tree);
     const heading = tree.children[0] as any;
     expect(heading.children).toHaveLength(1);
     expect(heading.children[0].value).toBe('Plain Heading');
@@ -47,7 +47,7 @@ describe('remarkStripHeadingLinks', () => {
   it('handles empty tree', () => {
     const tree: Root = { type: 'root', children: [] };
     expect(() => {
-      remarkStripHeadingLinks()(tree, null as any, () => {});
+      remarkStripHeadingLinks()(tree);
     }).not.toThrow();
   });
 
@@ -71,7 +71,7 @@ describe('remarkStripHeadingLinks', () => {
       ],
     };
 
-    remarkStripHeadingLinks()(tree, null as any, () => {});
+    remarkStripHeadingLinks()(tree);
     const heading = tree.children[0] as any;
     expect(heading.children).toHaveLength(3);
     expect(heading.children[0].value).toBe('Before ');
@@ -96,7 +96,7 @@ describe('remarkStripHeadingLinks', () => {
       ],
     };
 
-    remarkStripHeadingLinks()(tree, null as any, () => {});
+    remarkStripHeadingLinks()(tree);
     const paragraph = tree.children[0] as any;
     expect(paragraph.children[0].type).toBe('link');
   });

@@ -26,6 +26,7 @@ describe('Docs Layout', () => {
     const { default: Layout } = await import('@/app/column/layout');
     const { container } = render(
       React.createElement(Layout, {
+        params: Promise.resolve({}),
         children: React.createElement('div', { 'data-testid': 'child' }),
       }),
     );

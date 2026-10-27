@@ -114,16 +114,19 @@ function GhostGraph({
 
   return (
     <ForceGraph3D
-      ref={createForceGraphRef(graphRef, (forceGraphInstance: Graph) => {
-        configureGraphForces(forceGraphInstance);
-        const controls = forceGraphInstance.controls();
-        if (controls) {
-          controls.autoRotate = true;
-          controls.autoRotateSpeed = 0.3;
-          controls.enableDamping = true;
-          controls.dampingFactor = 0.1;
-        }
-      })}
+      ref={createForceGraphRef(
+        graphRef,
+        (forceGraphInstance: ForceGraphInstance) => {
+          configureGraphForces(forceGraphInstance);
+          const controls = forceGraphInstance.controls();
+          if (controls) {
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 0.3;
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.1;
+          }
+        },
+      )}
       graphData={clonedGraph}
       nodeColor={() => '#fff'}
       linkColor={() => '#fff'}
@@ -145,8 +148,8 @@ function GhostGraph({
 function InteractiveGraph({
   containerRef,
   foregroundGraph: graph,
-}: GraphViewProps & {
-  graph: Graph;
+}: {
+  foregroundGraph: Graph;
   containerRef: RefObject<HTMLDivElement | null>;
 }) {
   const graphRef = useRef<ForceGraphInstance>(undefined);
@@ -392,8 +395,7 @@ export default function GraphView3D(props: GraphViewProps) {
             transition={{ duration: 0.6, ease: [0.165, 0.84, 0.44, 1] }}
           >
             <InteractiveGraph
-              {...props}
-              graph={fetchedGraphData}
+              foregroundGraph={fetchedGraphData}
               containerRef={containerRef}
             />
           </motion.div>

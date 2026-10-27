@@ -25,6 +25,7 @@ describe('Root Layout', () => {
     const { default: Layout } = await import('@/app/layout');
     render(
       React.createElement(Layout, {
+        params: Promise.resolve({}),
         children: React.createElement('div', null, 'test'),
       }),
     );
@@ -38,6 +39,7 @@ describe('Root Layout', () => {
     const { default: Layout } = await import('@/app/layout');
     const { container } = render(
       React.createElement(Layout, {
+        params: Promise.resolve({}),
         children: React.createElement('div', null, 'test'),
       }),
     );

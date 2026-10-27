@@ -108,8 +108,8 @@ function GraphBackground({
 function InteractiveGraph({
   containerRef,
   foregroundGraph: graph,
-}: GraphViewProps & {
-  graph: Graph;
+}: {
+  foregroundGraph: Graph;
   containerRef: RefObject<HTMLDivElement | null>;
 }) {
   const graphRef = useRef<ForceGraphInstance>(undefined);
@@ -326,7 +326,7 @@ export default function GraphView2D(props: GraphViewProps) {
         ref={containerRef}
         className="absolute inset-0 size-full overflow-hidden"
       >
-        {isMounted && fetchedGraphData && (
+        {isMounted && fetchedGraphData && containerRef.current && (
           <GraphBackground
             graph={fetchedGraphData}
             container={containerRef.current}
