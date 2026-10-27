@@ -1,5 +1,3 @@
-![[Screenshot_2024-06-27_at_2.31.29_PM.png]]
-
 ## **Spring Annotations**
 
 Spring leverages annotations to simplify configuration and manage the lifecycle of objects within your application. Here's a breakdown of some key annotations and concepts:
