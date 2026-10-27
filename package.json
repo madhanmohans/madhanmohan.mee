@@ -25,7 +25,7 @@
     "fumadocs-mdx": "^14.2.10",
     "fumadocs-ui": "16.5.4",
     "lucide-react": "^0.563.0",
-    "next": "16.2.6",
+    "next": "^16.4.3",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-force-graph-2d": "^1.29.1",
@@ -48,13 +48,17 @@
     "@types/react": "^19.2.13",
     "@types/react-dom": "^19.2.3",
     "@types/three": "^0.184.1",
-    "postcss": "^8.5.10",
     "@vitejs/plugin-react": "^6.0.2",
     "@vitest/coverage-v8": "^4.1.7",
     "jsdom": "^29.1.1",
+    "postcss": "^8.5.10",
     "prettier": "^3.8.3",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",
     "vitest": "^4.1.7"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "fsevents@2.3.3": true
   }
 }

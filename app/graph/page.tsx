@@ -16,16 +16,13 @@ export default function SecondBrainPage() {
     fetch(GRAPH_API_URL)
       .then((response) => response.json())
       .then((data: Graph) => setGraphData(data))
-      .catch(() => { });
+      .catch(() => {});
   }, []);
 
   return (
     <div className="min-h-dvh flex flex-col">
       <header className="flex items-start justify-between px-12 py-5">
-        <Link
-          href="/"
-          data-tour="home-link"
-        >
+        <Link href="/" data-tour="home-link">
           <BrainCircuit />
         </Link>
 
@@ -76,7 +73,10 @@ export default function SecondBrainPage() {
               animation: 'fd-page-enter 0.6s var(--ease-out-quart) both',
             }}
           >
-            <GraphView foregroundGraph={graphData} dimension={activeDimension} />
+            <GraphView
+              foregroundGraph={graphData}
+              dimension={activeDimension}
+            />
           </div>
         )}
 

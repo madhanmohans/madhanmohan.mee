@@ -1,5 +1,5 @@
 'use client';
-import React, {type MutableRefObject } from 'react';
+import React, { type MutableRefObject } from 'react';
 
 export interface Graph {
   links: Link[];

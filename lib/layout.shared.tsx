@@ -4,9 +4,7 @@ import { BrainCircuit } from 'lucide-react';
 export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
-      title: (
-        <BrainCircuit />
-      ),
+      title: <BrainCircuit />,
     },
     themeSwitch: {
       enabled: true,

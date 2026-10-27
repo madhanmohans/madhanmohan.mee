@@ -27,7 +27,7 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
     fetch(GRAPH_API_URL)
       .then((response) => response.json())
       .then((data: Graph) => setFetchedGraphData(data))
-      .catch(() => { });
+      .catch(() => {});
   }, []);
 
   const localSubgraph = useMemo(() => {
@@ -205,8 +205,12 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
       );
 
     const computedStyles = getComputedStyle(container);
-    const mutedForegroundColor = computedStyles.getPropertyValue('--color-fd-muted-foreground').trim();
-    const activeNodeColor = computedStyles.getPropertyValue('--color-fd-ring').trim();
+    const mutedForegroundColor = computedStyles
+      .getPropertyValue('--color-fd-muted-foreground')
+      .trim();
+    const activeNodeColor = computedStyles
+      .getPropertyValue('--color-fd-ring')
+      .trim();
     const textForegroundColor = computedStyles.getPropertyValue('color').trim();
     const linkStrokeColor = `color-mix(in oklab, ${mutedForegroundColor} 40%, transparent)`;
 
@@ -279,7 +283,9 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
 
         context.beginPath();
         context.arc(node.x, node.y, radius, 0, 2 * Math.PI);
-        context.fillStyle = node.isCurrent ? activeNodeColor : mutedForegroundColor;
+        context.fillStyle = node.isCurrent
+          ? activeNodeColor
+          : mutedForegroundColor;
         context.fill();
 
         const fontSize = (node.isCurrent ? 10 : 8) / scale;

@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  type RefObject,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { type RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import ForceGraph3D from 'react-force-graph-3d';
 import {
@@ -39,8 +33,8 @@ function parseColorNumber(
   const parsedColorNo = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
   return parsedColorNo
     ? (parseInt(parsedColorNo[1]) << 16) |
-    (parseInt(parsedColorNo[2]) << 8) |
-    parseInt(parsedColorNo[3])
+        (parseInt(parsedColorNo[2]) << 8) |
+        parseInt(parsedColorNo[3])
     : 0x6b6b6b;
 }
 
@@ -208,10 +202,10 @@ function InteractiveGraph({
     const color = isActive
       ? 0xc0392b
       : parseColorNumber(
-        computedStyles,
-        '--color-fd-muted-foreground',
-        '#6b6b6b',
-      );
+          computedStyles,
+          '--color-fd-muted-foreground',
+          '#6b6b6b',
+        );
     const sphereRadius = isActive ? 5 : 3;
 
     const group = new THREE.Group();
@@ -367,7 +361,7 @@ export default function GraphView3D(props: GraphViewProps) {
       fetch('/api/graph')
         .then((response) => response.json())
         .then((data: Graph) => setFetchedGraphData(data))
-        .catch(() => { });
+        .catch(() => {});
     }
   }, [props.foregroundGraph]);
 

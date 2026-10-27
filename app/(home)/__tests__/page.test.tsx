@@ -14,10 +14,10 @@ vi.mock('next/link', () => ({
 }));
 
 vi.mock('@/components/Graph/GraphView', () => ({
-  GraphView: ({ ghost }: { ghost?: boolean }) =>
+  GraphView: ({ backgroundGraph }: { backgroundGraph?: boolean }) =>
     React.createElement('div', {
       'data-testid': 'graph-view',
-      'data-ghost': String(!!ghost),
+      'data-ghost': String(!!backgroundGraph),
     }),
 }));
 

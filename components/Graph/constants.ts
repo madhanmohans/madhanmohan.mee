@@ -6,7 +6,6 @@ export const MAX_SIMULATION_TICKS = 120;
 
 export const GRAPH_API_URL = '/api/graph';
 
-
 export const TWO_D_GRAPH_NODE_RADIUS = 3;
 
 // Force configuration

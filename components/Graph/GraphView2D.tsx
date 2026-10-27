@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  type RefObject,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { type RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
 import { forceCollide, forceCenter, forceLink, forceManyBody } from 'd3-force';
 import { useRouter } from 'fumadocs-core/framework';
@@ -44,8 +38,14 @@ import {
 } from './constants';
 
 function configureGraphForces(forceGraphInstance: ForceGraphInstance) {
-  forceGraphInstance.d3Force('link', forceLink().distance(LINK_DISTANCE).strength(LINK_STRENGTH));
-  forceGraphInstance.d3Force('charge', forceManyBody().strength(CHARGE_STRENGTH));
+  forceGraphInstance.d3Force(
+    'link',
+    forceLink().distance(LINK_DISTANCE).strength(LINK_STRENGTH),
+  );
+  forceGraphInstance.d3Force(
+    'charge',
+    forceManyBody().strength(CHARGE_STRENGTH),
+  );
   forceGraphInstance.d3Force('center', forceCenter().strength(CENTER_STRENGTH));
   forceGraphInstance.d3Force('collision', forceCollide(COLLIDE_RADIUS));
 }
@@ -54,12 +54,14 @@ function GraphBackground({
   container,
   graph,
 }: {
-  graph: Graph; 
+  graph: Graph;
   container: HTMLDivElement;
 }) {
-    const computedStyles = getComputedStyle(container);
-    const mutedForegroundColor = computedStyles.getPropertyValue('--color-fd-muted-foreground').trim();
-    const graphRef = useRef<ForceGraphInstance>(undefined);
+  const computedStyles = getComputedStyle(container);
+  const mutedForegroundColor = computedStyles
+    .getPropertyValue('--color-fd-muted-foreground')
+    .trim();
+  const graphRef = useRef<ForceGraphInstance>(undefined);
 
   const clonedGraph = useMemo(() => {
     return structuredClone(graph);
@@ -68,8 +70,15 @@ function GraphBackground({
   const drawNodeOnCanvas = (node: any, context: CanvasRenderingContext2D) => {
     if (!container) return;
     context.beginPath();
-    context.arc(node.x!, node.y!, TWO_D_GRAPH_NODE_RADIUS, 0, 2 * Math.PI, false);
-    context.fillStyle = mutedForegroundColor
+    context.arc(
+      node.x!,
+      node.y!,
+      TWO_D_GRAPH_NODE_RADIUS,
+      0,
+      2 * Math.PI,
+      false,
+    );
+    context.fillStyle = mutedForegroundColor;
     context.fill();
   };
 
@@ -137,9 +146,18 @@ function InteractiveGraph({
   const drawNodeOnCanvas = (node: any, context: CanvasRenderingContext2D) => {
     if (!containerRef.current) return;
     const computedStyles = getComputedStyle(containerRef.current);
-    const mutedForegroundColor = computedStyles.getPropertyValue('--color-fd-muted-foreground').trim();
+    const mutedForegroundColor = computedStyles
+      .getPropertyValue('--color-fd-muted-foreground')
+      .trim();
     context.beginPath();
-    context.arc(node.x!, node.y!, TWO_D_GRAPH_NODE_RADIUS, 0, 2 * Math.PI, false);
+    context.arc(
+      node.x!,
+      node.y!,
+      TWO_D_GRAPH_NODE_RADIUS,
+      0,
+      2 * Math.PI,
+      false,
+    );
 
     const hoveredNode = hoveredNodeRef.current;
     const isActive =
@@ -148,16 +166,18 @@ function InteractiveGraph({
         typeof node.id === 'string' &&
         hoveredNode.neighbors.includes(node.id));
 
-    context.fillStyle = isActive
-      ? HIGHLIGHT_COLOR
-      : mutedForegroundColor;
+    context.fillStyle = isActive ? HIGHLIGHT_COLOR : mutedForegroundColor;
     context.fill();
 
     context.font = `${LABEL_FONT_SIZE}px CommitMono, monospace`;
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     context.fillStyle = computedStyles.getPropertyValue('color');
-    context.fillText(node.text, node.x!, node.y! + TWO_D_GRAPH_NODE_RADIUS + LABEL_FONT_SIZE);
+    context.fillText(
+      node.text,
+      node.x!,
+      node.y! + TWO_D_GRAPH_NODE_RADIUS + LABEL_FONT_SIZE,
+    );
   };
 
   const resolveLinkColor = (link: any) => {
@@ -259,7 +279,10 @@ function InteractiveGraph({
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: TOOLTIP_ANIMATION_DURATION, ease: 'easeOut' }}
+            transition={{
+              duration: TOOLTIP_ANIMATION_DURATION,
+              ease: 'easeOut',
+            }}
           >
             <p className="font-semibold text-fd-foreground text-[12px] mb-2 border-b border-fd-border pb-1.5">
               {tooltip.title}
@@ -293,7 +316,7 @@ export default function GraphView2D(props: GraphViewProps) {
       fetch('/api/graph')
         .then((response) => response.json())
         .then((data: Graph) => setFetchedGraphData(data))
-        .catch(() => { });
+        .catch(() => {});
     }
   }, [props.foregroundGraph]);
 
@@ -304,7 +327,10 @@ export default function GraphView2D(props: GraphViewProps) {
         className="absolute inset-0 size-full overflow-hidden"
       >
         {isMounted && fetchedGraphData && (
-          <GraphBackground graph={fetchedGraphData} container={containerRef.current} />
+          <GraphBackground
+            graph={fetchedGraphData}
+            container={containerRef.current}
+          />
         )}
       </div>
     );
