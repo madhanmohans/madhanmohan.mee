@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export interface TourStep {
@@ -25,6 +25,12 @@ interface TooltipPosition {
 const TOOLTIP_CARD_WIDTH = 280;
 const TOOLTIP_GAP = 14;
 const TOOLTIP_MIN_MARGIN = 12;
+const CENTERED_CARD_STYLE = {
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 300,
+};
 
 function getTourStorageKey(tourId: string): string {
   return `site-tour-${tourId}-done`;
@@ -51,7 +57,6 @@ export function Tour({ id, steps }: TourProps) {
   const [isTourVisible, setIsTourVisible] = useState(false);
   const [tooltipPosition, setTooltipPosition] =
     useState<TooltipPosition | null>(null);
-  const tourCardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!isTourAlreadyCompleted(id)) {
@@ -167,25 +172,14 @@ export function Tour({ id, steps }: TourProps) {
     !currentStep.selector || currentStep.placement === 'center';
   const isLastStep = currentStepIndex === steps.length - 1;
 
-  const positionedCardStyle = isCenteredPlacement
-    ? {
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 300,
-      }
-    : tooltipPosition
+  const positionedCardStyle =
+    !isCenteredPlacement && tooltipPosition
       ? {
           top: tooltipPosition.top,
           left: tooltipPosition.left,
           width: TOOLTIP_CARD_WIDTH,
         }
-      : {
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 300,
-        };
+      : CENTERED_CARD_STYLE;
 
   return (
     <>
@@ -208,7 +202,6 @@ export function Tour({ id, steps }: TourProps) {
         {isTourVisible && (
           <motion.div
             key={`${id}-step-${currentStepIndex}`}
-            ref={tourCardRef}
             className="fixed z-[61] tour-card"
             style={positionedCardStyle}
             initial={{ opacity: 0, y: 8 }}

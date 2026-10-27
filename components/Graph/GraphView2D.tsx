@@ -5,13 +5,13 @@ import ForceGraph2D from 'react-force-graph-2d';
 import { forceCollide, forceCenter, forceLink, forceManyBody } from 'd3-force';
 import { useRouter } from 'fumadocs-core/framework';
 import { AnimatePresence, motion } from 'framer-motion';
-import type { Graph, GraphViewProps } from './GraphShared';
 import {
   MiniMarkdown,
   createForceGraphRef,
   enrichGraphNodesWithNeighbors,
+  useGraphData,
 } from './GraphShared';
-import type { ForceGraphInstance } from './GraphShared';
+import type { ForceGraphInstance, Graph, GraphViewProps } from './GraphShared';
 import {
   TWO_D_GRAPH_NODE_RADIUS,
   LINK_DISTANCE,
@@ -68,7 +68,6 @@ function GraphBackground({
   }, [graph]);
 
   const drawNodeOnCanvas = (node: any, context: CanvasRenderingContext2D) => {
-    if (!container) return;
     context.beginPath();
     context.arc(
       node.x!,
@@ -82,17 +81,14 @@ function GraphBackground({
     context.fill();
   };
 
-  const resolveLinkColor = () => {
-    if (!container) return DEFAULT_LINK_COLOR;
-    return `color-mix(in oklab, ${mutedForegroundColor} 30%, transparent)`;
-  };
+  const linkColor = `color-mix(in oklab, ${mutedForegroundColor} 30%, transparent)`;
 
   return (
     <ForceGraph2D
       ref={createForceGraphRef(graphRef, configureGraphForces)}
       graphData={clonedGraph}
       nodeCanvasObject={drawNodeOnCanvas}
-      linkColor={resolveLinkColor}
+      linkColor={() => linkColor}
       linkWidth={LINK_WIDTH_BG}
       enableNodeDrag={false}
       enableZoomInteraction={false}
@@ -301,24 +297,12 @@ function InteractiveGraph({
 
 export default function GraphView2D(props: GraphViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const container = containerRef.current;
   const [isMounted, setIsMounted] = useState(false);
-  const [fetchedGraphData, setFetchedGraphData] = useState<Graph | null>(
-    props.foregroundGraph ?? null,
-  );
+  const fetchedGraphData = useGraphData(props.foregroundGraph);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
-
-  useEffect(() => {
-    if (!props.foregroundGraph) {
-      fetch('/api/graph')
-        .then((response) => response.json())
-        .then((data: Graph) => setFetchedGraphData(data))
-        .catch(() => {});
-    }
-  }, [props.foregroundGraph]);
 
   if (props.backgroundGraph) {
     return (

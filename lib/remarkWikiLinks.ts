@@ -1,6 +1,7 @@
 import type { Root, Text, Link } from 'mdast';
 import type { Transformer } from 'unified';
 import { visit } from 'unist-util-visit';
+import { slugify } from './slugify';
 
 export function remarkWikilinks(): Transformer<Root, Root> {
   const wikilinkPattern = /(?<!!)\[\[([^\]|]+?)(?:\|([^\]]+?))?\]\]/g;
@@ -28,16 +29,9 @@ export function remarkWikilinks(): Transformer<Root, Root> {
           });
         }
 
-        const slugifiedTarget = linkTarget
-          .toLowerCase()
-          .replace(/[`'"!?()[\]{},.:;@#$%^&*~<>]/g, '')
-          .replace(/[\s_]+/g, '-')
-          .replace(/-{2,}/g, '-')
-          .replace(/^-|-$/g, '');
-
         replacementNodes.push({
           type: 'link',
-          url: slugifiedTarget,
+          url: slugify(linkTarget),
           children: [{ type: 'text', value: displayAlias || linkTarget }],
         });
 

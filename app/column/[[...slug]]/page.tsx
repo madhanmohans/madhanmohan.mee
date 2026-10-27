@@ -22,6 +22,16 @@ export default async function Page(props: PageProps<'/column/[[...slug]]'>) {
 
   const MDXContent = docPage.data.body;
   const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
+  const markdownUrl = `${docPage.url}.mdx`;
+  const body = (
+    <DocsBody>
+      <MDXContent
+        components={getMDXComponents({
+          a: createRelativeLink(source, docPage),
+        })}
+      />
+    </DocsBody>
+  );
 
   return (
     <DocsPage
@@ -46,29 +56,15 @@ export default async function Page(props: PageProps<'/column/[[...slug]]'>) {
         data-tour="llm-actions"
         className="flex flex-row gap-2 items-center border-b pb-6"
       >
-        <LLMCopyButton markdownUrl={`${docPage.url}.mdx`} />
-        <ViewOptions markdownUrl={`${docPage.url}.mdx`} />
+        <LLMCopyButton markdownUrl={markdownUrl} />
+        <ViewOptions markdownUrl={markdownUrl} />
       </div>
       <DocsTour />
 
       {IS_DEVELOPMENT ? (
-        <NoteEditor slug={params.slug ?? []}>
-          <DocsBody>
-            <MDXContent
-              components={getMDXComponents({
-                a: createRelativeLink(source, docPage),
-              })}
-            />
-          </DocsBody>
-        </NoteEditor>
+        <NoteEditor slug={params.slug ?? []}>{body}</NoteEditor>
       ) : (
-        <DocsBody>
-          <MDXContent
-            components={getMDXComponents({
-              a: createRelativeLink(source, docPage),
-            })}
-          />
-        </DocsBody>
+        body
       )}
     </DocsPage>
   );

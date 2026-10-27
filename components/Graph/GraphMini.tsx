@@ -6,47 +6,34 @@ import {
   MAX_SIMULATION_TICKS,
   MIN_ZOOM,
   MAX_ZOOM,
-  GRAPH_API_URL,
 } from './constants';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import type { Graph } from '@/components/Graph/GraphView';
+import { getLinkEndpointId, useGraphData } from './GraphShared';
 import type { MiniNode, GraphMiniProps, MiniLink } from './GraphShared';
 
 export function GraphMini({ pageUrl }: GraphMiniProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [fetchedGraphData, setFetchedGraphData] = useState<Graph | null>(null);
+  const fetchedGraphData = useGraphData();
   const router = useRouter();
 
   const simulatedNodesRef = useRef<MiniNode[]>([]);
   const canvasTransformRef = useRef({ scale: 1, offsetX: 0, offsetY: 0 });
   const shouldRedrawRef = useRef(false);
 
-  useEffect(() => {
-    fetch(GRAPH_API_URL)
-      .then((response) => response.json())
-      .then((data: Graph) => setFetchedGraphData(data))
-      .catch(() => {});
-  }, []);
-
   const localSubgraph = useMemo(() => {
     if (!fetchedGraphData) return null;
 
-    const connectedNodeIds = new Set<string>();
-    connectedNodeIds.add(pageUrl);
+    const allLinks: MiniLink[] = fetchedGraphData.links.map((link) => ({
+      source: getLinkEndpointId(link.source),
+      target: getLinkEndpointId(link.target),
+    }));
 
-    for (const link of fetchedGraphData.links) {
-      const sourceId =
-        typeof link.source === 'object'
-          ? (link.source as { id: string }).id
-          : (link.source as string);
-      const targetId =
-        typeof link.target === 'object'
-          ? (link.target as { id: string }).id
-          : (link.target as string);
-      if (sourceId === pageUrl) connectedNodeIds.add(targetId);
-      if (targetId === pageUrl) connectedNodeIds.add(sourceId);
+    const connectedNodeIds = new Set<string>([pageUrl]);
+    for (const { source, target } of allLinks) {
+      if (source === pageUrl) connectedNodeIds.add(target);
+      if (target === pageUrl) connectedNodeIds.add(source);
     }
 
     const nodes: MiniNode[] = fetchedGraphData.nodes
@@ -73,28 +60,10 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
       });
     }
 
-    const links: MiniLink[] = fetchedGraphData.links
-      .filter((link) => {
-        const sourceId =
-          typeof link.source === 'object'
-            ? (link.source as { id: string }).id
-            : (link.source as string);
-        const targetId =
-          typeof link.target === 'object'
-            ? (link.target as { id: string }).id
-            : (link.target as string);
-        return connectedNodeIds.has(sourceId) && connectedNodeIds.has(targetId);
-      })
-      .map((link) => ({
-        source:
-          typeof link.source === 'object'
-            ? (link.source as { id: string }).id
-            : (link.source as string),
-        target:
-          typeof link.target === 'object'
-            ? (link.target as { id: string }).id
-            : (link.target as string),
-      }));
+    const links = allLinks.filter(
+      ({ source, target }) =>
+        connectedNodeIds.has(source) && connectedNodeIds.has(target),
+    );
 
     return { nodes, links };
   }, [fetchedGraphData, pageUrl]);
@@ -232,7 +201,7 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
         }
       }
       for (const link of simulationLinks) {
-        const dx = link.target.y - link.source.x;
+        const dx = link.target.x - link.source.x;
         const dy = link.target.y - link.source.y;
         const dist = Math.sqrt(dx * dx + dy * dy) || 1;
         const targetDistance = 50;
@@ -273,8 +242,8 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
       context.lineWidth = 1 / scale;
       for (const link of simulationLinks) {
         context.beginPath();
-        context.moveTo(link.source.x, link.source?.y);
-        context.lineTo(link.target.x, link.target?.y);
+        context.moveTo(link.source.x, link.source.y);
+        context.lineTo(link.target.x, link.target.y);
         context.stroke();
       }
 

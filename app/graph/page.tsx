@@ -1,23 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
-import { GraphView, type Graph } from '@/components/Graph/GraphView';
+import { GraphView } from '@/components/Graph/GraphView';
+import { useGraphData } from '@/components/Graph/GraphShared';
 import { BrainCircuit } from 'lucide-react';
 import { Tour } from '@/components/Tour';
 import { ViewToggle } from '@/components/ViewToggle';
-import { GRAPH_API_URL } from '@/components/Graph/constants';
+
+const GRAPH_DIMENSIONS = ['2d', '3d'] as const;
 
 export default function SecondBrainPage() {
-  const [graphData, setGraphData] = useState<Graph | null>(null);
-  const [activeDimension, setActiveDimension] = useState<'2d' | '3d'>('2d');
-
-  useEffect(() => {
-    fetch(GRAPH_API_URL)
-      .then((response) => response.json())
-      .then((data: Graph) => setGraphData(data))
-      .catch(() => {});
-  }, []);
+  const graphData = useGraphData();
+  const [activeDimension, setActiveDimension] =
+    useState<(typeof GRAPH_DIMENSIONS)[number]>('2d');
 
   return (
     <div className="min-h-dvh flex flex-col">
@@ -28,38 +24,25 @@ export default function SecondBrainPage() {
 
         <div className="flex items-center gap-2">
           <div className="flex border border-fd-border rounded-md overflow-hidden">
-            <button
-              className="px-2.5 py-1 text-[11px] font-mono tracking-wider transition-colors duration-150"
-              style={{
-                background:
-                  activeDimension === '2d'
-                    ? 'var(--color-fd-accent)'
-                    : 'transparent',
-                color:
-                  activeDimension === '2d'
-                    ? 'var(--color-fd-primary)'
-                    : 'var(--color-fd-muted-foreground)',
-              }}
-              onClick={() => setActiveDimension('2d')}
-            >
-              2D
-            </button>
-            <button
-              className="px-2.5 py-1 text-[11px] font-mono tracking-wider transition-colors duration-150"
-              style={{
-                background:
-                  activeDimension === '3d'
-                    ? 'var(--color-fd-accent)'
-                    : 'transparent',
-                color:
-                  activeDimension === '3d'
-                    ? 'var(--color-fd-primary)'
-                    : 'var(--color-fd-muted-foreground)',
-              }}
-              onClick={() => setActiveDimension('3d')}
-            >
-              3D
-            </button>
+            {GRAPH_DIMENSIONS.map((dimension) => (
+              <button
+                key={dimension}
+                className="px-2.5 py-1 text-[11px] font-mono tracking-wider transition-colors duration-150"
+                style={{
+                  background:
+                    activeDimension === dimension
+                      ? 'var(--color-fd-accent)'
+                      : 'transparent',
+                  color:
+                    activeDimension === dimension
+                      ? 'var(--color-fd-primary)'
+                      : 'var(--color-fd-muted-foreground)',
+                }}
+                onClick={() => setActiveDimension(dimension)}
+              >
+                {dimension.toUpperCase()}
+              </button>
+            ))}
           </div>
           <ViewToggle />
         </div>

@@ -1,12 +1,13 @@
 'use client';
-import React, { type MutableRefObject } from 'react';
+import React, { type MutableRefObject, useEffect, useState } from 'react';
+import { GRAPH_API_URL } from './constants';
 
 export interface Graph {
   links: Link[];
   nodes: Node[];
 }
 
-export interface NodeObject<T = Record<string, unknown>> {
+export interface Node {
   id?: string | number;
   x?: number;
   y?: number;
@@ -20,28 +21,11 @@ export interface NodeObject<T = Record<string, unknown>> {
   [others: string]: any;
 }
 
-export interface NodeType {
-  text: string;
-  description?: string;
-  content?: string;
-  neighbors?: string[];
-  url: string;
-}
-
-export type Node = NodeObject<NodeType>;
-
-export interface LinkObject<
-  NodeType = Record<string, unknown>,
-  LinkType = Record<string, unknown>,
-> {
-  source?: string | number | NodeObject<NodeType>;
-  target?: string | number | NodeObject<NodeType>;
+export interface Link {
+  source?: string | number | Node;
+  target?: string | number | Node;
   [others: string]: any;
 }
-
-export type Link = LinkObject<NodeType, Record<string, unknown>>;
-
-export type LinkType = Record<string, unknown>;
 
 export interface GraphViewProps {
   foregroundGraph?: Graph;
@@ -65,6 +49,29 @@ export interface MiniNode {
 export interface MiniLink {
   source: string;
   target: string;
+}
+
+// Force-graph libraries replace link endpoints with node objects once the
+// simulation runs, so an endpoint may be either an id or a node.
+export function getLinkEndpointId(endpoint: Link['source']): string {
+  return typeof endpoint === 'object'
+    ? (endpoint.id as string)
+    : (endpoint as string);
+}
+
+// Uses the given graph when present, otherwise fetches it from the API.
+export function useGraphData(initialGraph?: Graph): Graph | null {
+  const [fetchedGraph, setFetchedGraph] = useState<Graph | null>(null);
+
+  useEffect(() => {
+    if (initialGraph) return;
+    fetch(GRAPH_API_URL)
+      .then((response) => response.json())
+      .then((data: Graph) => setFetchedGraph(data))
+      .catch(() => {});
+  }, [initialGraph]);
+
+  return initialGraph ?? fetchedGraph;
 }
 
 export function stripInlineMarkdown(text: string) {
