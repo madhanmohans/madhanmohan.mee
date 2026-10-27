@@ -4,6 +4,9 @@ const withMDX = createMDX();
 
 /** @type {import('next').NextConfig} */
 const config = {
+  turbopack: {
+    root: import.meta.dirname,
+  },
   reactStrictMode: true,
   compress: true,
   productionBrowserSourceMaps: false,
@@ -14,12 +17,11 @@ const config = {
       'fumadocs-ui',
       'fumadocs-core',
     ],
-    webpackBuildWorker: true,
   },
   async rewrites() {
     return [
       {
-        source: '/docs/:path*.mdx',
+        source: '/column/:path*.mdx',
         destination: '/llms.mdx/docs/:path*',
       },
     ];
