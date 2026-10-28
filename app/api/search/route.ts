@@ -90,6 +90,7 @@ export async function GET(request: Request) {
     const errorMessage =
       error instanceof Error ? error.message : 'Unknown search error';
     console.error('Search API Error:', errorMessage);
-    return NextResponse.json({ error: errorMessage }, { status: 500 });
+    // Details stay in the server log, not the response
+    return NextResponse.json({ error: 'Search failed' }, { status: 500 });
   }
 }

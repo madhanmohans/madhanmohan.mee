@@ -1,3 +1,4 @@
+import { isAllowedDevRequest, resolveInside } from '@/lib/devRequest';
 import { getTagGroups, source } from '@/lib/source';
 import { LocalLLMError, suggestTags } from '@/lib/suggestTags';
 import { readFile } from 'node:fs/promises';
@@ -5,12 +6,12 @@ import path from 'node:path';
 
 export const dynamic = 'force-dynamic';
 
-const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 const CONTENT_DIRECTORY = path.resolve(process.cwd(), 'content/docs');
 
 // Asks the local LLM for tags the note doesn't have yet: { slug: string[] }
 export async function POST(request: Request) {
-  if (!IS_DEVELOPMENT) return new Response('Not available', { status: 403 });
+  if (!isAllowedDevRequest(request))
+    return new Response('Not available', { status: 403 });
 
   const { slug } = await request.json().catch(() => ({}));
   if (!Array.isArray(slug)) {
@@ -20,8 +21,10 @@ export async function POST(request: Request) {
   const page = source.getPage(slug);
   if (!page) return Response.json({ error: 'Not found' }, { status: 404 });
 
-  const filePath = path.resolve(CONTENT_DIRECTORY, page.path);
-  if (!filePath.startsWith(CONTENT_DIRECTORY)) {
+  let filePath: string;
+  try {
+    filePath = resolveInside(CONTENT_DIRECTORY, page.path);
+  } catch {
     return Response.json({ error: 'Invalid path' }, { status: 400 });
   }
 

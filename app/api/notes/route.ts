@@ -1,16 +1,17 @@
+import { isAllowedDevRequest } from '@/lib/devRequest';
 import { slugify } from '@/lib/slugify';
 import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 export const dynamic = 'force-dynamic';
 
-const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 const CONTENT_DIRECTORY = path.resolve(process.cwd(), 'content/docs');
 
 // Creates content/docs/<slug>.md; the title comes from the filename,
 // so the body needs no frontmatter
 export async function POST(request: Request) {
-  if (!IS_DEVELOPMENT) return new Response('Not available', { status: 403 });
+  if (!isAllowedDevRequest(request))
+    return new Response('Not available', { status: 403 });
 
   const { title, content } = await request.json().catch(() => ({}));
   if (typeof title !== 'string' || typeof content !== 'string') {

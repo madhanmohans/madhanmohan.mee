@@ -1,11 +1,11 @@
 {
 "message": "Okay great, show out your arm and take the entry stamp. Also take this Authorization token, you'll need to show it to the bouncer as well to get in. Head on over to /get-carded to go forward.",
-"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWFkaGFuIE1vaGFuIFMiLCJlbWFpbCI6Im1hZGhhbm1vaGFuLnJtc0BnbWFpbC5jb20iLCJkYXRlIjoiMjAyNS0xMS0xNiAwNjo1NjoxNSJ9.YzqOKzccv-0z6VBNOtB6UcP-tbi1gEtsDCPTzvkTnOw"
+"token": "<redacted-jwt>"
 }
 
 fetch('https://workwithus.startup-challenge.example.com/get-carded', {
 headers: {
-'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWFkaGFuIE1vaGFuIFMiLCJlbWFpbCI6Im1hZGhhbm1vaGFuLnJtc0BnbWFpbC5jb20iLCJkYXRlIjoiMjAyNS0xMS0xNiAwNjo1NjoxNSJ9.YzqOKzccv-0z6VBNOtB6UcP-tbi1gEtsDCPTzvkTnOw'
+'Authorization': '<redacted-jwt>'
 }
 }).then(r => r.json()).then(console.log)
 
@@ -22,7 +22,7 @@ allow pasting
 VM4474:1 Uncaught SyntaxError: Unexpected identifier 'pasting'
 fetch('https://workwithus.startup-challenge.example.com/get-carded', {
 headers: {
-'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWFkaGFuIE1vaGFuIFMiLCJlbWFpbCI6Im1hZGhhbm1vaGFuLnJtc0BnbWFpbC5jb20iLCJkYXRlIjoiMjAyNS0xMS0xNiAwNjo1NjoxNSJ9.YzqOKzccv-0z6VBNOtB6UcP-tbi1gEtsDCPTzvkTnOw'
+'Authorization': 'Bearer <redacted-jwt>'
 }
 }).then(r => r.text()).then(console.log)
 
@@ -33,7 +33,7 @@ VM4486:1 GET https://workwithus.startup-challenge.example.com/get-carded 403 (FO
 
 fetch('https://workwithus.startup-challenge.example.com/get-carded', {
 headers: {
-'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWFkaGFuIE1vaGFuIFMiLCJlbWFpbCI6Im1hZGhhbm1vaGFuLnJtc0BnbWFpbC5jb20iLCJkYXRlIjoiMjAyNS0xMS0xNiAwNjo1NjoxNSJ9.YzqOKzccv-0z6VBNOtB6UcP-tbi1gEtsDCPTzvkTnOw'
+'token': '<redacted-jwt>'
 }
 }).then(r => r.json()).then(console.log)
 
@@ -43,7 +43,7 @@ VM4940:1 GET https://workwithus.startup-challenge.example.com/get-carded 403 (FO
 {error: "Hmmm...this doesn't look right. You're missing something."}
 fetch('https://workwithus.startup-challenge.example.com/get-carded', {
 headers: {
-'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWFkaGFuIE1vaGFuIFMiLCJlbWFpbCI6Im1hZGhhbm1vaGFuLnJtc0BnbWFpbC5jb20iLCJkYXRlIjoiMjAyNS0xMS0xNiAwNjo1NjoxNSJ9.YzqOKzccv-0z6VBNOtB6UcP-tbi1gEtsDCPTzvkTnOw'
+'Authorization': 'Bearer <redacted-jwt>'
 }
 }).then(r => {
 console.log('Status:', r.status);
@@ -61,7 +61,7 @@ VM4962:7 Headers: (5) [Array(2), Array(2), Array(2), Array(2), Array(2)]0: (2)�
 fetch('https://workwithus.startup-challenge.example.com/get-carded', {
 method: 'POST',
 headers: {
-'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWFkaGFuIE1vaGFuIFMiLCJlbWFpbCI6Im1hZGhhbm1vaGFuLnJtc0BnbWFpbC5jb20iLCJkYXRlIjoiMjAyNS0xMS0xNiAwNjo1NjoxNSJ9.YzqOKzccv-0z6VBNOtB6UcP-tbi1gEtsDCPTzvkTnOw'
+'Authorization': '<redacted-jwt>'
 }
 }).then(r => r.json()).then(console.log)
 
@@ -78,9 +78,9 @@ headers: { 'Content-Type': 'application/json' },
 body: JSON.stringify({ name: “Madhan Mohan S”, email: “madhanmohan.rms@gmail.com”})  
 }); 
 
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWFkaGFuIE1vaGFuIFMiLCJlbWFpbCI6Im1hZGhhbm1vaGFuLnJtc0BnbWFpbC5jb20iLCJkYXRlIjoiMjAyNS0xMS0xNiAwNjo0Njo0OCJ9.1vXwFQX3lKfYKjedKEVE8TcfsOqLVVO1GQA2zROqSdc"
+"<redacted-jwt>"
 
-auth_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWFkaGFuIE1vaGFuIFMiLCJlbWFpbCI6Im1hZGhhbm1vaGFuLnJtc0BnbWFpbC5jb20iLCJkYXRlIjoiMjAyNS0xMS0xNiAwNjo0Njo0OCJ9.1vXwFQX3lKfYKjedKEVE8TcfsOqLVVO1GQA2zROqSdc
+auth_token=<redacted-jwt>
 
 ```
 'User-Agent': 'hari_seldon'
@@ -92,17 +92,17 @@ auth_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWFkaGFuIE1vaGFuIFMi
 ccurl -X GET "https://workwithus.startup-challenge.example.com/logic-it-out" \
  -H "User-Agent: hari_seldon" \
  -H "Referer: https://startup-challenge.example.com" \
- -H "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWFkaGFuIE1vaGFuIFMiLCJlb"
+ -H "Authorization: <redacted-jwt>"
 
 curl -X GET "https://workwithus.startup-challenge.example.com/logic-it-out" \
- -H "Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWFkaGFuIE1vaGFuIFMiLCJlbWFpbCI6Im1hZGhhbm1vaGFuLnJtc0BnbWFpbC5jb20iLCJkYXRlIjoiMjAyNS0xMS0xNiAwOTo0MTowMiJ9.otd4AuxTJMAA43beCzGSJ7xjN2xXRJHW0G4mXU1-5Hw" \
+ -H "Authorization: <redacted-jwt>" \
  -H "Referer: https://startup-challenge.example.com" \
  -H "User-Agent: hari_seldon"
 
 fetch('https://workwithus.startup-challenge.example.com/logic-it-out', {
 method: 'GET',
 headers: {
-'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWFkaGFuIE1vaGFuIFMiLCJlbWFpbCI6Im1hZGhhbm1vaGFuLnJtc0BnbWFpbC5jb20iLCJkYXRlIjoiMjAyNS0xMS0xNiAwOTo0MTowMiJ9.otd4AuxTJMAA43beCzGSJ7xjN2xXRJHW0G4mXU1-5Hw',
+'Authorization': '<redacted-jwt>',
 'Referer': 'https://startup-challenge.example.com',
 'User-Agent': 'hari_seldon'
 }
@@ -127,7 +127,7 @@ headers: {
 "question": "What is the cube of 4?"
 }
 ],
-"token": "eyJhbnN3ZXJzIjpbIk1lcmN1cnkiLCJCbHVlIHdoYWxlIiw2NF19.aRnA8g.U88_I1dWNoIyWP5wx9UhVeDE-rg"
+"token": "<redacted-jwt>"
 }
 
 GIN] 2025/11/16 - 18:13:19 | 200 | 12.635839416s | 127.0.0.1 | POST "/api/generate"

@@ -1,3 +1,4 @@
+import { isAllowedDevRequest, resolveInside } from '@/lib/devRequest';
 import { source } from '@/lib/source';
 import {
   extractInlineTags,
@@ -11,12 +12,12 @@ import { revalidatePath } from 'next/cache';
 
 export const dynamic = 'force-dynamic';
 
-const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 const CONTENT_DIRECTORY = path.resolve(process.cwd(), 'content/docs');
 
 // Replaces a note's frontmatter tags: { slug: string[], tags: string[] }
 export async function PUT(request: Request) {
-  if (!IS_DEVELOPMENT) return new Response('Not available', { status: 403 });
+  if (!isAllowedDevRequest(request))
+    return new Response('Not available', { status: 403 });
 
   const { slug, tags } = await request.json().catch(() => ({}));
   if (!Array.isArray(slug) || !Array.isArray(tags)) {
@@ -26,8 +27,10 @@ export async function PUT(request: Request) {
   const page = source.getPage(slug);
   if (!page) return Response.json({ error: 'Not found' }, { status: 404 });
 
-  const filePath = path.resolve(CONTENT_DIRECTORY, page.path);
-  if (!filePath.startsWith(CONTENT_DIRECTORY)) {
+  let filePath: string;
+  try {
+    filePath = resolveInside(CONTENT_DIRECTORY, page.path);
+  } catch {
     return Response.json({ error: 'Invalid path' }, { status: 400 });
   }
 

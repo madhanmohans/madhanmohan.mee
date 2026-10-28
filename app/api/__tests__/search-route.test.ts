@@ -118,7 +118,7 @@ describe('GET /api/search', () => {
     const body = await response.json();
 
     expect(response.status).toBe(500);
-    expect(body).toEqual({ error: 'DB error' });
+    expect(body).toEqual({ error: 'Search failed' });
   });
 
   it('falls back to default titles and extracts nested heading text', async () => {
@@ -221,7 +221,7 @@ describe('GET /api/search', () => {
     expect(mockCreate).toHaveBeenCalledTimes(1);
   });
 
-  it('reports a generic message for non-Error failures', async () => {
+  it('does not leak error details', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => {});
     vi.doMock('@orama/orama', () => ({
       create: vi.fn().mockRejectedValue('boom'),
@@ -236,6 +236,6 @@ describe('GET /api/search', () => {
     );
 
     expect(response.status).toBe(500);
-    expect(await response.json()).toEqual({ error: 'Unknown search error' });
+    expect(await response.json()).toEqual({ error: 'Search failed' });
   });
 });

@@ -1,3 +1,4 @@
+import { isAllowedDevRequest, resolveInside } from '@/lib/devRequest';
 import { source } from '@/lib/source';
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -5,22 +6,18 @@ import { revalidatePath } from 'next/cache';
 
 export const dynamic = 'force-dynamic';
 
-const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 const CONTENT_DIRECTORY = path.resolve(process.cwd(), 'content/docs');
 
 function assertValidFilePath(pagePath: string): string {
-  const resolvedPath = path.resolve(CONTENT_DIRECTORY, pagePath);
-  if (!resolvedPath.startsWith(CONTENT_DIRECTORY)) {
-    throw new Error('Invalid path');
-  }
-  return resolvedPath;
+  return resolveInside(CONTENT_DIRECTORY, pagePath);
 }
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ slug: string[] }> },
 ) {
-  if (!IS_DEVELOPMENT) return new Response('Not available', { status: 403 });
+  if (!isAllowedDevRequest(request))
+    return new Response('Not available', { status: 403 });
   const { slug } = await params;
   const page = source.getPage(slug);
   if (!page) {
@@ -39,7 +36,8 @@ export async function PUT(
   request: Request,
   { params }: { params: Promise<{ slug: string[] }> },
 ) {
-  if (!IS_DEVELOPMENT) return new Response('Not available', { status: 403 });
+  if (!isAllowedDevRequest(request))
+    return new Response('Not available', { status: 403 });
   const { slug } = await params;
   const page = source.getPage(slug);
   if (!page) {

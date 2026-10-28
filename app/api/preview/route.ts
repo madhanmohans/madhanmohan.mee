@@ -1,7 +1,6 @@
+import { isAllowedDevRequest } from '@/lib/devRequest';
 import { createCompiler } from '@fumadocs/mdx-remote';
 import remarkBreaks from 'remark-breaks';
-
-const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 
 const compiler = createCompiler({
   preset: 'fumadocs',
@@ -10,7 +9,7 @@ const compiler = createCompiler({
 });
 
 export async function POST(request: Request) {
-  if (!IS_DEVELOPMENT) {
+  if (!isAllowedDevRequest(request)) {
     return new Response('Not available', { status: 403 });
   }
 
