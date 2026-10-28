@@ -120,4 +120,122 @@ describe('GET /api/search', () => {
     expect(response.status).toBe(500);
     expect(body).toEqual({ error: 'DB error' });
   });
+
+  it('falls back to default titles and extracts nested heading text', async () => {
+    const mockInsert = vi.fn().mockResolvedValue(undefined);
+    vi.doMock('@orama/orama', () => ({
+      create: vi.fn().mockResolvedValue({}),
+      insert: mockInsert,
+      search: vi.fn().mockResolvedValue({ hits: [] }),
+    }));
+
+    mockGetPages.mockReturnValue([
+      {
+        url: '/column/a',
+        data: {
+          toc: [
+            {
+              url: '#nested',
+              title: [
+                'Intro ',
+                { props: { children: ['to ', { props: { children: 'X' } }] } },
+              ],
+            },
+            { url: '#empty', title: { props: {} } },
+            { url: '#number', title: 42 },
+            { title: 'No anchor' },
+          ],
+        },
+      },
+      {
+        url: '/column/a',
+        data: { title: 'Duplicate', toc: [{ url: '#nested', title: 'dup' }] },
+      },
+      { url: '/column/b', data: { title: 'B' } },
+    ]);
+
+    const { GET } = await import('@/app/api/search/route');
+    await GET(new Request('http://localhost/api/search?query=x'));
+
+    // the anchor-less heading resolves to the page url and the repeated page is skipped
+    const inserted = mockInsert.mock.calls.map((call) => call[1]);
+    expect(inserted).toEqual([
+      { id: '/column/a', title: 'Untitled', content: '', url: '/column/a' },
+      {
+        id: '/column/a#nested',
+        title: 'Intro to X',
+        content: '',
+        url: '/column/a#nested',
+      },
+      {
+        id: '/column/a#empty',
+        title: 'Heading',
+        content: '',
+        url: '/column/a#empty',
+      },
+      {
+        id: '/column/a#number',
+        title: 'Heading',
+        content: '',
+        url: '/column/a#number',
+      },
+      { id: '/column/b', title: 'B', content: '', url: '/column/b' },
+    ]);
+  });
+
+  it('labels heading hits and defaults to an empty query', async () => {
+    const mockSearch = vi.fn().mockResolvedValue({
+      hits: [
+        { id: '/column/a#h', document: { url: '/column/a#h', title: 'H' } },
+      ],
+    });
+    vi.doMock('@orama/orama', () => ({
+      create: vi.fn().mockResolvedValue({}),
+      insert: vi.fn(),
+      search: mockSearch,
+    }));
+    mockGetPages.mockReturnValue([]);
+
+    const { GET } = await import('@/app/api/search/route');
+    const response = await GET(new Request('http://localhost/api/search'));
+
+    expect(mockSearch).toHaveBeenCalledWith({}, { term: '', limit: 10 });
+    expect(await response.json()).toEqual([
+      { id: '/column/a#h', url: '/column/a#h', type: 'heading', content: 'H' },
+    ]);
+  });
+
+  it('builds the search index only once', async () => {
+    const mockCreate = vi.fn().mockResolvedValue({});
+    vi.doMock('@orama/orama', () => ({
+      create: mockCreate,
+      insert: vi.fn(),
+      search: vi.fn().mockResolvedValue({ hits: [] }),
+    }));
+    mockGetPages.mockReturnValue([]);
+
+    const { GET } = await import('@/app/api/search/route');
+    await GET(new Request('http://localhost/api/search?query=a'));
+    await GET(new Request('http://localhost/api/search?query=b'));
+
+    expect(mockCreate).toHaveBeenCalledTimes(1);
+  });
+
+  it('reports a generic message for non-Error failures', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    vi.doMock('@orama/orama', () => ({
+      create: vi.fn().mockRejectedValue('boom'),
+      insert: vi.fn(),
+      search: vi.fn(),
+    }));
+    mockGetPages.mockReturnValue([]);
+
+    const { GET } = await import('@/app/api/search/route');
+    const response = await GET(
+      new Request('http://localhost/api/search?query=a'),
+    );
+
+    expect(response.status).toBe(500);
+    expect(await response.json()).toEqual({ error: 'Unknown search error' });
+  });
 });

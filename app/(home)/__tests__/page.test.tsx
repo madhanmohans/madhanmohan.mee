@@ -70,12 +70,22 @@ describe('HomePage', () => {
     expect(document.body.style.overflow).toBe('');
   });
 
-  it('responds to nav link hover', async () => {
+  it('fades in the ghost graph only while second brain is hovered', async () => {
     const { default: HomePage } = await import('@/app/(home)/page');
     render(React.createElement(HomePage));
+    const graphLayer = screen.getByTestId('graph-view').parentElement!;
+    expect(graphLayer.style.opacity).toBe('0');
 
     const secondBrainLink = screen.getByText('second brain');
     fireEvent.mouseEnter(secondBrainLink);
+    expect(graphLayer.style.opacity).toBe('0.3');
     fireEvent.mouseLeave(secondBrainLink);
+    expect(graphLayer.style.opacity).toBe('0');
+
+    const aboutLink = screen.getByText('about');
+    fireEvent.mouseEnter(aboutLink);
+    expect(graphLayer.style.opacity).toBe('0');
+    fireEvent.mouseLeave(aboutLink);
+    expect(graphLayer.style.opacity).toBe('0');
   });
 });

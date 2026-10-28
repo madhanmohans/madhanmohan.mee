@@ -128,6 +128,82 @@ describe('buildGraph', () => {
     expect(graph.nodes[0].content).toBe('Fallback desc');
   });
 
+  it('resolves relative and extension-suffixed references', async () => {
+    mockGetPages.mockReturnValue([
+      {
+        url: '/column/source',
+        slugs: ['source'],
+        path: 'source.md',
+        data: {
+          title: 'Source',
+          extractedReferences: [
+            { href: './target.md' },
+            { href: 'nested/deep.mdx' },
+            { href: 'Deep' },
+          ],
+        },
+      },
+      {
+        url: '/column/target',
+        slugs: ['target'],
+        path: 'target.md',
+        data: { title: 'T' },
+      },
+      {
+        url: '/column/nested/deep',
+        slugs: ['nested', 'deep'],
+        path: 'nested/deep.md',
+        data: { title: 'D' },
+      },
+    ]);
+    mockReadFile.mockResolvedValue('');
+
+    const { buildGraph } = await import('@/lib/buildGraph');
+    const graph = await buildGraph();
+
+    expect(graph.links.map((link) => link.target)).toEqual([
+      '/column/target',
+      '/column/nested/deep',
+      '/column/nested/deep',
+    ]);
+  });
+
+  it('falls back to the slug for missing titles and to empty content', async () => {
+    mockGetPages.mockReturnValue([
+      {
+        url: '/column/untitled',
+        slugs: ['untitled'],
+        path: 'untitled.md',
+        data: {},
+      },
+      { url: '/column', slugs: [], path: 'index.md', data: {} },
+    ]);
+    mockReadFile.mockRejectedValue(new Error('ENOENT'));
+
+    const { buildGraph } = await import('@/lib/buildGraph');
+    const graph = await buildGraph();
+
+    expect(graph.nodes.map((node) => node.text)).toEqual(['untitled', '']);
+    expect(graph.nodes.map((node) => node.content)).toEqual(['', '']);
+  });
+
+  it('truncates hover previews', async () => {
+    mockGetPages.mockReturnValue([
+      {
+        url: '/column/long',
+        slugs: ['long'],
+        path: 'long.md',
+        data: { title: 'L' },
+      },
+    ]);
+    mockReadFile.mockResolvedValue('x'.repeat(2000));
+
+    const { buildGraph } = await import('@/lib/buildGraph');
+    const graph = await buildGraph();
+
+    expect(graph.nodes[0].content).toHaveLength(800);
+  });
+
   it('normalizes slugs correctly', () => {
     const normalizeSlug = (slug: string) =>
       decodeURI(slug)

@@ -1,5 +1,8 @@
-import { describe, it, expect, vi } from 'vitest';
+import { render, renderHook, screen, waitFor } from '@testing-library/react';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import {
+  MiniMarkdown,
+  useGraphData,
   stripInlineMarkdown,
   enrichGraphNodesWithNeighbors,
   createForceGraphRef,
@@ -104,5 +107,62 @@ describe('createForceGraphRef', () => {
     const graphRef = createForceGraphRef(ref);
     graphRef.current = 'val';
     expect(ref.current).toBe('val');
+  });
+});
+
+describe('MiniMarkdown', () => {
+  it('renders headings, list items and paragraphs while skipping rules and blanks', () => {
+    const { container } = render(
+      <MiniMarkdown
+        content={
+          '## ==Key== **Idea**\n---\n- a [link](/x)\n→ arrow item\n\n  \nplain __text__'
+        }
+      />,
+    );
+
+    expect(screen.getByText('Key Idea')).toHaveClass('font-semibold');
+    expect(screen.getByText('a link')).toBeInTheDocument();
+    expect(screen.getByText('arrow item')).toBeInTheDocument();
+    expect(screen.getByText('plain text')).toHaveClass('opacity-80');
+    expect(container.firstElementChild!.children).toHaveLength(4);
+  });
+
+  it('renders nothing for empty content', () => {
+    const { container } = render(<MiniMarkdown content="" />);
+    expect(container.firstElementChild).toBeEmptyDOMElement();
+  });
+});
+
+describe('useGraphData', () => {
+  const graph = { nodes: [{ id: 'a', text: 'A' }], links: [] };
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('returns the given graph without fetching', () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+    const { result } = renderHook(() => useGraphData(graph));
+    expect(result.current).toBe(graph);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('fetches the graph from the API when none is given', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({ json: () => Promise.resolve(graph) }),
+    );
+    const { result } = renderHook(() => useGraphData());
+    expect(result.current).toBeNull();
+    await waitFor(() => expect(result.current).toEqual(graph));
+    expect(fetch).toHaveBeenCalledWith('/api/graph');
+  });
+
+  it('stays null when the fetch fails', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
+    const { result } = renderHook(() => useGraphData());
+    await waitFor(() => expect(fetch).toHaveBeenCalled());
+    expect(result.current).toBeNull();
   });
 });

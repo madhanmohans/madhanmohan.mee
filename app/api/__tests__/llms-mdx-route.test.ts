@@ -43,4 +43,34 @@ describe('GET /llms.mdx/column/[...slug]', () => {
     expect(text).toContain('# Test Page');
     expect(text).toContain('## Section');
   });
+
+  it('calls notFound for unknown pages', async () => {
+    vi.doMock('@/lib/source', () => ({
+      source: { getPage: () => undefined },
+      getLLMText: vi.fn(),
+    }));
+    vi.doMock('next/navigation', () => ({
+      notFound: vi.fn(() => {
+        throw new Error('NEXT_NOT_FOUND');
+      }),
+    }));
+
+    const { GET } = await import('@/app/llms.mdx/docs/[[...slug]]/route');
+    await expect(
+      GET(new Request('http://localhost/llms.mdx/docs/missing'), {
+        params: Promise.resolve({ slug: ['missing'] }),
+      }),
+    ).rejects.toThrow('NEXT_NOT_FOUND');
+  });
+
+  it('generates static params from the source', async () => {
+    vi.doMock('@/lib/source', () => ({
+      source: { generateParams: () => [{ slug: ['a'] }, { slug: ['b'] }] },
+      getLLMText: vi.fn(),
+    }));
+
+    const { generateStaticParams } =
+      await import('@/app/llms.mdx/docs/[[...slug]]/route');
+    expect(generateStaticParams()).toEqual([{ slug: ['a'] }, { slug: ['b'] }]);
+  });
 });
