@@ -1,6 +1,6 @@
 'use client';
 
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { TagChip, chipTransition } from './TagChip';
 
 // Row of AI-suggested tags the user can accept one by one or all at once
@@ -16,7 +16,7 @@ export function SuggestedTags({
   return (
     <AnimatePresence initial={false}>
       {tags.length > 0 && (
-        <motion.div
+        <m.div
           key="suggestions"
           className="flex flex-wrap items-center gap-1.5"
           initial={{ opacity: 0, y: -4 }}
@@ -49,7 +49,7 @@ export function SuggestedTags({
           >
             Dismiss
           </button>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

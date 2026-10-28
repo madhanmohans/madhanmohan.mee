@@ -1,6 +1,6 @@
 'use client';
 
-import { type RefObject, useMemo, useRef } from 'react';
+import { type RefObject, useEffect, useMemo, useRef } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
 import { useRouter } from 'fumadocs-core/framework';
 import { GraphTooltip } from '../GraphTooltip';
@@ -21,12 +21,14 @@ import {
   WARMUP_TICKS,
   DEFAULT_LINK_COLOR,
   HIGHLIGHT_COLOR,
-  LABEL_FONT_SIZE,
+  INITIAL_ZOOM_2D,
+  LABEL_FONT_SIZE_2D,
   LINK_WIDTH,
   ZOOM_FACTOR,
   ZOOM_ANIMATION_DURATION,
   ZOOM_TO_FIT_DURATION,
   ZOOM_TO_FIT_PADDING,
+  ZOOM_PER_NODE_2D,
 } from '../constants';
 import { configureForces2D } from './configureForces2D';
 
@@ -65,14 +67,14 @@ export function InteractiveGraph2D({
     context.fillStyle = isActive ? HIGHLIGHT_COLOR : mutedForegroundColor;
     context.fill();
 
-    context.font = `${LABEL_FONT_SIZE}px CommitMono, monospace`;
+    context.font = `${LABEL_FONT_SIZE_2D}px CommitMono, monospace`;
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     context.fillStyle = computedStyles.getPropertyValue('color');
     context.fillText(
       node.text,
       node.x!,
-      node.y! + TWO_D_GRAPH_NODE_RADIUS + LABEL_FONT_SIZE,
+      node.y! + TWO_D_GRAPH_NODE_RADIUS + LABEL_FONT_SIZE_2D,
     );
   };
 
@@ -91,6 +93,20 @@ export function InteractiveGraph2D({
   const graphDataWithNeighbors = useMemo(() => {
     return enrichGraphNodesWithNeighbors(graph);
   }, [graph]);
+
+  // Open at INITIAL_ZOOM_2D x the library's default zoom. Runs once, after
+  // ForceGraph2D has applied its default, so later data refreshes don't undo
+  // the user's zoom
+  const hasSetInitialZoomRef = useRef(false);
+  useEffect(() => {
+    const forceGraphInstance = graphRef.current;
+    if (hasSetInitialZoomRef.current || !forceGraphInstance) return;
+    if (!graphDataWithNeighbors.nodes.length) return;
+    hasSetInitialZoomRef.current = true;
+    const defaultZoom =
+      ZOOM_PER_NODE_2D / Math.cbrt(graphDataWithNeighbors.nodes.length);
+    forceGraphInstance.zoom(defaultZoom * INITIAL_ZOOM_2D);
+  }, [graphDataWithNeighbors]);
 
   function zoomByFactor(factor: number) {
     const forceGraphInstance = graphRef.current;

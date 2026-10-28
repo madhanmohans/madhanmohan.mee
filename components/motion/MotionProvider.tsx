@@ -1,8 +1,16 @@
 'use client';
 
-import { MotionConfig } from 'framer-motion';
+import { LazyMotion, MotionConfig } from 'framer-motion';
 
-// Skips transform animations for users who prefer reduced motion
+const loadFeatures = () => import('./features').then((mod) => mod.default);
+
+// Skips transform animations for users who prefer reduced motion.
+// Animation features load after hydration; `strict` rejects `motion.*`
+// so components use the lightweight `m.*` instead.
 export function MotionProvider({ children }: { children: React.ReactNode }) {
-  return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
+  return (
+    <LazyMotion features={loadFeatures} strict>
+      <MotionConfig reducedMotion="user">{children}</MotionConfig>
+    </LazyMotion>
+  );
 }

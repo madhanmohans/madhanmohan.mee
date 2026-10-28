@@ -1,10 +1,9 @@
 'use client';
 
-import { type RefObject, useMemo, useRef } from 'react';
+import { type RefObject, useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import ForceGraph3D from 'react-force-graph-3d';
 import { useRouter } from 'fumadocs-core/framework';
-import { GraphTooltip } from '../GraphTooltip';
 import { ZoomControls } from '../ZoomControls';
 import {
   createForceGraphRef,
@@ -15,6 +14,8 @@ import { useNodeHoverTooltip } from '../useNodeHoverTooltip';
 import type { ForceGraphInstance, Graph } from '../types';
 import {
   ALPHA_DECAY,
+  CAMERA_DISTANCE_PER_NODE_3D,
+  INITIAL_ZOOM_3D,
   VELOCITY_DECAY,
   COOLDOWN_TIME,
   WARMUP_TICKS,
@@ -24,7 +25,8 @@ import {
 import { configureForces3D } from './configureForces3D';
 import { createNodeObject, parseColorString } from './nodeObjects';
 
-// Orbitable 3D graph that highlights a node's neighbourhood on hover
+// Orbitable 3D graph that highlights a node's neighbourhood on hover (no
+// note tooltip, unlike 2D)
 export function InteractiveGraph3D({
   containerRef,
   graph,
@@ -34,7 +36,9 @@ export function InteractiveGraph3D({
 }) {
   const graphRef = useRef<ForceGraphInstance>(undefined);
   const router = useRouter();
-  const { tooltip, hoveredNodeRef, handleNodeHover } = useNodeHoverTooltip(
+  // No note tooltip in 3D, but the hover state update still re-renders the
+  // graph so the hovered node's neighbourhood highlights
+  const { hoveredNodeRef, handleNodeHover } = useNodeHoverTooltip(
     graphRef,
     (forceGraph, node) => forceGraph.graph2ScreenCoords(node.x, node.y, node.z),
   );
@@ -71,6 +75,25 @@ export function InteractiveGraph3D({
     return enrichGraphNodesWithNeighbors(graph);
   }, [graph]);
 
+  // Open closer than the library's default framing. Runs once, after
+  // ForceGraph3D has placed its default camera, so later data refreshes
+  // don't undo the user's orbit
+  const hasPositionedCameraRef = useRef(false);
+  useEffect(() => {
+    const forceGraphInstance = graphRef.current;
+    if (hasPositionedCameraRef.current || !forceGraphInstance) return;
+    if (!graphDataWithNeighbors.nodes.length) return;
+    hasPositionedCameraRef.current = true;
+    const defaultDistance =
+      Math.cbrt(graphDataWithNeighbors.nodes.length) *
+      CAMERA_DISTANCE_PER_NODE_3D;
+    forceGraphInstance.cameraPosition({
+      x: 0,
+      y: 0,
+      z: defaultDistance / INITIAL_ZOOM_3D,
+    });
+  }, [graphDataWithNeighbors]);
+
   return (
     <>
       <ForceGraph3D
@@ -98,8 +121,6 @@ export function InteractiveGraph3D({
           graphRef.current?.zoomToFit(ZOOM_TO_FIT_DURATION, ZOOM_TO_FIT_PADDING)
         }
       />
-
-      <GraphTooltip tooltip={tooltip} />
     </>
   );
 }

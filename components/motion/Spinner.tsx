@@ -1,11 +1,11 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { cn } from '@/lib/cn';
 
 export function Spinner({ className }: { className?: string }) {
   return (
-    <motion.div
+    <m.div
       className={cn(
         'rounded-full border-2 border-fd-muted-foreground border-t-transparent',
         className,

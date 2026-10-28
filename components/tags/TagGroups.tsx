@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ChevronRight, Hash } from 'lucide-react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import type { TagGroup } from '@/lib/tags';
 
 export function TagGroups({
@@ -54,7 +54,7 @@ export function TagGroups({
 
               <AnimatePresence initial={false}>
                 {isExpanded && (
-                  <motion.ul
+                  <m.ul
                     className="tag-group-notes"
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
@@ -72,7 +72,7 @@ export function TagGroups({
                         </Link>
                       </li>
                     ))}
-                  </motion.ul>
+                  </m.ul>
                 )}
               </AnimatePresence>
             </li>

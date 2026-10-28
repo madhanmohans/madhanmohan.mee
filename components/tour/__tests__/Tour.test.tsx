@@ -5,7 +5,7 @@ import React from 'react';
 const STORAGE_KEY = 'site-tour-home-done';
 
 vi.mock('framer-motion', () => ({
-  motion: {
+  m: {
     div: ({ children, ...props }: any) =>
       React.createElement('div', props, children),
     span: ({ children, ...props }: any) =>

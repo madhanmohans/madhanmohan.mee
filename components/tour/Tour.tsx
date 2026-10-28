@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence, type Variants } from 'framer-motion';
+import { m, AnimatePresence, type Variants } from 'framer-motion';
 import { InertWhileExiting } from '@/components/motion/InertWhileExiting';
 import { TourCardContent } from './TourCardContent';
 import {
@@ -146,7 +146,7 @@ export function Tour({ id, steps }: TourProps) {
     <>
       <AnimatePresence>
         {isTourVisible && isCenteredPlacement && (
-          <motion.div
+          <m.div
             key="tour-overlay"
             className="fixed inset-0 z-[60]"
             style={{ background: 'rgba(0,0,0,0.45)' }}
@@ -161,7 +161,7 @@ export function Tour({ id, steps }: TourProps) {
 
       <AnimatePresence mode="wait" custom={isKeyboardNavigation}>
         {isTourVisible && (
-          <motion.div
+          <m.div
             key={`${id}-step-${currentStepIndex}`}
             className="fixed z-[61] tour-card"
             style={positionedCardStyle}
@@ -184,7 +184,7 @@ export function Tour({ id, steps }: TourProps) {
                 onNext={advanceStep}
               />
             </InertWhileExiting>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>

@@ -1,6 +1,6 @@
 'use client';
 
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { TOOLTIP_ANIMATION_DURATION } from './constants';
 import { TooltipMarkdown } from './TooltipMarkdown';
 import type { TooltipState } from './types';
@@ -9,7 +9,7 @@ export function GraphTooltip({ tooltip }: { tooltip: TooltipState | null }) {
   return (
     <AnimatePresence>
       {tooltip && (
-        <motion.div
+        <m.div
           key="tooltip"
           className="absolute text-fd-popover-foreground p-3 border border-fd-border rounded-lg pointer-events-none w-64 overflow-hidden"
           style={{
@@ -38,7 +38,7 @@ export function GraphTooltip({ tooltip }: { tooltip: TooltipState | null }) {
               <TooltipMarkdown content={tooltip.content} />
             </div>
           )}
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

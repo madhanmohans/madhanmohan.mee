@@ -1,7 +1,8 @@
 'use client';
 
 import { type RefObject, useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
+import { graphFrameClassName } from './GraphFrame';
 import { useGraphData } from './useGraphData';
 import type { Graph, GraphViewProps } from './types';
 
@@ -47,21 +48,17 @@ export function GraphViewShell({
   }
 
   return (
-    <div
-      ref={containerRef}
-      className="relative rounded-xl overflow-hidden bg-fd-background"
-      style={frameStyle}
-    >
+    <div ref={containerRef} className={graphFrameClassName} style={frameStyle}>
       <AnimatePresence>
         {isMounted && fetchedGraphData && (
-          <motion.div
+          <m.div
             className="size-full"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, ease: [0.165, 0.84, 0.44, 1] }}
           >
             {renderInteractive(fetchedGraphData, containerRef)}
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { Spinner } from '@/components/motion/Spinner';
 import { fadeSwapTransition } from '@/components/motion/transitions';
 import { MarkdownEditor } from './MarkdownEditor';
@@ -96,20 +96,20 @@ export function NoteEditor({
 
       <AnimatePresence mode="wait" initial={false}>
         {editorMode === 'view' ? (
-          <motion.div key="view-content" {...fadeSwapTransition}>
+          <m.div key="view-content" {...fadeSwapTransition}>
             {children}
-          </motion.div>
+          </m.div>
         ) : isFetchingContent ? (
-          <motion.div
+          <m.div
             key="loading"
             className="flex items-center justify-center py-20 text-fd-muted-foreground gap-2"
             {...fadeSwapTransition}
           >
             <Spinner className="size-4" />
             Loading…
-          </motion.div>
+          </m.div>
         ) : (
-          <motion.div key="editor" {...fadeSwapTransition}>
+          <m.div key="editor" {...fadeSwapTransition}>
             <MarkdownEditor
               value={editorContent}
               onChange={(updatedContent) => {
@@ -117,7 +117,7 @@ export function NoteEditor({
                 setHasUnsavedChanges(true);
               }}
             />
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

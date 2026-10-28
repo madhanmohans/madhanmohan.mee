@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { LABEL_FONT_SIZE_3D } from '../constants';
 import { isNodeHighlighted } from '../graphUtils';
 
 const ACTIVE_NODE_COLOR = 0xc0392b;
@@ -123,7 +124,7 @@ export function createNodeObject(
   const labelSprite = makeTextSprite(
     label,
     mutedForegroundColor,
-    16,
+    LABEL_FONT_SIZE_3D,
     labelOpacity,
   );
   labelSprite.position.y = sphereRadius + 5;

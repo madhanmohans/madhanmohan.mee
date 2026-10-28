@@ -2,6 +2,10 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import React, { useImperativeHandle } from 'react';
 import * as THREE from 'three';
+import {
+  CAMERA_DISTANCE_PER_NODE_3D,
+  INITIAL_ZOOM_3D,
+} from '@/components/graph/constants';
 
 const mockPush = vi.fn();
 const mockFetch = vi.fn();
@@ -18,6 +22,7 @@ const forceGraphInstance = {
   d3Force: vi.fn(),
   graph2ScreenCoords: vi.fn(() => ({ x: 10, y: 20 })),
   zoomToFit: vi.fn(),
+  cameraPosition: vi.fn(),
   controls: vi.fn((): typeof controls | undefined => controls),
 };
 
@@ -133,29 +138,47 @@ describe('GraphView3D', () => {
       expect(mockPush).toHaveBeenCalledWith('/note/b');
     });
 
-    it('shows a tooltip on hover using 3D screen coordinates', async () => {
+    it('highlights on hover without showing a note tooltip', async () => {
       await renderGraph({ foregroundGraph: graph });
+      const idleLinkColor = lastProps().linkColor({
+        source: graph.nodes[0],
+        target: graph.nodes[1],
+      });
 
       act(() =>
         lastProps().onNodeHover({ ...graph.nodes[0], x: 1, y: 2, z: 3 }),
       );
-      expect(forceGraphInstance.graph2ScreenCoords).toHaveBeenCalledWith(
-        1,
-        2,
-        3,
-      );
-      expect(screen.getByText('some content')).toBeInTheDocument();
+      expect(screen.queryByText('some content')).not.toBeInTheDocument();
+      expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+      expect(
+        lastProps().linkColor({
+          source: graph.nodes[0],
+          target: graph.nodes[1],
+        }),
+      ).not.toBe(idleLinkColor);
+    });
 
-      act(() => lastProps().onNodeHover(graph.nodes[1]));
-      expect(screen.getByText('desc')).toBeInTheDocument();
+    it('opens closer than the default camera distance, once', async () => {
+      forceGraphInstance.cameraPosition.mockClear();
+      const { rerender } = await renderGraph({ foregroundGraph: graph });
+      const { default: GraphView3D } =
+        await import('@/components/graph/3d/GraphView3D');
 
-      act(() => lastProps().onNodeHover(graph.nodes[2]));
-      expect(screen.getByText('C').nextElementSibling).toBeNull();
-
-      act(() => lastProps().onNodeHover(null));
-      await vi.waitFor(() => {
-        expect(screen.queryByText('C')).not.toBeInTheDocument();
+      expect(forceGraphInstance.cameraPosition).toHaveBeenCalledTimes(1);
+      expect(forceGraphInstance.cameraPosition).toHaveBeenCalledWith({
+        x: 0,
+        y: 0,
+        z:
+          (Math.cbrt(graph.nodes.length) * CAMERA_DISTANCE_PER_NODE_3D) /
+          INITIAL_ZOOM_3D,
       });
+
+      rerender(
+        React.createElement(GraphView3D, {
+          foregroundGraph: { ...graph, nodes: [...graph.nodes] },
+        }),
+      );
+      expect(forceGraphInstance.cameraPosition).toHaveBeenCalledTimes(1);
     });
 
     it('ignores hover before the instance is attached', async () => {

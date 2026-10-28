@@ -713,6 +713,22 @@ article,
   animation: fd-page-enter 0.6s var(--ease-out-quart) both;
 }
 
+/* --- View transitions (home hover graph -> /graph frame) --- */
+::view-transition-group(.morph) {
+  animation-duration: 500ms;
+  animation-timing-function: var(--ease-out-quart);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 350ms;
+}
+
+/* Let clicks reach the live page while a transition runs */
+::view-transition {
+  pointer-events: none;
+}
+
 /* --- Reduced motion: drop decorative movement --- */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -722,6 +738,13 @@ article,
   main,
   .fade-enter {
     animation: none;
+  }
+
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
   }
 
   nav a::after,

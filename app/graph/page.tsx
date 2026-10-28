@@ -1,8 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, ViewTransition } from 'react';
 import Link from 'next/link';
 import { GraphView } from '@/components/graph/GraphView';
+import { GraphFramePlaceholder } from '@/components/graph/GraphFrame';
+import { SECOND_BRAIN_GRAPH_TRANSITION } from '@/components/graph/constants';
 import { useGraphData } from '@/components/graph/useGraphData';
 import { BrainCircuit } from 'lucide-react';
 import { Tour } from '@/components/tour/Tour';
@@ -48,24 +50,23 @@ export default function SecondBrainPage() {
         </div>
       </header>
 
-      <main className="flex-1 relative px-6 pb-8">
-        {graphData && (
-          <div className="w-full fade-enter">
+      {/* No page-enter animation: arriving from home, the view transition
+          crossfades the page and morphs the hover graph into this frame */}
+      <main className="flex-1 relative px-6 pb-8 animate-none">
+        <ViewTransition
+          name={SECOND_BRAIN_GRAPH_TRANSITION}
+          share="morph"
+          default="none"
+        >
+          {graphData ? (
             <GraphView
               foregroundGraph={graphData}
               dimension={activeDimension}
             />
-          </div>
-        )}
-
-        {!graphData && (
-          <div
-            className="h-[70vh] rounded-xl bg-fd-muted motion-safe:animate-pulse"
-            role="status"
-          >
-            <span className="sr-only">loading...</span>
-          </div>
-        )}
+          ) : (
+            <GraphFramePlaceholder withShadow={activeDimension === '2d'} />
+          )}
+        </ViewTransition>
       </main>
 
       <Tour

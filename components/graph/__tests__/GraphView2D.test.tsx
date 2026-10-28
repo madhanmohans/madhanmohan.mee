@@ -2,6 +2,8 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import React, { useImperativeHandle } from 'react';
 import {
+  INITIAL_ZOOM_2D,
+  ZOOM_PER_NODE_2D,
   HIGHLIGHT_COLOR,
   DEFAULT_LINK_COLOR,
   ZOOM_FACTOR,
@@ -111,6 +113,25 @@ describe('GraphView2D', () => {
       mockFetch.mockResolvedValue({ json: () => Promise.resolve(graph) });
       await renderGraph({});
       expect(mockFetch).toHaveBeenCalledWith('/api/graph');
+    });
+
+    it('opens at the initial zoom, once', async () => {
+      forceGraphInstance.zoom.mockClear();
+      const { rerender } = await renderGraph({ foregroundGraph: graph });
+      const { default: GraphView2D } =
+        await import('@/components/graph/2d/GraphView2D');
+
+      const initialZoom =
+        (ZOOM_PER_NODE_2D / Math.cbrt(graph.nodes.length)) * INITIAL_ZOOM_2D;
+      expect(forceGraphInstance.zoom).toHaveBeenCalledTimes(1);
+      expect(forceGraphInstance.zoom).toHaveBeenCalledWith(initialZoom);
+
+      rerender(
+        React.createElement(GraphView2D, {
+          foregroundGraph: { ...graph, nodes: [...graph.nodes] },
+        }),
+      );
+      expect(forceGraphInstance.zoom).toHaveBeenCalledTimes(1);
     });
 
     it('ignores fetch failures', async () => {
@@ -236,6 +257,8 @@ describe('GraphView2D', () => {
       await renderGraph({ foregroundGraph: graph });
       const { ref } = lastProps();
       ref.current = undefined;
+      // Ignore the initial zoom applied on mount
+      forceGraphInstance.zoom.mockClear();
 
       act(() => lastProps().onNodeHover(graph.nodes[0]));
       fireEvent.click(screen.getByTitle('Zoom in'));

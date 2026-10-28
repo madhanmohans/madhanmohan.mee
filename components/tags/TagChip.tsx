@@ -1,7 +1,7 @@
 'use client';
 
 import { Hash, Plus } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 export const chipTransition = { duration: 0.15, ease: 'easeOut' as const };
 
@@ -17,7 +17,7 @@ export function TagChip({
   action?: React.ReactNode;
 }) {
   return (
-    <motion.span
+    <m.span
       layout
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -41,6 +41,6 @@ export function TagChip({
         {tag}
       </button>
       {action}
-    </motion.span>
+    </m.span>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { InertWhileExiting } from '@/components/motion/InertWhileExiting';
 import { ActionButton } from './ActionButton';
 
@@ -19,7 +19,7 @@ export function DiscardPrompt({
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
+        <m.div
           key="confirm"
           className="flex items-center gap-2 ml-2"
           initial={{ opacity: 0, x: -6 }}
@@ -40,7 +40,7 @@ export function DiscardPrompt({
               Keep editing
             </ActionButton>
           </InertWhileExiting>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

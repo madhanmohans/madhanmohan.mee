@@ -1,7 +1,7 @@
 'use client';
 
 import { Check, Pencil, Save, X } from 'lucide-react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { InertWhileExiting } from '@/components/motion/InertWhileExiting';
 import { fadeSwapTransition } from '@/components/motion/transitions';
 import { ActionButton } from './ActionButton';
@@ -13,7 +13,7 @@ function SavedIndicator({ isVisible }: { isVisible: boolean }) {
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.span
+        <m.span
           key="saved"
           className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1"
           initial={{ opacity: 0, x: 4 }}
@@ -23,7 +23,7 @@ function SavedIndicator({ isVisible }: { isVisible: boolean }) {
         >
           <Check className="size-3" />
           Saved
-        </motion.span>
+        </m.span>
       )}
     </AnimatePresence>
   );
@@ -56,7 +56,7 @@ export function NoteEditorToolbar({
     <div className="flex items-center gap-2 mb-4 min-h-8">
       <AnimatePresence mode="wait" initial={false}>
         {editorMode === 'view' ? (
-          <motion.div
+          <m.div
             key="view-toolbar"
             className="flex items-center gap-2 ml-auto"
             {...fadeSwapTransition}
@@ -68,9 +68,9 @@ export function NoteEditorToolbar({
                 Edit
               </ActionButton>
             </InertWhileExiting>
-          </motion.div>
+          </m.div>
         ) : (
-          <motion.div
+          <m.div
             key="edit-toolbar"
             className="flex items-center gap-2 w-full"
             {...fadeSwapTransition}
@@ -105,7 +105,7 @@ export function NoteEditorToolbar({
                 ⌘S to save · Esc to cancel
               </span>
             </InertWhileExiting>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>
