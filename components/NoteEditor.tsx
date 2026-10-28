@@ -1,17 +1,15 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Check, Pencil, Save, X } from 'lucide-react';
-import { MdxPreview } from '@/components/MDXPreview';
+import { MarkdownEditor } from '@/components/MarkdownEditor';
 import { cn } from '@/lib/cn';
 import { buttonVariants } from 'fumadocs-ui/components/ui/button';
 import { AnimatePresence, motion } from 'framer-motion';
 import { InertWhileExiting } from '@/components/Motion';
 
 type EditorMode = 'view' | 'edit' | 'confirm-discard';
-
-const PREVIEW_DEBOUNCE_MS = 500;
 
 export function NoteEditor({
   slug,
@@ -27,10 +25,6 @@ export function NoteEditor({
   const [isSavingContent, setIsSavingContent] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [showSavedFlash, setShowSavedFlash] = useState(false);
-  const [previewCompiled, setPreviewCompiled] = useState('');
-  const [previewError, setPreviewError] = useState<string | null>(null);
-  const [isPreviewLoading, setIsPreviewLoading] = useState(false);
-  const editorTextareaRef = useRef<HTMLTextAreaElement>(null);
 
   const noteApiUrl = `/api/notes/${slug.join('/')}`;
 
@@ -101,72 +95,6 @@ export function NoteEditor({
     window.addEventListener('keydown', keyboardShortcutHandler);
     return () => window.removeEventListener('keydown', keyboardShortcutHandler);
   }, [editorMode, saveContent, cancelEditing]);
-
-  useEffect(() => {
-    if (
-      editorMode === 'edit' &&
-      !isFetchingContent &&
-      editorTextareaRef.current
-    ) {
-      editorTextareaRef.current.focus();
-    }
-  }, [editorMode, isFetchingContent]);
-
-  useEffect(() => {
-    if (editorMode !== 'edit') {
-      setPreviewCompiled('');
-      setPreviewError(null);
-      return;
-    }
-
-    if (!editorContent.trim()) {
-      setPreviewCompiled('');
-      setPreviewError(null);
-      return;
-    }
-
-    const timer = setTimeout(async () => {
-      setIsPreviewLoading(true);
-      setPreviewError(null);
-      try {
-        const res = await fetch('/api/preview', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content: editorContent }),
-        });
-        const data = await res.json();
-        if (res.ok) {
-          setPreviewCompiled(data.compiled);
-        } else {
-          setPreviewError(data.error ?? 'Preview failed');
-        }
-      } catch {
-        setPreviewError('Preview request failed');
-      } finally {
-        setIsPreviewLoading(false);
-      }
-    }, PREVIEW_DEBOUNCE_MS);
-
-    return () => clearTimeout(timer);
-  }, [editorContent, editorMode]);
-
-  const handleTabKey = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === 'Tab') {
-      event.preventDefault();
-      const textarea = event.currentTarget;
-      const cursorStart = textarea.selectionStart;
-      const cursorEnd = textarea.selectionEnd;
-      const updatedContent =
-        editorContent.substring(0, cursorStart) +
-        '  ' +
-        editorContent.substring(cursorEnd);
-      setEditorContent(updatedContent);
-      setHasUnsavedChanges(true);
-      requestAnimationFrame(() => {
-        textarea.selectionStart = textarea.selectionEnd = cursorStart + 2;
-      });
-    }
-  };
 
   // Halved durations: mode="wait" plays the exit and entrance back to back
   const fadeTransitionProps = {
@@ -345,66 +273,14 @@ export function NoteEditor({
             Loading…
           </motion.div>
         ) : (
-          <motion.div
-            key="editor"
-            className="grid grid-cols-2 gap-4 min-h-[70vh]"
-            {...fadeTransitionProps}
-          >
-            <div className="flex flex-col">
-              <div className="text-xs text-fd-muted-foreground mb-1.5 font-medium">
-                Editor
-              </div>
-              <textarea
-                ref={editorTextareaRef}
-                value={editorContent}
-                onChange={(event) => {
-                  setEditorContent(event.target.value);
-                  setHasUnsavedChanges(true);
-                }}
-                onKeyDown={handleTabKey}
-                spellCheck={false}
-                className="flex-1 w-full p-4 rounded-lg border border-fd-border bg-fd-card text-fd-foreground font-mono text-sm leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-fd-ring"
-                style={{ tabSize: 2 }}
-              />
-              <div className="text-xs text-fd-muted-foreground mt-1">
-                {editorContent.split('\n').length} lines
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="text-xs text-fd-muted-foreground font-medium">
-                  Preview
-                </span>
-                {isPreviewLoading && (
-                  <motion.div
-                    className="size-3 rounded-full border-2 border-fd-muted-foreground border-t-transparent"
-                    animate={{ rotate: 360 }}
-                    transition={{
-                      duration: 0.8,
-                      repeat: Infinity,
-                      ease: 'linear',
-                    }}
-                  />
-                )}
-              </div>
-              <div className="flex-1 w-full overflow-y-auto rounded-lg border border-fd-border bg-fd-card p-4">
-                {previewError ? (
-                  <div className="text-red-500 text-xs whitespace-pre-wrap font-mono">
-                    {previewError}
-                  </div>
-                ) : previewCompiled ? (
-                  <div className="prose prose-sm dark:prose-invert max-w-none [&_pre]:overflow-x-auto [&_code]:text-sm">
-                    <MdxPreview compiled={previewCompiled} />
-                  </div>
-                ) : (
-                  <div className="flex items-center justify-center h-full text-xs text-fd-muted-foreground">
-                    {editorContent.trim()
-                      ? 'Compiling…'
-                      : 'Start typing to see preview'}
-                  </div>
-                )}
-              </div>
-            </div>
+          <motion.div key="editor" {...fadeTransitionProps}>
+            <MarkdownEditor
+              value={editorContent}
+              onChange={(updatedContent) => {
+                setEditorContent(updatedContent);
+                setHasUnsavedChanges(true);
+              }}
+            />
           </motion.div>
         )}
       </AnimatePresence>
