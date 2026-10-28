@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, type Variants } from 'framer-motion';
+import { InertWhileExiting } from '@/components/Motion';
 
 export interface TourStep {
   id: string;
@@ -32,6 +33,24 @@ const CENTERED_CARD_STYLE = {
   width: 300,
 };
 
+// Halved durations: mode="wait" plays the exit and entrance back to back.
+// `instant` (keyboard navigation) skips the animation entirely.
+const cardVariants: Variants = {
+  initial: { opacity: 0, y: 8 },
+  animate: (instant: boolean) => ({
+    opacity: 1,
+    y: 0,
+    transition: instant
+      ? { duration: 0 }
+      : { duration: 0.12, ease: [0.165, 0.84, 0.44, 1] },
+  }),
+  exit: (instant: boolean) => ({
+    opacity: 0,
+    y: -6,
+    transition: instant ? { duration: 0 } : { duration: 0.1, ease: 'easeIn' },
+  }),
+};
+
 function getTourStorageKey(tourId: string): string {
   return `site-tour-${tourId}-done`;
 }
@@ -54,6 +73,7 @@ function markTourCompleted(tourId: string): void {
 
 export function Tour({ id, steps }: TourProps) {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const [isKeyboardNavigation, setIsKeyboardNavigation] = useState(false);
   const [isTourVisible, setIsTourVisible] = useState(false);
   const [tooltipPosition, setTooltipPosition] =
     useState<TooltipPosition | null>(null);
@@ -90,10 +110,12 @@ export function Tour({ id, steps }: TourProps) {
       if (event.key === 'Escape') dismissTour();
       if (event.key === 'ArrowRight' || event.key === ' ') {
         event.preventDefault();
+        setIsKeyboardNavigation(true);
         advanceStep();
       }
       if (event.key === 'ArrowLeft') {
         event.preventDefault();
+        setIsKeyboardNavigation(true);
         goBackStep();
       }
     };
@@ -192,58 +214,62 @@ export function Tour({ id, steps }: TourProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
             onClick={dismissTour}
           />
         )}
       </AnimatePresence>
 
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait" custom={isKeyboardNavigation}>
         {isTourVisible && (
           <motion.div
             key={`${id}-step-${currentStepIndex}`}
             className="fixed z-[61] tour-card"
             style={positionedCardStyle}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.22, ease: [0.165, 0.84, 0.44, 1] }}
+            custom={isKeyboardNavigation}
+            variants={cardVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
             onClick={(event) => event.stopPropagation()}
+            onPointerDown={() => setIsKeyboardNavigation(false)}
           >
-            {!isCenteredPlacement &&
-              tooltipPosition?.arrowLeft !== undefined && (
-                <div
-                  className="tour-arrow"
-                  style={{ left: tooltipPosition.arrowLeft }}
-                />
-              )}
-
-            <div className="tour-counter">
-              {String(currentStepIndex + 1).padStart(2, '0')} /{' '}
-              {String(steps.length).padStart(2, '0')}
-            </div>
-
-            <div className="tour-title">{currentStep.title}</div>
-            <p className="tour-body">{currentStep.body}</p>
-
-            <div className="tour-controls">
-              <button className="tour-btn-ghost" onClick={dismissTour}>
-                skip
-              </button>
-              <div className="tour-nav">
-                {currentStepIndex > 0 && (
-                  <button className="tour-btn" onClick={goBackStep}>
-                    ←
-                  </button>
+            <InertWhileExiting>
+              {!isCenteredPlacement &&
+                tooltipPosition?.arrowLeft !== undefined && (
+                  <div
+                    className="tour-arrow"
+                    style={{ left: tooltipPosition.arrowLeft }}
+                  />
                 )}
-                <button
-                  className="tour-btn tour-btn-primary"
-                  onClick={advanceStep}
-                >
-                  {isLastStep ? 'done' : 'next →'}
-                </button>
+
+              <div className="tour-counter">
+                {String(currentStepIndex + 1).padStart(2, '0')} /{' '}
+                {String(steps.length).padStart(2, '0')}
               </div>
-            </div>
+
+              <div className="tour-title">{currentStep.title}</div>
+              <p className="tour-body">{currentStep.body}</p>
+
+              <div className="tour-controls">
+                <button className="tour-btn-ghost" onClick={dismissTour}>
+                  skip
+                </button>
+                <div className="tour-nav">
+                  {currentStepIndex > 0 && (
+                    <button className="tour-btn" onClick={goBackStep}>
+                      ←
+                    </button>
+                  )}
+                  <button
+                    className="tour-btn tour-btn-primary"
+                    onClick={advanceStep}
+                  >
+                    {isLastStep ? 'done' : 'next →'}
+                  </button>
+                </div>
+              </div>
+            </InertWhileExiting>
           </motion.div>
         )}
       </AnimatePresence>

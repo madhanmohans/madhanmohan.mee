@@ -50,12 +50,7 @@ export default function SecondBrainPage() {
 
       <main className="flex-1 relative px-6 pb-8">
         {graphData && (
-          <div
-            className="w-full"
-            style={{
-              animation: 'fd-page-enter 0.6s var(--ease-out-quart) both',
-            }}
-          >
+          <div className="w-full fade-enter">
             <GraphView
               foregroundGraph={graphData}
               dimension={activeDimension}
@@ -65,10 +60,10 @@ export default function SecondBrainPage() {
 
         {!graphData && (
           <div
-            className="flex items-center justify-center h-96 text-fd-muted-foreground"
-            style={{ fontSize: '13px', letterSpacing: '0.01em' }}
+            className="h-[70vh] rounded-xl bg-fd-muted motion-safe:animate-pulse"
+            role="status"
           >
-            loading...
+            <span className="sr-only">loading...</span>
           </div>
         )}
       </main>

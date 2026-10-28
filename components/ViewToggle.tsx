@@ -16,6 +16,8 @@ export function ViewToggle() {
       <button
         className="view-toggle-btn"
         data-active={graphView}
+        aria-label="Graph view"
+        aria-pressed={graphView}
         onClick={() => router.push('/graph')}
       >
         <Waypoints size={16} />
@@ -23,6 +25,8 @@ export function ViewToggle() {
       <button
         className="view-toggle-btn"
         data-active={columnView}
+        aria-label="Notes view"
+        aria-pressed={columnView}
         onClick={() => router.push('/column')}
       >
         <Notebook size={16} />

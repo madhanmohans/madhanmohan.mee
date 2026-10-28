@@ -26,7 +26,7 @@ export default function HomePage() {
         className="absolute inset-0 z-[1] pointer-events-none"
         style={{
           opacity: hoveredNavLink === 'second-brain' ? 0.3 : 0,
-          transition: 'opacity 0.8s var(--ease-out-quart)',
+          transition: 'opacity 0.25s var(--ease-out-quart)',
         }}
       >
         <GraphView backgroundGraph />
@@ -37,7 +37,7 @@ export default function HomePage() {
           <Link
             href="/graph"
             data-tour="second-brain"
-            className="text-fd-muted-foreground hover:text-fd-foreground transition-colors duration-300"
+            className="text-fd-muted-foreground hover:text-fd-foreground transition-colors duration-150"
             onMouseEnter={() => setHoveredNavLink('second-brain')}
             onMouseLeave={() => setHoveredNavLink(null)}
           >
@@ -46,7 +46,7 @@ export default function HomePage() {
           <a
             href="/resume.html"
             data-tour="about"
-            className="text-fd-muted-foreground hover:text-fd-foreground transition-colors duration-300"
+            className="text-fd-muted-foreground hover:text-fd-foreground transition-colors duration-150"
             onMouseEnter={() => setHoveredNavLink('about')}
             onMouseLeave={() => setHoveredNavLink(null)}
           >

@@ -7,6 +7,7 @@ import { MdxPreview } from '@/components/MDXPreview';
 import { cn } from '@/lib/cn';
 import { buttonVariants } from 'fumadocs-ui/components/ui/button';
 import { AnimatePresence, motion } from 'framer-motion';
+import { InertWhileExiting } from '@/components/Motion';
 
 type EditorMode = 'view' | 'edit' | 'confirm-discard';
 
@@ -167,11 +168,16 @@ export function NoteEditor({
     }
   };
 
+  // Halved durations: mode="wait" plays the exit and entrance back to back
   const fadeTransitionProps = {
     initial: { opacity: 0, y: 4 },
     animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -4 },
-    transition: { duration: 0.18, ease: 'easeOut' as const },
+    exit: {
+      opacity: 0,
+      y: -4,
+      transition: { duration: 0.1, ease: 'easeIn' as const },
+    },
+    transition: { duration: 0.1, ease: 'easeOut' as const },
   };
 
   return (
@@ -184,35 +190,37 @@ export function NoteEditor({
               className="flex items-center gap-2 ml-auto"
               {...fadeTransitionProps}
             >
-              <AnimatePresence>
-                {showSavedFlash && (
-                  <motion.span
-                    key="saved"
-                    className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1"
-                    initial={{ opacity: 0, x: 4 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.15, ease: 'easeOut' }}
-                  >
-                    <Check className="size-3" />
-                    Saved
-                  </motion.span>
-                )}
-              </AnimatePresence>
-              <button
-                onClick={startEditing}
-                className={cn(
-                  buttonVariants({
-                    color: 'secondary',
-                    size: 'sm',
-                    className:
-                      'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground active:scale-95',
-                  }),
-                )}
-              >
-                <Pencil />
-                Edit
-              </button>
+              <InertWhileExiting>
+                <AnimatePresence>
+                  {showSavedFlash && (
+                    <motion.span
+                      key="saved"
+                      className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1"
+                      initial={{ opacity: 0, x: 4 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.15, ease: 'easeOut' }}
+                    >
+                      <Check className="size-3" />
+                      Saved
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+                <button
+                  onClick={startEditing}
+                  className={cn(
+                    buttonVariants({
+                      color: 'secondary',
+                      size: 'sm',
+                      className:
+                        'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground active:scale-95',
+                    }),
+                  )}
+                >
+                  <Pencil />
+                  Edit
+                </button>
+              </InertWhileExiting>
             </motion.div>
           )}
 
@@ -222,89 +230,97 @@ export function NoteEditor({
               className="flex items-center gap-2 w-full"
               {...fadeTransitionProps}
             >
-              <button
-                onClick={saveContent}
-                disabled={isSavingContent || !hasUnsavedChanges}
-                className={cn(
-                  buttonVariants({
-                    color: 'primary',
-                    size: 'sm',
-                    className: 'gap-2 [&_svg]:size-3.5 active:scale-95',
-                  }),
-                )}
-              >
-                <Save />
-                {isSavingContent ? 'Saving...' : 'Save'}
-              </button>
-              <button
-                onClick={cancelEditing}
-                disabled={isSavingContent}
-                className={cn(
-                  buttonVariants({
-                    color: 'secondary',
-                    size: 'sm',
-                    className:
-                      'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground active:scale-95',
-                  }),
-                )}
-              >
-                <X />
-                Cancel
-              </button>
+              <InertWhileExiting>
+                <button
+                  onClick={saveContent}
+                  disabled={isSavingContent || !hasUnsavedChanges}
+                  className={cn(
+                    buttonVariants({
+                      color: 'primary',
+                      size: 'sm',
+                      className: 'gap-2 [&_svg]:size-3.5 active:scale-95',
+                    }),
+                  )}
+                >
+                  <Save />
+                  {isSavingContent ? 'Saving...' : 'Save'}
+                </button>
+                <button
+                  onClick={cancelEditing}
+                  disabled={isSavingContent}
+                  className={cn(
+                    buttonVariants({
+                      color: 'secondary',
+                      size: 'sm',
+                      className:
+                        'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground active:scale-95',
+                    }),
+                  )}
+                >
+                  <X />
+                  Cancel
+                </button>
 
-              <AnimatePresence>
-                {editorMode === 'confirm-discard' && (
-                  <motion.div
-                    key="confirm"
-                    className="flex items-center gap-2 ml-2"
-                    initial={{ opacity: 0, x: -6 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -6 }}
-                    transition={{ duration: 0.15, ease: 'easeOut' }}
-                  >
-                    <span className="text-xs text-fd-muted-foreground">
-                      Discard changes?
-                    </span>
-                    <button
-                      onClick={() => {
-                        setEditorMode('view');
-                        setHasUnsavedChanges(false);
+                <AnimatePresence>
+                  {editorMode === 'confirm-discard' && (
+                    <motion.div
+                      key="confirm"
+                      className="flex items-center gap-2 ml-2"
+                      initial={{ opacity: 0, x: -6 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{
+                        opacity: 0,
+                        x: -6,
+                        transition: { duration: 0.15, ease: 'easeIn' },
                       }}
-                      className={cn(
-                        buttonVariants({
-                          color: 'secondary',
-                          size: 'sm',
-                          className:
-                            'gap-1 [&_svg]:size-3 text-red-500 active:scale-95',
-                        }),
-                      )}
+                      transition={{ duration: 0.15, ease: 'easeOut' }}
                     >
-                      Discard
-                    </button>
-                    <button
-                      onClick={() => setEditorMode('edit')}
-                      className={cn(
-                        buttonVariants({
-                          color: 'secondary',
-                          size: 'sm',
-                          className: 'active:scale-95',
-                        }),
-                      )}
-                    >
-                      Keep editing
-                    </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                      <InertWhileExiting>
+                        <span className="text-xs text-fd-muted-foreground">
+                          Discard changes?
+                        </span>
+                        <button
+                          onClick={() => {
+                            setEditorMode('view');
+                            setHasUnsavedChanges(false);
+                          }}
+                          className={cn(
+                            buttonVariants({
+                              color: 'secondary',
+                              size: 'sm',
+                              className:
+                                'gap-1 [&_svg]:size-3 text-red-500 active:scale-95',
+                            }),
+                          )}
+                        >
+                          Discard
+                        </button>
+                        <button
+                          onClick={() => setEditorMode('edit')}
+                          className={cn(
+                            buttonVariants({
+                              color: 'secondary',
+                              size: 'sm',
+                              className: 'active:scale-95',
+                            }),
+                          )}
+                        >
+                          Keep editing
+                        </button>
+                      </InertWhileExiting>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
-              {hasUnsavedChanges && editorMode !== 'confirm-discard' && (
-                <span className="text-xs text-fd-muted-foreground ml-2">
-                  Unsaved changes
+                {hasUnsavedChanges && editorMode !== 'confirm-discard' && (
+                  <span className="text-xs text-fd-muted-foreground ml-2">
+                    Unsaved changes
+                  </span>
+                )}
+                <span className="text-xs text-fd-muted-foreground ml-auto">
+                  ⌘S to save · Esc to cancel
                 </span>
-              )}
-              <span className="text-xs text-fd-muted-foreground ml-auto">
-                ⌘S to save · Esc to cancel
-              </span>
+              </InertWhileExiting>
             </motion.div>
           )}
         </AnimatePresence>

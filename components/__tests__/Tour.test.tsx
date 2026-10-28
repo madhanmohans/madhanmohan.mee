@@ -13,6 +13,7 @@ vi.mock('framer-motion', () => ({
   },
   AnimatePresence: ({ children }: any) =>
     React.createElement(React.Fragment, null, children),
+  useIsPresent: () => true,
 }));
 
 beforeEach(() => {

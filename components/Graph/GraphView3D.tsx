@@ -12,12 +12,17 @@ import {
 import { useRouter } from 'fumadocs-core/framework';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
-  MiniMarkdown,
+  GraphTooltip,
   createForceGraphRef,
   enrichGraphNodesWithNeighbors,
   useGraphData,
 } from './GraphShared';
-import type { ForceGraphInstance, Graph, GraphViewProps } from './GraphShared';
+import type {
+  ForceGraphInstance,
+  Graph,
+  GraphViewProps,
+  TooltipState,
+} from './GraphShared';
 import {
   LINK_DISTANCE,
   LINK_STRENGTH,
@@ -31,7 +36,6 @@ import {
   WARMUP_TICKS,
   ZOOM_TO_FIT_DURATION,
   ZOOM_TO_FIT_PADDING,
-  TOOLTIP_ANIMATION_DURATION,
   TOOLTIP_OFFSET,
 } from './constants';
 
@@ -145,7 +149,9 @@ function GhostGraph({ graph }: { graph: Graph }) {
           configureGraphForces(forceGraphInstance);
           const controls = forceGraphInstance.controls();
           if (controls) {
-            controls.autoRotate = true;
+            controls.autoRotate = !window.matchMedia(
+              '(prefers-reduced-motion: reduce)',
+            ).matches;
             controls.autoRotateSpeed = 0.3;
             controls.enableDamping = true;
             controls.dampingFactor = 0.1;
@@ -180,12 +186,7 @@ function InteractiveGraph({
   const graphRef = useRef<ForceGraphInstance>(undefined);
   const hoveredNodeRef = useRef<any>(null);
   const router = useRouter();
-  const [tooltip, setTooltip] = useState<{
-    x: number;
-    y: number;
-    title: string;
-    content: string;
-  } | null>(null);
+  const [tooltip, setTooltip] = useState<TooltipState | null>(null);
 
   const handleNodeHover = (hoveredNode: any) => {
     const forceGraphInstance = graphRef.current;
@@ -315,45 +316,13 @@ function InteractiveGraph({
           className="graph-zoom-btn graph-zoom-fit"
           onClick={zoomToFitView}
           title="Fit to view"
+          aria-label="Fit to view"
         >
           ⤢
         </button>
       </div>
 
-      <AnimatePresence>
-        {tooltip && (
-          <motion.div
-            key="tooltip"
-            className="absolute text-fd-popover-foreground p-3 border border-fd-border rounded-lg pointer-events-none w-64 overflow-hidden"
-            style={{
-              top: tooltip.y,
-              left: tooltip.x,
-              background: 'var(--color-fd-popover)',
-              fontFamily: "'CommitMono', monospace",
-              fontSize: '14px',
-              letterSpacing: '0.01em',
-              boxShadow:
-                '0 1px 2px rgba(17,24,39,0.06), 0 4px 8px rgba(17,24,39,0.04), 0 12px 24px rgba(17,24,39,0.03)',
-            }}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{
-              duration: TOOLTIP_ANIMATION_DURATION,
-              ease: 'easeOut',
-            }}
-          >
-            <p className="font-semibold text-fd-foreground text-[18px] mb-2 border-b border-fd-border pb-1.5">
-              {tooltip.title}
-            </p>
-            {tooltip.content && (
-              <div className="text-fd-muted-foreground max-h-48 overflow-y-auto">
-                <MiniMarkdown content={tooltip.content} />
-              </div>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <GraphTooltip tooltip={tooltip} />
     </>
   );
 }

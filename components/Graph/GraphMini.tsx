@@ -7,7 +7,7 @@ import {
   MIN_ZOOM,
   MAX_ZOOM,
 } from './constants';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getLinkEndpointId, useGraphData } from './GraphShared';
 import type { MiniNode, GraphMiniProps, MiniLink } from './GraphShared';
@@ -16,11 +16,25 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const fetchedGraphData = useGraphData();
+  const [containerWidth, setContainerWidth] = useState(0);
   const router = useRouter();
 
   const simulatedNodesRef = useRef<MiniNode[]>([]);
   const canvasTransformRef = useRef({ scale: 1, offsetX: 0, offsetY: 0 });
   const shouldRedrawRef = useRef(false);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    setContainerWidth(container.getBoundingClientRect().width);
+    if (typeof ResizeObserver === 'undefined') return;
+
+    const observer = new ResizeObserver(([entry]) =>
+      setContainerWidth(entry.contentRect.width),
+    );
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
 
   const localSubgraph = useMemo(() => {
     if (!fetchedGraphData) return null;
@@ -128,16 +142,16 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
   }
 
   useEffect(() => {
-    if (!localSubgraph || !canvasRef.current || !containerRef.current) return;
+    if (!localSubgraph || !containerWidth) return;
+    if (!canvasRef.current || !containerRef.current) return;
 
     const canvas = canvasRef.current;
     const container = containerRef.current;
     const context = canvas.getContext('2d')!;
     if (!context) return;
 
-    const rect = container.getBoundingClientRect();
     const devicePixelRatio = window.devicePixelRatio || 1;
-    const width = rect.width;
+    const width = containerWidth;
     const height = GRAPH_HEIGHT;
     canvas.width = width * devicePixelRatio;
     canvas.height = height * devicePixelRatio;
@@ -470,9 +484,7 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
       canvas.removeEventListener('touchmove', handleTouchMove);
       canvas.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [localSubgraph]);
-
-  if (!localSubgraph) return null;
+  }, [localSubgraph, containerWidth]);
 
   return (
     <div>
@@ -485,24 +497,26 @@ export function GraphMini({ pageUrl }: GraphMiniProps) {
           overflow: 'hidden',
           border: '1px solid var(--color-fd-border)',
           background: 'var(--color-fd-background)',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+          boxShadow: '0 1px 3px rgba(17,24,39,0.04)',
           transition: 'box-shadow 0.2s ease, border-color 0.2s ease',
           position: 'relative',
           marginBottom: '16px',
         }}
         className="graph-mini-container"
       >
-        <canvas
-          ref={canvasRef}
-          onClick={handleCanvasClick}
-          onMouseMove={handleCanvasMouseMove}
-          style={{
-            width: '100%',
-            height: '100%',
-            display: 'block',
-            cursor: 'grab',
-          }}
-        />
+        {localSubgraph && (
+          <canvas
+            ref={canvasRef}
+            onClick={handleCanvasClick}
+            onMouseMove={handleCanvasMouseMove}
+            style={{
+              width: '100%',
+              height: '100%',
+              display: 'block',
+              cursor: 'grab',
+            }}
+          />
+        )}
       </div>
     </div>
   );
