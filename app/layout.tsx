@@ -22,7 +22,12 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: LayoutProps<'/'>) {
   return (
-    <html lang="en" className="antialiased" suppressHydrationWarning>
+    <html
+      lang="en"
+      className="antialiased"
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
+    >
       <body className="flex flex-col min-h-screen">
         <a
           href="#nd-page"
