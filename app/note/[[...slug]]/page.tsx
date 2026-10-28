@@ -6,16 +6,17 @@ import {
   DocsTitle,
 } from 'fumadocs-ui/layouts/docs/page';
 import { notFound } from 'next/navigation';
-import { getMDXComponents } from '@/MDXComponents';
+import { getMDXComponents } from '@/components/editor/MDXComponents';
 import type { Metadata } from 'next';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
-import { LLMCopyButton, ViewOptions } from '@/components/PageActions';
-import { NoteEditor } from '@/components/NoteEditor';
-import { DocsTour } from '@/components/DocsTour';
-import { GraphMini } from '@/components/Graph/GraphMini';
-import { ViewToggle } from '@/components/ViewToggle';
-import { NoteTags } from '@/components/NoteTags';
-import { TagGroups } from '@/components/TagGroups';
+import { CopyMarkdownButton } from '@/components/page-actions/CopyMarkdownButton';
+import { OpenInAiMenu } from '@/components/page-actions/OpenInAiMenu';
+import { NoteEditor } from '@/components/editor/NoteEditor';
+import { NotesTour } from '@/components/tour/NotesTour';
+import { LocalGraph } from '@/components/graph/local/LocalGraph';
+import { ViewToggle } from '@/components/layout/ViewToggle';
+import { NoteTags } from '@/components/tags/NoteTags';
+import { TagGroups } from '@/components/tags/TagGroups';
 
 export default async function Page(props: PageProps<'/note/[[...slug]]'>) {
   const params = await props.params;
@@ -44,7 +45,7 @@ export default async function Page(props: PageProps<'/note/[[...slug]]'>) {
           <>
             <ViewToggle />
             <div data-tour="graph-mini">
-              <GraphMini pageUrl={docPage.url} />
+              <LocalGraph pageUrl={docPage.url} />
             </div>
             <TagGroups
               groups={getTagGroups()}
@@ -68,10 +69,10 @@ export default async function Page(props: PageProps<'/note/[[...slug]]'>) {
         data-tour="llm-actions"
         className="flex flex-row gap-2 items-center border-b pb-6"
       >
-        <LLMCopyButton markdownUrl={markdownUrl} />
-        <ViewOptions markdownUrl={markdownUrl} />
+        <CopyMarkdownButton markdownUrl={markdownUrl} />
+        <OpenInAiMenu markdownUrl={markdownUrl} />
       </div>
-      <DocsTour />
+      <NotesTour />
 
       {IS_DEVELOPMENT ? (
         <NoteEditor slug={params.slug ?? []}>{body}</NoteEditor>

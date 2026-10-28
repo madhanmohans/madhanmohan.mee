@@ -1,7 +1,7 @@
 import { DocsPage } from 'fumadocs-ui/layouts/docs/page';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { NewNoteEditor } from '@/components/NewNoteEditor';
+import { NewNoteEditor } from '@/components/editor/NewNoteEditor';
 
 export const metadata: Metadata = { title: 'New note' };
 

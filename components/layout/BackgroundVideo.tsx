@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 
-export function Background({ videoSource }: { videoSource: string }) {
+export function BackgroundVideo({ videoSource }: { videoSource: string }) {
   const isHomePage = usePathname() === '/';
 
   return (

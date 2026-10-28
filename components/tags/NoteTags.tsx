@@ -2,53 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Hash, Plus, Sparkles, X } from 'lucide-react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { Sparkles, X } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/cn';
 import { normalizeTag } from '@/lib/tags';
 import { buttonVariants } from 'fumadocs-ui/components/ui/button';
-
-const chipTransition = { duration: 0.15, ease: 'easeOut' as const };
-
-function TagChip({
-  tag,
-  variant = 'applied',
-  onClick,
-  action,
-}: {
-  tag: string;
-  variant?: 'applied' | 'suggested';
-  onClick?: () => void;
-  action?: React.ReactNode;
-}) {
-  return (
-    <motion.span
-      layout
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={chipTransition}
-      className="note-tag"
-      data-variant={variant}
-    >
-      <button
-        type="button"
-        onClick={onClick}
-        disabled={!onClick}
-        className="inline-flex items-center gap-1"
-        aria-label={variant === 'suggested' ? `Add tag ${tag}` : undefined}
-      >
-        {variant === 'suggested' ? (
-          <Plus className="size-3" />
-        ) : (
-          <Hash className="size-3 opacity-50" />
-        )}
-        {tag}
-      </button>
-      {action}
-    </motion.span>
-  );
-}
+import { SuggestedTags } from './SuggestedTags';
+import { TagChip } from './TagChip';
+import { fetchTagSuggestions, saveNoteTags } from './tagsApi';
 
 export function NoteTags({
   slug,
@@ -76,12 +37,7 @@ export function NoteTags({
     setAppliedTags(nextTags);
     setErrorMessage('');
     try {
-      const apiResponse = await fetch('/api/tags', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, tags: nextTags }),
-      });
-      if (!apiResponse.ok) throw new Error('Failed to save tags');
+      await saveNoteTags(slug, nextTags);
       router.refresh();
     } catch (error) {
       console.error(error);
@@ -104,15 +60,9 @@ export function NoteTags({
     setIsSuggesting(true);
     setErrorMessage('');
     try {
-      const apiResponse = await fetch('/api/tags/suggest', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug }),
-      });
-      const result = await apiResponse.json();
-      if (!apiResponse.ok) throw new Error(result.error);
-      setSuggestedTags(result.tags);
-      if (result.tags.length === 0) setErrorMessage('No new tags to suggest');
+      const suggestions = await fetchTagSuggestions(slug);
+      setSuggestedTags(suggestions);
+      if (suggestions.length === 0) setErrorMessage('No new tags to suggest');
     } catch (error) {
       setErrorMessage(
         error instanceof Error && error.message
@@ -186,44 +136,11 @@ export function NoteTags({
         )}
       </div>
 
-      <AnimatePresence initial={false}>
-        {suggestedTags.length > 0 && (
-          <motion.div
-            key="suggestions"
-            className="flex flex-wrap items-center gap-1.5"
-            initial={{ opacity: 0, y: -4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
-            transition={chipTransition}
-          >
-            <span className="text-xs text-fd-muted-foreground">Suggested</span>
-            <AnimatePresence initial={false}>
-              {suggestedTags.map((tag) => (
-                <TagChip
-                  key={tag}
-                  tag={tag}
-                  variant="suggested"
-                  onClick={() => addTags([tag])}
-                />
-              ))}
-            </AnimatePresence>
-            <button
-              type="button"
-              onClick={() => addTags(suggestedTags)}
-              className="text-xs text-fd-muted-foreground hover:text-fd-foreground"
-            >
-              Add all
-            </button>
-            <button
-              type="button"
-              onClick={() => setSuggestedTags([])}
-              className="text-xs text-fd-muted-foreground hover:text-fd-foreground"
-            >
-              Dismiss
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <SuggestedTags
+        tags={suggestedTags}
+        onAdd={addTags}
+        onDismiss={() => setSuggestedTags([])}
+      />
 
       {errorMessage && (
         <span className="text-xs text-fd-muted-foreground">{errorMessage}</span>

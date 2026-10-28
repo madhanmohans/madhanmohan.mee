@@ -19,7 +19,7 @@ beforeEach(() => {
 });
 
 async function loadMdxPreview() {
-  const mod = await import('@/components/MDXPreview');
+  const mod = await import('@/components/editor/MdxPreview');
   return mod.MdxPreview;
 }
 

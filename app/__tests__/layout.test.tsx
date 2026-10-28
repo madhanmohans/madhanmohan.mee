@@ -7,8 +7,9 @@ vi.mock('fumadocs-ui/provider/next', () => ({
     React.createElement('div', { 'data-testid': 'root-provider' }, children),
 }));
 
-vi.mock('@/components/BackgroundVideo', () => ({
-  Background: () => React.createElement('div', { 'data-testid': 'background' }),
+vi.mock('@/components/layout/BackgroundVideo', () => ({
+  BackgroundVideo: () =>
+    React.createElement('div', { 'data-testid': 'background' }),
 }));
 
 vi.mock('@/app/(home)/layout', () => ({

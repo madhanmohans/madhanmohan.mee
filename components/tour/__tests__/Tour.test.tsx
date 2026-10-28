@@ -27,7 +27,7 @@ afterEach(() => {
 
 describe('Tour', () => {
   it('renders tour when not completed', async () => {
-    const { Tour } = await import('@/components/Tour');
+    const { Tour } = await import('@/components/tour/Tour');
     render(
       React.createElement(Tour, {
         id: 'home',
@@ -41,7 +41,7 @@ describe('Tour', () => {
 
   it('does not render tour when already completed', async () => {
     localStorage.setItem(STORAGE_KEY, '1');
-    const { Tour } = await import('@/components/Tour');
+    const { Tour } = await import('@/components/tour/Tour');
     render(
       React.createElement(Tour, {
         id: 'home',
@@ -53,7 +53,7 @@ describe('Tour', () => {
   });
 
   it('advances through steps on next click', async () => {
-    const { Tour } = await import('@/components/Tour');
+    const { Tour } = await import('@/components/tour/Tour');
     render(
       React.createElement(Tour, {
         id: 'home',
@@ -74,7 +74,7 @@ describe('Tour', () => {
   });
 
   it('shows done button on last step', async () => {
-    const { Tour } = await import('@/components/Tour');
+    const { Tour } = await import('@/components/tour/Tour');
     render(
       React.createElement(Tour, {
         id: 'home',
@@ -86,7 +86,7 @@ describe('Tour', () => {
   });
 
   it('marks tour as completed on skip', async () => {
-    const { Tour } = await import('@/components/Tour');
+    const { Tour } = await import('@/components/tour/Tour');
     render(
       React.createElement(Tour, {
         id: 'home',
@@ -103,7 +103,7 @@ describe('Tour', () => {
   });
 
   it('dismisses on Escape key', async () => {
-    const { Tour } = await import('@/components/Tour');
+    const { Tour } = await import('@/components/tour/Tour');
     render(
       React.createElement(Tour, {
         id: 'home',
@@ -119,7 +119,7 @@ describe('Tour', () => {
   });
 
   it('advances on ArrowRight key', async () => {
-    const { Tour } = await import('@/components/Tour');
+    const { Tour } = await import('@/components/tour/Tour');
     render(
       React.createElement(Tour, {
         id: 'home',
@@ -138,7 +138,7 @@ describe('Tour', () => {
   });
 
   it('goes back on ArrowLeft key', async () => {
-    const { Tour } = await import('@/components/Tour');
+    const { Tour } = await import('@/components/tour/Tour');
     render(
       React.createElement(Tour, {
         id: 'home',
@@ -160,7 +160,7 @@ describe('Tour', () => {
   });
 
   it('handles center-placed steps', async () => {
-    const { Tour } = await import('@/components/Tour');
+    const { Tour } = await import('@/components/tour/Tour');
     render(
       React.createElement(Tour, {
         id: 'home',
@@ -183,7 +183,7 @@ describe('Tour', () => {
       throw new Error('Storage error');
     });
 
-    const { Tour } = await import('@/components/Tour');
+    const { Tour } = await import('@/components/tour/Tour');
     render(
       React.createElement(Tour, {
         id: 'home',
@@ -215,7 +215,7 @@ describe('Tour positioning and navigation', () => {
 
   it('positions the card below a target and marks it active', async () => {
     const target = addTarget('a', { left: 400, width: 100, bottom: 50 });
-    const { Tour } = await import('@/components/Tour');
+    const { Tour } = await import('@/components/tour/Tour');
     render(
       <Tour
         id="pos"
@@ -236,7 +236,7 @@ describe('Tour positioning and navigation', () => {
   it('positions the card above a target and clamps it to the viewport edges', async () => {
     addTarget('top', { left: 0, width: 10, top: 300 });
     addTarget('right', { left: window.innerWidth - 10, width: 10, bottom: 0 });
-    const { Tour } = await import('@/components/Tour');
+    const { Tour } = await import('@/components/tour/Tour');
     render(
       <Tour
         id="clamp"
@@ -276,7 +276,7 @@ describe('Tour positioning and navigation', () => {
   it('moves the active marker between targets and clears it on dismiss', async () => {
     const first = addTarget('first', {});
     const second = addTarget('second', {});
-    const { Tour } = await import('@/components/Tour');
+    const { Tour } = await import('@/components/tour/Tour');
     render(
       <Tour
         id="markers"
@@ -307,7 +307,7 @@ describe('Tour positioning and navigation', () => {
   });
 
   it('centers the card when the target is missing', async () => {
-    const { Tour } = await import('@/components/Tour');
+    const { Tour } = await import('@/components/tour/Tour');
     render(
       <Tour
         id="missing"
@@ -326,7 +326,7 @@ describe('Tour positioning and navigation', () => {
   });
 
   it('goes back with the back button and advances with Space', async () => {
-    const { Tour } = await import('@/components/Tour');
+    const { Tour } = await import('@/components/tour/Tour');
     render(
       <Tour
         id="nav"
@@ -350,7 +350,7 @@ describe('Tour positioning and navigation', () => {
   });
 
   it('completes the tour from the last step', async () => {
-    const { Tour } = await import('@/components/Tour');
+    const { Tour } = await import('@/components/tour/Tour');
     render(
       <Tour id="finish" steps={[{ id: 's1', title: 'Only', body: 'b' }]} />,
     );
@@ -363,7 +363,7 @@ describe('Tour positioning and navigation', () => {
   });
 
   it('dismisses when the overlay is clicked, but not when the card is', async () => {
-    const { Tour } = await import('@/components/Tour');
+    const { Tour } = await import('@/components/tour/Tour');
     const { container } = render(
       <Tour
         id="overlay"
@@ -384,7 +384,7 @@ describe('Tour positioning and navigation', () => {
     vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
       throw new Error('quota');
     });
-    const { Tour } = await import('@/components/Tour');
+    const { Tour } = await import('@/components/tour/Tour');
     render(
       <Tour id="nosave" steps={[{ id: 's1', title: 'Step', body: 'b' }]} />,
     );

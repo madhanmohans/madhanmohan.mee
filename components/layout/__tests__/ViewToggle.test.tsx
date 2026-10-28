@@ -21,7 +21,7 @@ describe('ViewToggle', () => {
     ['/elsewhere', ['false', 'false']],
   ])('marks the active view on %s', async (path, expected) => {
     pathname = path;
-    const { ViewToggle } = await import('@/components/ViewToggle');
+    const { ViewToggle } = await import('@/components/layout/ViewToggle');
     render(<ViewToggle />);
     const states = screen
       .getAllByRole('button')
@@ -30,7 +30,7 @@ describe('ViewToggle', () => {
   });
 
   it('navigates to the graph and note views', async () => {
-    const { ViewToggle } = await import('@/components/ViewToggle');
+    const { ViewToggle } = await import('@/components/layout/ViewToggle');
     render(<ViewToggle />);
     const [graphButton, noteButton] = screen.getAllByRole('button');
 

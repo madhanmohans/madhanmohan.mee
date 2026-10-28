@@ -20,15 +20,16 @@ vi.mock('fumadocs-ui/components/ui/popover', () => ({
     React.createElement('div', { 'data-testid': 'popover-trigger' }, children),
 }));
 
-describe('LLMCopyButton', () => {
+describe('CopyMarkdownButton', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it('renders with Copy Markdown label', async () => {
-    const { LLMCopyButton } = await import('@/components/PageActions');
+    const { CopyMarkdownButton } =
+      await import('@/components/page-actions/CopyMarkdownButton');
     render(
-      React.createElement(LLMCopyButton, {
+      React.createElement(CopyMarkdownButton, {
         markdownUrl: '/note/test.mdx',
       }),
     );
@@ -36,9 +37,10 @@ describe('LLMCopyButton', () => {
   });
 
   it('renders a button element', async () => {
-    const { LLMCopyButton } = await import('@/components/PageActions');
+    const { CopyMarkdownButton } =
+      await import('@/components/page-actions/CopyMarkdownButton');
     render(
-      React.createElement(LLMCopyButton, {
+      React.createElement(CopyMarkdownButton, {
         markdownUrl: '/note/test.mdx',
       }),
     );
@@ -46,15 +48,16 @@ describe('LLMCopyButton', () => {
   });
 });
 
-describe('ViewOptions', () => {
+describe('OpenInAiMenu', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it('renders popover with Open trigger', async () => {
-    const { ViewOptions } = await import('@/components/PageActions');
+    const { OpenInAiMenu } =
+      await import('@/components/page-actions/OpenInAiMenu');
     render(
-      React.createElement(ViewOptions, {
+      React.createElement(OpenInAiMenu, {
         markdownUrl: '/note/test.mdx',
       }),
     );
@@ -62,9 +65,10 @@ describe('ViewOptions', () => {
   });
 
   it('renders AI platform links', async () => {
-    const { ViewOptions } = await import('@/components/PageActions');
+    const { OpenInAiMenu } =
+      await import('@/components/page-actions/OpenInAiMenu');
     render(
-      React.createElement(ViewOptions, {
+      React.createElement(OpenInAiMenu, {
         markdownUrl: '/note/test.mdx',
       }),
     );

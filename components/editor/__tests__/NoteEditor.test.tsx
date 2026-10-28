@@ -11,7 +11,7 @@ vi.mock('next/navigation', () => ({
   useRouter: () => ({ refresh: mockRouterRefresh }),
 }));
 
-vi.mock('@/components/MDXPreview', () => ({
+vi.mock('@/components/editor/MdxPreview', () => ({
   MdxPreview: ({ compiled }: { compiled: string }) =>
     React.createElement('div', { 'data-testid': 'mdx-preview' }, compiled),
 }));
@@ -47,19 +47,19 @@ describe('NoteEditor', () => {
   };
 
   it('renders children in view mode', async () => {
-    const { NoteEditor } = await import('@/components/NoteEditor');
+    const { NoteEditor } = await import('@/components/editor/NoteEditor');
     render(React.createElement(NoteEditor, defaultProps));
     expect(screen.getByText('Page content')).toBeInTheDocument();
   });
 
   it('shows Edit button in view mode', async () => {
-    const { NoteEditor } = await import('@/components/NoteEditor');
+    const { NoteEditor } = await import('@/components/editor/NoteEditor');
     render(React.createElement(NoteEditor, defaultProps));
     expect(screen.getByText('Edit')).toBeInTheDocument();
   });
 
   it('switches to edit mode on Edit click', async () => {
-    const { NoteEditor } = await import('@/components/NoteEditor');
+    const { NoteEditor } = await import('@/components/editor/NoteEditor');
     render(React.createElement(NoteEditor, defaultProps));
 
     fireEvent.click(screen.getByText('Edit'));
@@ -90,7 +90,7 @@ describe('NoteEditor', () => {
       return Promise.resolve({ ok: true });
     });
 
-    const { NoteEditor } = await import('@/components/NoteEditor');
+    const { NoteEditor } = await import('@/components/editor/NoteEditor');
     render(React.createElement(NoteEditor, defaultProps));
 
     fireEvent.click(screen.getByText('Edit'));
@@ -112,7 +112,7 @@ describe('NoteEditor', () => {
   });
 
   it('shows confirm-discard when canceling with unsaved changes', async () => {
-    const { NoteEditor } = await import('@/components/NoteEditor');
+    const { NoteEditor } = await import('@/components/editor/NoteEditor');
     render(React.createElement(NoteEditor, defaultProps));
 
     fireEvent.click(screen.getByText('Edit'));
@@ -129,7 +129,7 @@ describe('NoteEditor', () => {
   });
 
   it('inserts tab character on Tab key', async () => {
-    const { NoteEditor } = await import('@/components/NoteEditor');
+    const { NoteEditor } = await import('@/components/editor/NoteEditor');
     render(React.createElement(NoteEditor, defaultProps));
 
     fireEvent.click(screen.getByText('Edit'));
@@ -161,7 +161,7 @@ describe('NoteEditor', () => {
       return Promise.resolve({ ok: true });
     });
 
-    const { NoteEditor } = await import('@/components/NoteEditor');
+    const { NoteEditor } = await import('@/components/editor/NoteEditor');
     render(React.createElement(NoteEditor, defaultProps));
 
     fireEvent.click(screen.getByText('Edit'));
@@ -207,7 +207,7 @@ describe('NoteEditor flows', () => {
   }
 
   async function openEditor() {
-    const { NoteEditor } = await import('@/components/NoteEditor');
+    const { NoteEditor } = await import('@/components/editor/NoteEditor');
     render(React.createElement(NoteEditor, defaultProps));
     fireEvent.click(screen.getByText('Edit'));
     await vi.waitFor(() =>
@@ -229,14 +229,14 @@ describe('NoteEditor flows', () => {
 
   it('returns to view mode when the note fails to load', async () => {
     mockApi({ load: { ok: false, text: '' } });
-    const { NoteEditor } = await import('@/components/NoteEditor');
+    const { NoteEditor } = await import('@/components/editor/NoteEditor');
     render(React.createElement(NoteEditor, defaultProps));
     fireEvent.click(screen.getByText('Edit'));
 
     await vi.waitFor(() => {
-      expect(screen.getByText('Page content')).toBeInTheDocument();
+      expect(console.error).toHaveBeenCalled();
     });
-    expect(console.error).toHaveBeenCalled();
+    expect(screen.getByText('Page content')).toBeInTheDocument();
   });
 
   it('flashes saved, returns to view mode and refreshes after saving', async () => {

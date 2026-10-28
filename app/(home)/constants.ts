@@ -1,4 +1,4 @@
-import { TourStep } from '@/components/Tour';
+import { TourStep } from '@/components/tour/Tour';
 
 export const aboutPageTourStep: TourStep = {
   id: 'about',

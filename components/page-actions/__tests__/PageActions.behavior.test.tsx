@@ -27,7 +27,7 @@ vi.mock('fumadocs-ui/components/ui/popover', () => ({
     React.createElement('div', null, children),
 }));
 
-describe('LLMCopyButton copy behavior', () => {
+describe('CopyMarkdownButton copy behavior', () => {
   const clipboard = {
     write: vi.fn(async (items: any[]) => {
       await items[0].items['text/plain'];
@@ -58,8 +58,9 @@ describe('LLMCopyButton copy behavior', () => {
   });
 
   it('fetches the markdown on first copy and reuses the cache afterwards', async () => {
-    const { LLMCopyButton } = await import('@/components/PageActions');
-    render(<LLMCopyButton markdownUrl="/note/cached.mdx" />);
+    const { CopyMarkdownButton } =
+      await import('@/components/page-actions/CopyMarkdownButton');
+    render(<CopyMarkdownButton markdownUrl="/note/cached.mdx" />);
     const button = screen.getByRole('button');
 
     fireEvent.click(button);
@@ -76,8 +77,9 @@ describe('LLMCopyButton copy behavior', () => {
 
   it('re-enables the button when writing to the clipboard fails', async () => {
     clipboard.write.mockRejectedValueOnce(new Error('denied'));
-    const { LLMCopyButton } = await import('@/components/PageActions');
-    render(<LLMCopyButton markdownUrl="/note/failing.mdx" />);
+    const { CopyMarkdownButton } =
+      await import('@/components/page-actions/CopyMarkdownButton');
+    render(<CopyMarkdownButton markdownUrl="/note/failing.mdx" />);
     const button = screen.getByRole('button');
 
     fireEvent.click(button);
@@ -87,16 +89,18 @@ describe('LLMCopyButton copy behavior', () => {
 
   it('shows a check icon once copied', async () => {
     isCopied = true;
-    const { LLMCopyButton } = await import('@/components/PageActions');
-    const { container } = render(<LLMCopyButton markdownUrl="/x.mdx" />);
+    const { CopyMarkdownButton } =
+      await import('@/components/page-actions/CopyMarkdownButton');
+    const { container } = render(<CopyMarkdownButton markdownUrl="/x.mdx" />);
     expect(container.querySelector('.lucide-check')).toBeInTheDocument();
   });
 });
 
-describe('ViewOptions links', () => {
+describe('OpenInAiMenu links', () => {
   it('builds prompts with the absolute markdown url', async () => {
-    const { ViewOptions } = await import('@/components/PageActions');
-    render(<ViewOptions markdownUrl="/note/test.mdx" />);
+    const { OpenInAiMenu } =
+      await import('@/components/page-actions/OpenInAiMenu');
+    render(<OpenInAiMenu markdownUrl="/note/test.mdx" />);
 
     const expectedPrompt = `Read ${window.location.origin}/note/test.mdx, I want to ask questions about it.`;
     await vi.waitFor(() => {

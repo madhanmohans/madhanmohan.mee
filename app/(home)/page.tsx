@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { GraphView } from '@/components/Graph/GraphView';
-import { Tour } from '@/components/Tour';
+import { GraphView } from '@/components/graph/GraphView';
+import { Tour } from '@/components/tour/Tour';
 import {
   welcomePageTourStep,
   secondBrainPageTourStep,

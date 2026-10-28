@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { baseOptions } from '@/lib/layout.shared';
-import { getMDXComponents } from '@/MDXComponents';
+import { getMDXComponents } from '@/components/editor/MDXComponents';
 
 describe('baseOptions', () => {
   it('enables the theme switch and renders an icon title', () => {

@@ -52,14 +52,16 @@ vi.mock('fumadocs-ui/mdx', () => ({
   createRelativeLink: () => () => null,
 }));
 
-vi.mock('@/components/PageActions', () => ({
-  LLMCopyButton: ({ markdownUrl }: any) =>
+vi.mock('@/components/page-actions/CopyMarkdownButton', () => ({
+  CopyMarkdownButton: ({ markdownUrl }: any) =>
     React.createElement('button', { 'data-testid': 'copy' }, markdownUrl),
-  ViewOptions: ({ markdownUrl }: any) =>
+}));
+vi.mock('@/components/page-actions/OpenInAiMenu', () => ({
+  OpenInAiMenu: ({ markdownUrl }: any) =>
     React.createElement('button', { 'data-testid': 'view' }, markdownUrl),
 }));
 
-vi.mock('@/components/NoteEditor', () => ({
+vi.mock('@/components/editor/NoteEditor', () => ({
   NoteEditor: ({ children, slug }: any) =>
     React.createElement(
       'div',
@@ -68,7 +70,7 @@ vi.mock('@/components/NoteEditor', () => ({
     ),
 }));
 
-vi.mock('@/components/NoteTags', () => ({
+vi.mock('@/components/tags/NoteTags', () => ({
   NoteTags: ({ tags, editable }: any) =>
     React.createElement(
       'div',
@@ -76,7 +78,7 @@ vi.mock('@/components/NoteTags', () => ({
       tags.join(','),
     ),
 }));
-vi.mock('@/components/TagGroups', () => ({
+vi.mock('@/components/tags/TagGroups', () => ({
   TagGroups: ({ groups, currentTags }: any) =>
     React.createElement(
       'div',
@@ -84,10 +86,10 @@ vi.mock('@/components/TagGroups', () => ({
       groups.map((g: any) => g.tag).join(','),
     ),
 }));
-vi.mock('@/components/DocsTour', () => ({ DocsTour: () => null }));
-vi.mock('@/components/ViewToggle', () => ({ ViewToggle: () => null }));
-vi.mock('@/components/Graph/GraphMini', () => ({
-  GraphMini: ({ pageUrl }: any) =>
+vi.mock('@/components/tour/NotesTour', () => ({ NotesTour: () => null }));
+vi.mock('@/components/layout/ViewToggle', () => ({ ViewToggle: () => null }));
+vi.mock('@/components/graph/local/LocalGraph', () => ({
+  LocalGraph: ({ pageUrl }: any) =>
     React.createElement('div', { 'data-testid': 'graph-mini' }, pageUrl),
 }));
 

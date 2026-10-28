@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { source } from '@/lib/source';
 import { slugify } from '@/lib/slugify';
-import type { Graph } from '@/components/Graph/GraphView';
+import type { Graph } from '@/components/graph/types';
 import type { Page } from 'fumadocs-core/source';
 
 const CONTENT_DIRECTORY = path.resolve(process.cwd(), 'content/docs');

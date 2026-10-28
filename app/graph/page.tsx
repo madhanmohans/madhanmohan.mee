@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { GraphView } from '@/components/Graph/GraphView';
-import { useGraphData } from '@/components/Graph/GraphShared';
+import { GraphView } from '@/components/graph/GraphView';
+import { useGraphData } from '@/components/graph/useGraphData';
 import { BrainCircuit } from 'lucide-react';
-import { Tour } from '@/components/Tour';
-import { ViewToggle } from '@/components/ViewToggle';
+import { Tour } from '@/components/tour/Tour';
+import { ViewToggle } from '@/components/layout/ViewToggle';
 
 const GRAPH_DIMENSIONS = ['2d', '3d'] as const;
 

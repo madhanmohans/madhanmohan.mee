@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import { TagGroups } from '@/components/TagGroups';
+import { TagGroups } from '@/components/tags/TagGroups';
 
 const groups = [
   {

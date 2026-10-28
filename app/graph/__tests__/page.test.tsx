@@ -23,7 +23,7 @@ vi.mock('next/link', () => ({
   }) => React.createElement('a', { href, ...props }, children),
 }));
 
-vi.mock('@/components/Graph/GraphView', () => ({
+vi.mock('@/components/graph/GraphView', () => ({
   GraphView: ({
     foregroundGraph,
     dimension,
@@ -38,7 +38,7 @@ vi.mock('@/components/Graph/GraphView', () => ({
     }),
 }));
 
-vi.mock('@/components/Tour', () => ({
+vi.mock('@/components/tour/Tour', () => ({
   Tour: ({ id, steps }: { id: string; steps: Array<any> }) =>
     React.createElement(
       'div',

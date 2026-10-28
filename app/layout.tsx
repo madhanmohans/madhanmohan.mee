@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { RootProvider } from 'fumadocs-ui/provider/next';
-import { Background } from '@/components/BackgroundVideo';
-import { MotionProvider } from '@/components/Motion';
+import { BackgroundVideo } from '@/components/layout/BackgroundVideo';
+import { MotionProvider } from '@/components/motion/MotionProvider';
 import { VIDEO_SOURCE } from './constants';
 import './global.css';
 
@@ -37,7 +37,7 @@ export default function Layout({ children }: LayoutProps<'/'>) {
         </a>
         <RootProvider>
           <MotionProvider>
-            <Background videoSource={VIDEO_SOURCE} />
+            <BackgroundVideo videoSource={VIDEO_SOURCE} />
             {children}
           </MotionProvider>
         </RootProvider>

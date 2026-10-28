@@ -8,7 +8,7 @@ vi.mock('next/navigation', () => ({
   usePathname: () => mockUsePathname(),
 }));
 
-describe('Background', () => {
+describe('BackgroundVideo', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -16,9 +16,9 @@ describe('Background', () => {
   it('renders video element when on home page', async () => {
     mockUsePathname.mockReturnValue('/');
 
-    const { Background: Background } =
-      await import('@/components/BackgroundVideo');
-    const { container } = render(React.createElement(Background));
+    const { BackgroundVideo } =
+      await import('@/components/layout/BackgroundVideo');
+    const { container } = render(React.createElement(BackgroundVideo));
     const video = container.querySelector('video');
     expect(video).toBeInTheDocument();
     expect(video).toHaveAttribute('autoplay');
@@ -28,9 +28,9 @@ describe('Background', () => {
   it('does not render video when not on home page', async () => {
     mockUsePathname.mockReturnValue('/note/test');
 
-    const { Background: Background } =
-      await import('@/components/BackgroundVideo');
-    const { container } = render(React.createElement(Background));
+    const { BackgroundVideo } =
+      await import('@/components/layout/BackgroundVideo');
+    const { container } = render(React.createElement(BackgroundVideo));
     expect(container.querySelector('video')).toBeNull();
   });
 });

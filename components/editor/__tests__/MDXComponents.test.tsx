@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getMDXComponents } from '@/MDXComponents';
+import { getMDXComponents } from '@/components/editor/MDXComponents';
 
 describe('getMDXComponents', () => {
   it('returns an object with img override', () => {
