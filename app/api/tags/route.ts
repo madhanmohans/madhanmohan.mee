@@ -1,5 +1,10 @@
 import { source } from '@/lib/source';
-import { normalizeTags, setFrontmatterTags } from '@/lib/tags';
+import {
+  extractInlineTags,
+  normalizeTags,
+  removeInlineTags,
+  setFrontmatterTags,
+} from '@/lib/tags';
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { revalidatePath } from 'next/cache';
@@ -27,10 +32,23 @@ export async function PUT(request: Request) {
   }
 
   const normalizedTags = normalizeTags(tags);
-  const content = await readFile(filePath, 'utf-8');
+  const removedTags = page.data.tags.filter(
+    (tag: string) => !normalizedTags.includes(tag),
+  );
+
+  // Removed tags must go from the body too, or they'd come back as inline
+  // tags; tags still written inline stay out of the frontmatter
+  const content = removeInlineTags(
+    await readFile(filePath, 'utf-8'),
+    removedTags,
+  );
+  const remainingInlineTags = extractInlineTags(content);
+  const frontmatterTags = normalizedTags.filter(
+    (tag) => !remainingInlineTags.includes(tag),
+  );
   await writeFile(
     filePath,
-    setFrontmatterTags(content, normalizedTags),
+    setFrontmatterTags(content, frontmatterTags),
     'utf-8',
   );
   revalidatePath('/column', 'layout');

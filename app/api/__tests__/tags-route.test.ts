@@ -142,3 +142,34 @@ describe('POST /api/tags/suggest', () => {
     expect(await response.json()).toEqual({ error: 'not running' });
   });
 });
+
+describe('PUT /api/tags with inline tags', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.resetModules();
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('strips removed inline tags and keeps the rest inline', async () => {
+    setupEnv('development');
+    mockGetPage.mockReturnValue({
+      ...page,
+      data: { ...page.data, tags: ['leetcode', 'dp'] },
+    });
+    mockReadFile.mockResolvedValue('Tags: #leetcode #dp\nbody');
+    const { PUT } = await import('@/app/api/tags/route');
+
+    await PUT(
+      jsonRequest('PUT', { slug: ['x'], tags: ['leetcode', 'arrays'] }),
+    );
+
+    expect(mockWriteFile).toHaveBeenCalledWith(
+      '/root/content/docs/relu.md',
+      '---\ntags:\n  - arrays\n---\n\nTags: #leetcode\nbody',
+      'utf-8',
+    );
+  });
+});

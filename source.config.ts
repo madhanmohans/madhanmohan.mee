@@ -8,7 +8,7 @@ import path from 'node:path';
 import rehypeRaw from 'rehype-raw';
 import { visit } from 'unist-util-visit';
 import { z } from 'zod';
-import { normalizeTags } from './lib/tags';
+import { extractInlineTags, normalizeTags } from './lib/tags';
 
 // Convert a filename like "ideas-flowing-big" to "Ideas Flowing Big"
 function filenameToTitle(filePath: string): string {
@@ -19,11 +19,20 @@ function filenameToTitle(filePath: string): string {
 // Schema function: receives { path, source } context from fumadocs-mdx.
 // Derives a default title from the filename so files need neither
 // a frontmatter `title` nor an H1 heading. Obsidian tags come in many
-// shapes ('#work', a bare string, an empty key), so they are normalized.
+// shapes ('#work', a bare string, an empty key) and also live inline in
+// the body ("Tags: #leetcode"), so both sources are merged and normalized.
 const frontmatterSchema = (ctx: { path: string; source: string }) =>
   pageSchema.extend({
     title: pageSchema.shape.title.default(filenameToTitle(ctx.path)),
-    tags: z.preprocess(normalizeTags, z.array(z.string())),
+    tags: z.preprocess(
+      (rawTags) => [
+        ...new Set([
+          ...normalizeTags(rawTags),
+          ...extractInlineTags(ctx.source),
+        ]),
+      ],
+      z.array(z.string()),
+    ),
   });
 
 // You can customise Zod schemas for frontmatter and `meta.json` here

@@ -1,7 +1,9 @@
 import {
+  extractInlineTags,
   groupNotesByTag,
   normalizeTag,
   normalizeTags,
+  removeInlineTags,
   setFrontmatterTags,
 } from '@/lib/tags';
 import { describe, it, expect } from 'vitest';
@@ -9,6 +11,11 @@ import { describe, it, expect } from 'vitest';
 describe('normalizeTag', () => {
   it('strips leading hashes and kebab-cases', () => {
     expect(normalizeTag('#Machine Learning')).toBe('machine-learning');
+  });
+
+  it('splits camelCase', () => {
+    expect(normalizeTag('#MachineLearning')).toBe('machine-learning');
+    expect(normalizeTag('#DBMS')).toBe('dbms');
   });
 
   it('keeps nested tag slashes', () => {
@@ -104,5 +111,53 @@ describe('groupNotesByTag', () => {
 
     expect(groups.map((g) => g.tag)).toEqual(['ml', 'android', 'react']);
     expect(groups[0].notes.map((n) => n.title)).toEqual(['A note', 'B note']);
+  });
+});
+
+describe('extractInlineTags', () => {
+  it('finds Obsidian hashtags in prose', () => {
+    expect(
+      extractInlineTags(
+        'Tags: #leetcode #DynamicProgramming\n\nbody\n#ml-notes',
+      ),
+    ).toEqual(['leetcode', 'dynamic-programming', 'ml-notes']);
+  });
+
+  it('ignores headings, links, frontmatter and code', () => {
+    const note = [
+      '---',
+      'tags:',
+      "  - '#work'",
+      '---',
+      '# Heading',
+      'see [x](page#anchor) and issue #12',
+      '```c',
+      '#include <stdio.h>',
+      '```',
+      'color `#fefefe`',
+      '<script>a = "x #tE6_"</script>',
+    ].join('\n');
+
+    expect(extractInlineTags(note)).toEqual([]);
+  });
+});
+
+describe('removeInlineTags', () => {
+  it('removes one tag from a Tags: line', () => {
+    expect(removeInlineTags('Tags: #book #technology\nbody', ['book'])).toBe(
+      'Tags: #technology\nbody',
+    );
+  });
+
+  it('drops lines left empty', () => {
+    expect(
+      removeInlineTags('body\nTags: #OS\n#ml-notes\n', ['os', 'ml-notes']),
+    ).toBe('body\n');
+  });
+
+  it('keeps indentation and code untouched', () => {
+    expect(removeInlineTags('  - item #ml\n```\n#ml\n```', ['ml'])).toBe(
+      '  - item\n```\n#ml\n```',
+    );
   });
 });
