@@ -51,7 +51,7 @@ const graph = {
 
 async function renderGraph(props: Record<string, unknown>) {
   const { default: GraphView3D } =
-    await import('@/components/Graph/GraphView3D');
+    await import('@/components/graph/3d/GraphView3D');
   const result = render(React.createElement(GraphView3D, props));
   await vi.waitFor(() => {
     expect(screen.getByTestId('force-graph-3d')).toBeInTheDocument();
@@ -121,7 +121,7 @@ describe('GraphView3D', () => {
     it('ignores fetch failures', async () => {
       mockFetch.mockRejectedValue(new Error('network'));
       const { default: GraphView3D } =
-        await import('@/components/Graph/GraphView3D');
+        await import('@/components/graph/3d/GraphView3D');
       render(React.createElement(GraphView3D, {}));
       await vi.waitFor(() => expect(mockFetch).toHaveBeenCalled());
       expect(screen.queryByTestId('force-graph-3d')).not.toBeInTheDocument();

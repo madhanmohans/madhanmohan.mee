@@ -1,22 +1,23 @@
 'use client';
 import dynamic from 'next/dynamic';
-import type { GraphViewProps } from './GraphShared';
-export type { Graph, Node, Link } from './GraphShared';
+import type { GraphViewProps } from './types';
+export type { Graph, Node, Link } from './types';
 
 function LoadingFallback() {
   return <div className="size-full rounded-xl bg-fd-background" />;
 }
 
-const GraphView2D = dynamic(() => import('./GraphView2D'), {
+const GraphView2D = dynamic(() => import('./2d/GraphView2D'), {
   ssr: false,
   loading: LoadingFallback,
 });
 
-const GraphView3D = dynamic(() => import('./GraphView3D'), {
+const GraphView3D = dynamic(() => import('./3d/GraphView3D'), {
   ssr: false,
   loading: LoadingFallback,
 });
 
+// Full knowledge graph, rendered in 3D by default
 export function GraphView(props: GraphViewProps & { dimension?: '2d' | '3d' }) {
   const { dimension = '3d', ...rest } = props;
 

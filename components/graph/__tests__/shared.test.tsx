@@ -1,12 +1,14 @@
 import { render, renderHook, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import {
-  MiniMarkdown,
-  useGraphData,
+  TooltipMarkdown,
   stripInlineMarkdown,
+} from '@/components/graph/TooltipMarkdown';
+import {
   enrichGraphNodesWithNeighbors,
   createForceGraphRef,
-} from '@/components/Graph/GraphShared';
+} from '@/components/graph/graphUtils';
+import { useGraphData } from '@/components/graph/useGraphData';
 
 describe('stripInlineMarkdown', () => {
   it('removes markdown links', () => {
@@ -110,10 +112,10 @@ describe('createForceGraphRef', () => {
   });
 });
 
-describe('MiniMarkdown', () => {
+describe('TooltipMarkdown', () => {
   it('renders headings, list items and paragraphs while skipping rules and blanks', () => {
     const { container } = render(
-      <MiniMarkdown
+      <TooltipMarkdown
         content={
           '## ==Key== **Idea**\n---\n- a [link](/x)\n→ arrow item\n\n  \nplain __text__'
         }
@@ -128,7 +130,7 @@ describe('MiniMarkdown', () => {
   });
 
   it('renders nothing for empty content', () => {
-    const { container } = render(<MiniMarkdown content="" />);
+    const { container } = render(<TooltipMarkdown content="" />);
     expect(container.firstElementChild).toBeEmptyDOMElement();
   });
 });

@@ -22,7 +22,7 @@ vi.mock('next/link', () => ({
   }) => React.createElement('a', { href, ...props }, children),
 }));
 
-describe('GraphMini', () => {
+describe('LocalGraph', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockFetch.mockResolvedValue({
@@ -35,10 +35,10 @@ describe('GraphMini', () => {
   });
 
   it('fetches graph data and renders canvas when data arrives', async () => {
-    const { GraphMini } = await import('@/components/Graph/GraphMini');
+    const { LocalGraph } = await import('@/components/graph/local/LocalGraph');
 
     const { container } = render(
-      React.createElement(GraphMini, { pageUrl: '/note/a' }),
+      React.createElement(LocalGraph, { pageUrl: '/note/a' }),
     );
 
     await vi.waitFor(() => {
@@ -49,10 +49,10 @@ describe('GraphMini', () => {
   it('returns null before graph data is fetched', async () => {
     mockFetch.mockImplementation(() => new Promise(() => {}));
 
-    const { GraphMini } = await import('@/components/Graph/GraphMini');
+    const { LocalGraph } = await import('@/components/graph/local/LocalGraph');
 
     const { container } = render(
-      React.createElement(GraphMini, { pageUrl: '/note/a' }),
+      React.createElement(LocalGraph, { pageUrl: '/note/a' }),
     );
 
     expect(container.textContent).toBe('');
@@ -61,10 +61,10 @@ describe('GraphMini', () => {
   it('handles fetch errors gracefully', async () => {
     mockFetch.mockRejectedValue(new Error('Network error'));
 
-    const { GraphMini } = await import('@/components/Graph/GraphMini');
+    const { LocalGraph } = await import('@/components/graph/local/LocalGraph');
 
     const { container } = render(
-      React.createElement(GraphMini, { pageUrl: '/note/a' }),
+      React.createElement(LocalGraph, { pageUrl: '/note/a' }),
     );
 
     await vi.waitFor(() => {
@@ -74,7 +74,7 @@ describe('GraphMini', () => {
   });
 });
 
-describe('GraphMini canvas', () => {
+describe('LocalGraph canvas', () => {
   const frameCallbacks: FrameRequestCallback[] = [];
   let context: Record<string, any>;
 
@@ -101,8 +101,8 @@ describe('GraphMini canvas', () => {
     pageUrl = '/note/a',
   ) {
     mockFetch.mockResolvedValue({ json: () => Promise.resolve(graph) });
-    const { GraphMini } = await import('@/components/Graph/GraphMini');
-    const result = render(React.createElement(GraphMini, { pageUrl }));
+    const { LocalGraph } = await import('@/components/graph/local/LocalGraph');
+    const result = render(React.createElement(LocalGraph, { pageUrl }));
     let canvas: HTMLCanvasElement | null = null;
     await vi.waitFor(() => {
       canvas = result.container.querySelector('canvas');

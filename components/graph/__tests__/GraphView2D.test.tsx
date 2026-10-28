@@ -9,7 +9,7 @@ import {
   ZOOM_TO_FIT_DURATION,
   ZOOM_TO_FIT_PADDING,
   TOOLTIP_OFFSET,
-} from '@/components/Graph/constants';
+} from '@/components/graph/constants';
 
 const mockPush = vi.fn();
 const mockFetch = vi.fn();
@@ -68,7 +68,7 @@ const lastProps = () => graphProps[graphProps.length - 1];
 
 async function renderGraph(props: Record<string, unknown>) {
   const { default: GraphView2D } =
-    await import('@/components/Graph/GraphView2D');
+    await import('@/components/graph/2d/GraphView2D');
   const result = render(React.createElement(GraphView2D, props));
   await vi.waitFor(() => {
     expect(screen.getByTestId('force-graph-2d')).toBeInTheDocument();
@@ -116,7 +116,7 @@ describe('GraphView2D', () => {
     it('ignores fetch failures', async () => {
       mockFetch.mockRejectedValue(new Error('network'));
       const { default: GraphView2D } =
-        await import('@/components/Graph/GraphView2D');
+        await import('@/components/graph/2d/GraphView2D');
       render(React.createElement(GraphView2D, {}));
       await vi.waitFor(() => expect(mockFetch).toHaveBeenCalled());
       expect(screen.queryByTestId('force-graph-2d')).not.toBeInTheDocument();
@@ -281,7 +281,7 @@ describe('GraphView2D', () => {
     it('renders an empty container until data is fetched', async () => {
       mockFetch.mockImplementation(() => new Promise(() => {}));
       const { default: GraphView2D } =
-        await import('@/components/Graph/GraphView2D');
+        await import('@/components/graph/2d/GraphView2D');
       const { container } = render(
         React.createElement(GraphView2D, { backgroundGraph: true }),
       );
