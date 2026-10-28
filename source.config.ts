@@ -3,6 +3,7 @@ import { metaSchema, pageSchema } from 'fumadocs-core/source/schema';
 import { remarkWikilinks } from './lib/remarkWikiLinks';
 import { remarkStripHeadingLinks } from './lib/remarkStripHeadingLinks';
 import { remarkMark } from 'remark-mark-highlight';
+import remarkBreaks from 'remark-breaks';
 import path from 'node:path';
 import rehypeRaw from 'rehype-raw';
 import { visit } from 'unist-util-visit';
@@ -70,6 +71,8 @@ export default defineConfig({
       remarkMark,
       remarkConvertMarkToHtml,
       remarkLowercaseCodeBlocks,
+      // Obsidian renders a single newline as a line break
+      remarkBreaks,
     ],
     rehypePlugins: [
       [

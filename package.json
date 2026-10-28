@@ -30,6 +30,7 @@
     "react-force-graph-2d": "^1.29.1",
     "react-force-graph-3d": "^1.29.1",
     "rehype-raw": "^7.0.0",
+    "remark-breaks": "^4.0.0",
     "remark-mark-highlight": "^0.1.1",
     "tailwind-merge": "^3.4.0",
     "three": "^0.184.0",

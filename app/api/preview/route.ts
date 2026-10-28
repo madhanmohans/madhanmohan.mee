@@ -1,9 +1,12 @@
 import { createCompiler } from '@fumadocs/mdx-remote';
+import remarkBreaks from 'remark-breaks';
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 
 const compiler = createCompiler({
   preset: 'fumadocs',
+  // Match source.config.ts so the preview shows the same line breaks
+  remarkPlugins: [remarkBreaks],
 });
 
 export async function POST(request: Request) {
