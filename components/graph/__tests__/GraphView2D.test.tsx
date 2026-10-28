@@ -100,7 +100,14 @@ describe('GraphView2D', () => {
       const forceNames = forceGraphInstance.d3Force.mock.calls.map(
         (call) => call[0],
       );
-      expect(forceNames).toEqual(['link', 'charge', 'center', 'collision']);
+      expect(forceNames).toEqual([
+        'link',
+        'charge',
+        'center',
+        'collision',
+        'x',
+        'y',
+      ]);
     });
 
     it('passes graph data enriched with neighbors', async () => {

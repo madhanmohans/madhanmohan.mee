@@ -320,6 +320,100 @@ table {
   color: var(--color-fd-foreground);
 }
 
+/* --- Graph page bottom island --- */
+.graph-island {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--space-5) + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  width: 340px;
+  height: 80px;
+  padding-top: 20px;
+  z-index: 50;
+  filter: drop-shadow(0 4px 12px rgba(17, 24, 39, 0.08))
+    drop-shadow(0 12px 32px rgba(17, 24, 39, 0.08));
+}
+
+.graph-island-bar {
+  display: block;
+  overflow: visible;
+}
+
+.graph-island-bar path {
+  fill: var(--color-fd-popover);
+  stroke: var(--color-fd-border);
+  stroke-width: 1;
+}
+
+.graph-island-items {
+  position: absolute;
+  inset: 20px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--space-3);
+}
+
+.graph-island-group {
+  display: flex;
+  gap: 2px;
+}
+
+.graph-island-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 44px;
+  padding: 6px 0 4px;
+  border-radius: 12px;
+  font-family: 'CommitMono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  color: var(--color-fd-muted-foreground);
+  transition: color 0.2s var(--ease-out-cubic);
+}
+
+.graph-island-btn:hover,
+.graph-island-btn[data-active='true'] {
+  color: var(--color-fd-foreground);
+}
+
+.graph-island-btn[data-active='true'] span {
+  font-weight: 600;
+}
+
+.graph-island-home {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 9999px;
+  transform: translateX(-50%);
+  background: var(--color-fd-foreground);
+  color: var(--color-fd-background);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 4px 10px rgba(17, 24, 39, 0.18);
+  transition: transform 0.2s var(--ease-out-cubic);
+}
+
+.graph-island-home:hover {
+  transform: translateX(-50%) scale(1.05);
+}
+
+.graph-island-home:active {
+  transform: translateX(-50%) scale(0.96);
+}
+
+.dark .graph-island {
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4))
+    drop-shadow(0 12px 32px rgba(0, 0, 0, 0.35));
+}
+
 /* --- Graph mini container hover --- */
 .graph-mini-container:hover {
   border-color: var(--color-fd-ring) !important;
@@ -508,6 +602,14 @@ table {
   z-index: -1;
 }
 
+/* Phones skip the background video; BackgroundVideo's source shares this
+   breakpoint so the file is never fetched there */
+@media (max-width: 640px) {
+  .background {
+    display: none;
+  }
+}
+
 /* --- Transparent everything so html bg and grainy texture shows through --- */
 body,
 header,
@@ -659,9 +761,11 @@ article,
 }
 
 /* --- Graph zoom controls --- */
+/* The frame runs past the viewport by the page's bottom padding, so the
+   offset adds that back to line up with the bottom island's base */
 .graph-zoom-controls {
   position: absolute;
-  bottom: 16px;
+  bottom: calc(48px + env(safe-area-inset-bottom));
   right: 16px;
   display: flex;
   flex-direction: column;
@@ -673,6 +777,14 @@ article,
     0 1px 3px rgba(17, 24, 39, 0.06),
     0 4px 12px rgba(17, 24, 39, 0.04);
   z-index: 10;
+}
+
+/* Narrow screens: the 340px island spans the frame's bottom-right corner,
+   so lift the controls above the bar */
+@media (max-width: 640px) {
+  .graph-zoom-controls {
+    bottom: calc(120px + env(safe-area-inset-bottom));
+  }
 }
 
 .graph-zoom-btn {

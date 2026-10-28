@@ -114,7 +114,15 @@ describe('GraphView3D', () => {
       const forceNames = forceGraphInstance.d3Force.mock.calls.map(
         (call) => call[0],
       );
-      expect(forceNames).toEqual(['link', 'charge', 'center', 'collision']);
+      expect(forceNames).toEqual([
+        'link',
+        'charge',
+        'center',
+        'collision',
+        'x',
+        'y',
+        'z',
+      ]);
     });
 
     it('fetches graph data when no foreground graph is given', async () => {

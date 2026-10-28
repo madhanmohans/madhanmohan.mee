@@ -5,6 +5,7 @@ import {
   COLLIDE_RADIUS,
   LINK_DISTANCE,
   LINK_STRENGTH,
+  POSITION_STRENGTH,
 } from './constants';
 import type { ForceGraphInstance, Graph, Link, Node } from './types';
 
@@ -37,11 +38,20 @@ interface ForceFactories {
   forceManyBody: () => any;
   forceCenter: () => any;
   forceCollide: (radius: number) => any;
+  forceX: (x: number) => any;
+  forceY: (y: number) => any;
 }
 
 export function configureGraphForces(
   forceGraphInstance: ForceGraphInstance,
-  { forceLink, forceManyBody, forceCenter, forceCollide }: ForceFactories,
+  {
+    forceLink,
+    forceManyBody,
+    forceCenter,
+    forceCollide,
+    forceX,
+    forceY,
+  }: ForceFactories,
 ) {
   forceGraphInstance.d3Force(
     'link',
@@ -53,6 +63,8 @@ export function configureGraphForces(
   );
   forceGraphInstance.d3Force('center', forceCenter().strength(CENTER_STRENGTH));
   forceGraphInstance.d3Force('collision', forceCollide(COLLIDE_RADIUS));
+  forceGraphInstance.d3Force('x', forceX(0).strength(POSITION_STRENGTH));
+  forceGraphInstance.d3Force('y', forceY(0).strength(POSITION_STRENGTH));
 }
 
 export function enrichGraphNodesWithNeighbors(graph: Graph): {

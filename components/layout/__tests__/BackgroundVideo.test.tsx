@@ -25,6 +25,18 @@ describe('BackgroundVideo', () => {
     expect(video).toHaveAttribute('loop');
   });
 
+  it('limits the video source to non-phone screens', async () => {
+    mockUsePathname.mockReturnValue('/');
+
+    const { BackgroundVideo } =
+      await import('@/components/layout/BackgroundVideo');
+    const { container } = render(React.createElement(BackgroundVideo));
+    expect(container.querySelector('source')).toHaveAttribute(
+      'media',
+      '(min-width: 641px)',
+    );
+  });
+
   it('does not render video when not on home page', async () => {
     mockUsePathname.mockReturnValue('/note/test');
 

@@ -87,11 +87,18 @@ describe('SecondBrainPage', () => {
       expect(screen.getByTestId('graph-view')).toBeInTheDocument();
     });
 
-    const twoDButton = screen.getByText('2D');
-    fireEvent.click(twoDButton);
-
     const graph = screen.getByTestId('graph-view');
     expect(graph).toHaveAttribute('data-dimension', '2d');
+
+    fireEvent.click(screen.getByRole('button', { name: '3d' }));
+    expect(screen.getByTestId('graph-view')).toHaveAttribute(
+      'data-dimension',
+      '3d',
+    );
+    expect(screen.getByRole('button', { name: '3d' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
   });
 
   it('renders toggle buttons', async () => {
@@ -102,8 +109,8 @@ describe('SecondBrainPage', () => {
     const { default: SecondBrainPage } = await import('@/app/graph/page');
     render(React.createElement(SecondBrainPage));
 
-    expect(screen.getByText('2D')).toBeInTheDocument();
-    expect(screen.getByText('3D')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '2d' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '3d' })).toBeInTheDocument();
   });
 
   it('renders home link', async () => {

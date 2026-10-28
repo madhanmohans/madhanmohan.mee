@@ -14,6 +14,9 @@ export const LINK_STRENGTH = 0.5;
 export const CHARGE_STRENGTH = 1;
 export const CENTER_STRENGTH = 0.3;
 export const COLLIDE_RADIUS = 50;
+// forceCenter only moves the centroid; this per-node pull toward the origin
+// keeps unlinked notes from drifting far out and inflating zoom-to-fit
+export const POSITION_STRENGTH = 0.05;
 
 // Simulation
 export const ALPHA_DECAY = 0.0228;
