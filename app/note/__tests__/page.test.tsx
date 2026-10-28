@@ -7,7 +7,7 @@ const mockNotFound = vi.fn(() => {
 });
 
 const testPage = {
-  url: '/column/test',
+  url: '/note/test',
   slugs: ['test'],
   data: {
     title: 'Test Page',
@@ -24,9 +24,9 @@ vi.mock('@/lib/source', () => ({
     getPage: (slug?: string[]) => (slug?.[0] === 'test' ? testPage : undefined),
     generateParams: () => [{ slug: ['test'] }],
   },
-  getPageImage: () => ({ url: '/og/column/test/image.png' }),
+  getPageImage: () => ({ url: '/og/note/test/image.png' }),
   getTagGroups: () => [
-    { tag: 'ml', notes: [{ url: '/column/test', title: 'Test Page' }] },
+    { tag: 'ml', notes: [{ url: '/note/test', title: 'Test Page' }] },
   ],
 }));
 
@@ -94,7 +94,7 @@ vi.mock('@/components/Graph/GraphMini', () => ({
 const pageProps = (slug?: string[]) =>
   ({ params: Promise.resolve({ slug }) }) as any;
 
-describe('Column page', () => {
+describe('Note page', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -104,15 +104,15 @@ describe('Column page', () => {
   });
 
   it('renders the page title, description, actions and body', async () => {
-    const { default: Page } = await import('@/app/column/[[...slug]]/page');
+    const { default: Page } = await import('@/app/note/[[...slug]]/page');
     render(await Page(pageProps(['test'])));
 
     expect(screen.getByText('Test Page')).toBeInTheDocument();
     expect(screen.getByText('A test description')).toBeInTheDocument();
     expect(screen.getByText('Body content')).toBeInTheDocument();
-    expect(screen.getByTestId('copy')).toHaveTextContent('/column/test.mdx');
-    expect(screen.getByTestId('view')).toHaveTextContent('/column/test.mdx');
-    expect(screen.getByTestId('graph-mini')).toHaveTextContent('/column/test');
+    expect(screen.getByTestId('copy')).toHaveTextContent('/note/test.mdx');
+    expect(screen.getByTestId('view')).toHaveTextContent('/note/test.mdx');
+    expect(screen.getByTestId('graph-mini')).toHaveTextContent('/note/test');
     expect(screen.queryByTestId('note-editor')).not.toBeInTheDocument();
     expect(screen.getByTestId('note-tags')).toHaveTextContent('ml');
     expect(screen.getByTestId('note-tags')).toHaveAttribute(
@@ -127,7 +127,7 @@ describe('Column page', () => {
 
   it('wraps the body in the note editor during development', async () => {
     vi.stubEnv('NODE_ENV', 'development');
-    const { default: Page } = await import('@/app/column/[[...slug]]/page');
+    const { default: Page } = await import('@/app/note/[[...slug]]/page');
     render(await Page(pageProps(['test'])));
 
     const editor = screen.getByTestId('note-editor');
@@ -136,7 +136,7 @@ describe('Column page', () => {
   });
 
   it('calls notFound for unknown pages', async () => {
-    const { default: Page } = await import('@/app/column/[[...slug]]/page');
+    const { default: Page } = await import('@/app/note/[[...slug]]/page');
     await expect(Page(pageProps(['missing']))).rejects.toThrow(
       'NEXT_NOT_FOUND',
     );
@@ -145,21 +145,21 @@ describe('Column page', () => {
 
   it('generates static params from the source', async () => {
     const { generateStaticParams } =
-      await import('@/app/column/[[...slug]]/page');
+      await import('@/app/note/[[...slug]]/page');
     expect(await generateStaticParams()).toEqual([{ slug: ['test'] }]);
   });
 
   it('generates metadata with the open graph image', async () => {
-    const { generateMetadata } = await import('@/app/column/[[...slug]]/page');
+    const { generateMetadata } = await import('@/app/note/[[...slug]]/page');
     expect(await generateMetadata(pageProps(['test']))).toEqual({
       title: 'Test Page',
       description: 'A test description',
-      openGraph: { images: '/og/column/test/image.png' },
+      openGraph: { images: '/og/note/test/image.png' },
     });
   });
 
   it('calls notFound when generating metadata for unknown pages', async () => {
-    const { generateMetadata } = await import('@/app/column/[[...slug]]/page');
+    const { generateMetadata } = await import('@/app/note/[[...slug]]/page');
     await expect(generateMetadata(pageProps(['missing']))).rejects.toThrow(
       'NEXT_NOT_FOUND',
     );

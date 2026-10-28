@@ -57,9 +57,9 @@ function createCanvasContext() {
 
 const graph = {
   nodes: [
-    { id: 'a', text: 'A', url: '/column/a', content: '# Heading\n- item' },
-    { id: 'b', text: 'B', url: '/column/b', description: 'desc' },
-    { id: 'c', text: 'C', url: '/column/c' },
+    { id: 'a', text: 'A', url: '/note/a', content: '# Heading\n- item' },
+    { id: 'b', text: 'B', url: '/note/b', description: 'desc' },
+    { id: 'c', text: 'C', url: '/note/c' },
   ],
   links: [{ source: 'a', target: 'b' }],
 };
@@ -124,8 +124,8 @@ describe('GraphView2D', () => {
 
     it('navigates to the node url on click', async () => {
       await renderGraph({ foregroundGraph: graph });
-      lastProps().onNodeClick({ url: '/column/a' });
-      expect(mockPush).toHaveBeenCalledWith('/column/a');
+      lastProps().onNodeClick({ url: '/note/a' });
+      expect(mockPush).toHaveBeenCalledWith('/note/a');
     });
 
     it('shows a tooltip with content on hover and hides it on leave', async () => {

@@ -32,7 +32,7 @@ export default defineConfig({
         '**/node_modules/**',
         '**/.next/**',
         '**/.source/**',
-        'next.config.mjs',
+        'next.config.ts',
         'postcss.config.mjs',
         'source.config.ts',
         'vitest.config.ts',

@@ -6,6 +6,7 @@ import { Plus, X } from 'lucide-react';
 import { MarkdownEditor } from '@/components/MarkdownEditor';
 import { cn } from '@/lib/cn';
 import { slugify } from '@/lib/slugify';
+import { NOTES_BASE_URL } from '@/app/constants';
 import { buttonVariants } from 'fumadocs-ui/components/ui/button';
 import { AnimatePresence, motion } from 'framer-motion';
 import { InertWhileExiting } from '@/components/Motion';
@@ -58,7 +59,7 @@ export function NewNoteEditor() {
 
   const leave = useCallback(() => {
     if (window.history.length > 1) router.back();
-    else router.push('/column');
+    else router.push(NOTES_BASE_URL);
   }, [router]);
 
   const cancelCreating = useCallback(() => {

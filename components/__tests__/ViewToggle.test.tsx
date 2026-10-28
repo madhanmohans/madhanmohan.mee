@@ -17,7 +17,7 @@ describe('ViewToggle', () => {
 
   it.each([
     ['/graph', ['true', 'false']],
-    ['/column', ['false', 'true']],
+    ['/note', ['false', 'true']],
     ['/elsewhere', ['false', 'false']],
   ])('marks the active view on %s', async (path, expected) => {
     pathname = path;
@@ -29,14 +29,14 @@ describe('ViewToggle', () => {
     expect(states).toEqual(expected);
   });
 
-  it('navigates to the graph and column views', async () => {
+  it('navigates to the graph and note views', async () => {
     const { ViewToggle } = await import('@/components/ViewToggle');
     render(<ViewToggle />);
-    const [graphButton, columnButton] = screen.getAllByRole('button');
+    const [graphButton, noteButton] = screen.getAllByRole('button');
 
     fireEvent.click(graphButton);
     expect(mockPush).toHaveBeenCalledWith('/graph');
-    fireEvent.click(columnButton);
-    expect(mockPush).toHaveBeenCalledWith('/column');
+    fireEvent.click(noteButton);
+    expect(mockPush).toHaveBeenCalledWith('/note');
   });
 });

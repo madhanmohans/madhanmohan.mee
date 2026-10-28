@@ -28,7 +28,7 @@ describe('GraphMini', () => {
     mockFetch.mockResolvedValue({
       json: () =>
         Promise.resolve({
-          nodes: [{ id: '/column/a', text: 'A' }],
+          nodes: [{ id: '/note/a', text: 'A' }],
           links: [],
         }),
     });
@@ -38,7 +38,7 @@ describe('GraphMini', () => {
     const { GraphMini } = await import('@/components/Graph/GraphMini');
 
     const { container } = render(
-      React.createElement(GraphMini, { pageUrl: '/column/a' }),
+      React.createElement(GraphMini, { pageUrl: '/note/a' }),
     );
 
     await vi.waitFor(() => {
@@ -52,7 +52,7 @@ describe('GraphMini', () => {
     const { GraphMini } = await import('@/components/Graph/GraphMini');
 
     const { container } = render(
-      React.createElement(GraphMini, { pageUrl: '/column/a' }),
+      React.createElement(GraphMini, { pageUrl: '/note/a' }),
     );
 
     expect(container.textContent).toBe('');
@@ -64,7 +64,7 @@ describe('GraphMini', () => {
     const { GraphMini } = await import('@/components/Graph/GraphMini');
 
     const { container } = render(
-      React.createElement(GraphMini, { pageUrl: '/column/a' }),
+      React.createElement(GraphMini, { pageUrl: '/note/a' }),
     );
 
     await vi.waitFor(() => {
@@ -98,7 +98,7 @@ describe('GraphMini canvas', () => {
 
   async function renderMini(
     graph: { nodes: any[]; links: any[] },
-    pageUrl = '/column/a',
+    pageUrl = '/note/a',
   ) {
     mockFetch.mockResolvedValue({ json: () => Promise.resolve(graph) });
     const { GraphMini } = await import('@/components/Graph/GraphMini');
@@ -114,7 +114,7 @@ describe('GraphMini canvas', () => {
 
   // a lone node feels no net force, so it stays at the canvas center (150, 100)
   const singleNodeGraph = {
-    nodes: [{ id: '/column/a', text: 'A' }],
+    nodes: [{ id: '/note/a', text: 'A' }],
     links: [],
   };
 
@@ -167,15 +167,15 @@ describe('GraphMini canvas', () => {
   it('renders only the local neighborhood, with links and truncated labels', async () => {
     await renderMini({
       nodes: [
-        { id: '/column/a', text: 'A' },
-        { id: '/column/b', text: 'A very long neighbor title' },
-        { id: '/column/c', text: 'C' },
-        { id: '/column/far', text: 'Far' },
+        { id: '/note/a', text: 'A' },
+        { id: '/note/b', text: 'A very long neighbor title' },
+        { id: '/note/c', text: 'C' },
+        { id: '/note/far', text: 'Far' },
       ],
       links: [
-        { source: '/column/a', target: '/column/b' },
-        { source: { id: '/column/c' }, target: { id: '/column/a' } },
-        { source: '/column/far', target: '/column/c' },
+        { source: '/note/a', target: '/note/b' },
+        { source: { id: '/note/c' }, target: { id: '/note/a' } },
+        { source: '/note/far', target: '/note/c' },
       ],
     });
 
@@ -188,7 +188,7 @@ describe('GraphMini canvas', () => {
   });
 
   it('shows a placeholder node when the page is not in the graph', async () => {
-    await renderMini({ nodes: [], links: [] }, '/column/missing');
+    await renderMini({ nodes: [], links: [] }, '/note/missing');
     expect(context.fillText).toHaveBeenCalledWith(
       'Current',
       expect.any(Number),
@@ -213,7 +213,7 @@ describe('GraphMini canvas', () => {
     expect(mockPush).not.toHaveBeenCalled();
 
     fireEvent.click(canvas, { clientX: 150, clientY: 100 });
-    expect(mockPush).toHaveBeenCalledWith('/column/a');
+    expect(mockPush).toHaveBeenCalledWith('/note/a');
   });
 
   it('shows a pointer cursor only over nodes', async () => {

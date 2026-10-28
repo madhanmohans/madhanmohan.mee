@@ -41,7 +41,7 @@ function jsonRequest(method: string, body: unknown) {
 
 const page = {
   path: 'relu.md',
-  url: '/column/relu',
+  url: '/note/relu',
   data: { title: 'Relu', tags: ['ml'] },
 };
 

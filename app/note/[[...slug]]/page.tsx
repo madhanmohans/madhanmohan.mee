@@ -17,7 +17,7 @@ import { ViewToggle } from '@/components/ViewToggle';
 import { NoteTags } from '@/components/NoteTags';
 import { TagGroups } from '@/components/TagGroups';
 
-export default async function Page(props: PageProps<'/column/[[...slug]]'>) {
+export default async function Page(props: PageProps<'/note/[[...slug]]'>) {
   const params = await props.params;
   const docPage = source.getPage(params.slug);
   if (!docPage) notFound();
@@ -87,7 +87,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  props: PageProps<'/column/[[...slug]]'>,
+  props: PageProps<'/note/[[...slug]]'>,
 ): Promise<Metadata> {
   const params = await props.params;
   const docPage = source.getPage(params.slug);

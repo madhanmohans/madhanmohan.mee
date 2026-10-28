@@ -2,11 +2,12 @@
 
 import { useRouter, usePathname } from 'next/navigation';
 import { Waypoints, Notebook } from 'lucide-react';
+import { NOTES_BASE_URL } from '@/app/constants';
 
 export function ViewToggle() {
   const router = useRouter();
   const graphView = usePathname() === '/graph';
-  const columnView = usePathname() === '/column';
+  const noteView = usePathname() === NOTES_BASE_URL;
 
   return (
     <div
@@ -24,10 +25,10 @@ export function ViewToggle() {
       </button>
       <button
         className="view-toggle-btn"
-        data-active={columnView}
+        data-active={noteView}
         aria-label="Notes view"
-        aria-pressed={columnView}
-        onClick={() => router.push('/column')}
+        aria-pressed={noteView}
+        onClick={() => router.push(NOTES_BASE_URL)}
       >
         <Notebook size={16} />
       </button>

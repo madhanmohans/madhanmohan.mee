@@ -24,7 +24,7 @@ describe('GET /api/graph', () => {
 
   it('returns graph JSON', async () => {
     const graphData = {
-      nodes: [{ id: '/column/test', text: 'Test' }],
+      nodes: [{ id: '/note/test', text: 'Test' }],
       links: [],
     };
     mockBuildGraph.mockResolvedValue(graphData);

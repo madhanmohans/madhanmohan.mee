@@ -134,7 +134,7 @@ describe('SecondBrainPage', () => {
     expect(buttons.length).toBeGreaterThanOrEqual(2);
     const docsBtn = buttons[1] as HTMLButtonElement;
     fireEvent.click(docsBtn);
-    expect(mockPush).toHaveBeenCalledWith('/column');
+    expect(mockPush).toHaveBeenCalledWith('/note');
   });
 
   it('renders Tour with correct steps', async () => {

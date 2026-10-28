@@ -3,7 +3,7 @@ import { DocsLayout } from 'fumadocs-ui/layouts/docs';
 import { baseOptions } from '@/lib/layout.shared';
 import { NewNoteButton } from '@/components/NewNoteButton';
 
-export default function Layout({ children }: LayoutProps<'/column'>) {
+export default function Layout({ children }: LayoutProps<'/note'>) {
   const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 
   return (

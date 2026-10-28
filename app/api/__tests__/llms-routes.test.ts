@@ -10,11 +10,11 @@ describe('GET /llms.txt', () => {
       source: {
         getPages: () => [
           {
-            url: '/column/page-a',
+            url: '/note/page-a',
             data: { title: 'Page A', description: 'Desc A' },
           },
           {
-            url: '/column/page-b',
+            url: '/note/page-b',
             data: { title: 'Page B', description: 'Desc B' },
           },
         ],
@@ -25,8 +25,8 @@ describe('GET /llms.txt', () => {
     const response = await GET();
     const text = await response.text();
 
-    expect(text).toContain('- [Page A](/column/page-a): Desc A');
-    expect(text).toContain('- [Page B](/column/page-b): Desc B');
+    expect(text).toContain('- [Page A](/note/page-a): Desc A');
+    expect(text).toContain('- [Page B](/note/page-b): Desc B');
   });
 
   it('handles empty pages', async () => {
@@ -54,14 +54,14 @@ describe('GET /llms-full.txt', () => {
       source: {
         getPages: () => [
           {
-            url: '/column/a',
+            url: '/note/a',
             data: {
               getText: () => Promise.resolve('processed A'),
               title: 'Page A',
             },
           },
           {
-            url: '/column/b',
+            url: '/note/b',
             data: {
               getText: () => Promise.resolve('processed B'),
               title: 'Page B',

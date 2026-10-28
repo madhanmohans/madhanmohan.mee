@@ -54,7 +54,7 @@ describe('POST /api/notes', () => {
     expect(response.status).toBe(201);
     expect(await response.json()).toEqual({
       slug: 'ideas-flowing-big',
-      url: '/column/ideas-flowing-big',
+      url: '/note/ideas-flowing-big',
     });
     expect(mockWriteFile).toHaveBeenCalledWith(
       '/root/content/docs/ideas-flowing-big.md',

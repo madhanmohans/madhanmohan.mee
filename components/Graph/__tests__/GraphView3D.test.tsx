@@ -42,9 +42,9 @@ const lastProps = () => graphProps[graphProps.length - 1];
 
 const graph = {
   nodes: [
-    { id: 'a', text: 'A', url: '/column/a', content: 'some **content**' },
-    { id: 'b', text: 'B', url: '/column/b', description: 'desc' },
-    { id: 'c', text: 'C', url: '/column/c' },
+    { id: 'a', text: 'A', url: '/note/a', content: 'some **content**' },
+    { id: 'b', text: 'B', url: '/note/b', description: 'desc' },
+    { id: 'c', text: 'C', url: '/note/c' },
   ],
   links: [{ source: 'a', target: 'b' }],
 };
@@ -129,8 +129,8 @@ describe('GraphView3D', () => {
 
     it('navigates to the node url on click', async () => {
       await renderGraph({ foregroundGraph: graph });
-      lastProps().onNodeClick({ url: '/column/b' });
-      expect(mockPush).toHaveBeenCalledWith('/column/b');
+      lastProps().onNodeClick({ url: '/note/b' });
+      expect(mockPush).toHaveBeenCalledWith('/note/b');
     });
 
     it('shows a tooltip on hover using 3D screen coordinates', async () => {

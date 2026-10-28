@@ -43,7 +43,7 @@ describe('GET /api/search', () => {
         hits: [
           {
             id: 'hit1',
-            document: { url: '/column/test', title: 'Test' },
+            document: { url: '/note/test', title: 'Test' },
           },
         ],
       }),
@@ -51,7 +51,7 @@ describe('GET /api/search', () => {
 
     mockGetPages.mockReturnValue([
       {
-        url: '/column/test',
+        url: '/note/test',
         data: { title: 'Test', description: 'A test', toc: [] },
       },
     ]);
@@ -63,7 +63,7 @@ describe('GET /api/search', () => {
 
     expect(body).toHaveLength(1);
     expect(body[0]).toMatchObject({
-      url: '/column/test',
+      url: '/note/test',
       type: 'page',
     });
   });
@@ -87,7 +87,7 @@ describe('GET /api/search', () => {
 
     mockGetPages.mockReturnValue([
       {
-        url: '/column/test',
+        url: '/note/test',
         data: {
           title: 'Test',
           description: 'Desc',
@@ -131,7 +131,7 @@ describe('GET /api/search', () => {
 
     mockGetPages.mockReturnValue([
       {
-        url: '/column/a',
+        url: '/note/a',
         data: {
           toc: [
             {
@@ -148,10 +148,10 @@ describe('GET /api/search', () => {
         },
       },
       {
-        url: '/column/a',
+        url: '/note/a',
         data: { title: 'Duplicate', toc: [{ url: '#nested', title: 'dup' }] },
       },
-      { url: '/column/b', data: { title: 'B' } },
+      { url: '/note/b', data: { title: 'B' } },
     ]);
 
     const { GET } = await import('@/app/api/search/route');
@@ -160,33 +160,33 @@ describe('GET /api/search', () => {
     // the anchor-less heading resolves to the page url and the repeated page is skipped
     const inserted = mockInsert.mock.calls.map((call) => call[1]);
     expect(inserted).toEqual([
-      { id: '/column/a', title: 'Untitled', content: '', url: '/column/a' },
+      { id: '/note/a', title: 'Untitled', content: '', url: '/note/a' },
       {
-        id: '/column/a#nested',
+        id: '/note/a#nested',
         title: 'Intro to X',
         content: '',
-        url: '/column/a#nested',
+        url: '/note/a#nested',
       },
       {
-        id: '/column/a#empty',
+        id: '/note/a#empty',
         title: 'Heading',
         content: '',
-        url: '/column/a#empty',
+        url: '/note/a#empty',
       },
       {
-        id: '/column/a#number',
+        id: '/note/a#number',
         title: 'Heading',
         content: '',
-        url: '/column/a#number',
+        url: '/note/a#number',
       },
-      { id: '/column/b', title: 'B', content: '', url: '/column/b' },
+      { id: '/note/b', title: 'B', content: '', url: '/note/b' },
     ]);
   });
 
   it('labels heading hits and defaults to an empty query', async () => {
     const mockSearch = vi.fn().mockResolvedValue({
       hits: [
-        { id: '/column/a#h', document: { url: '/column/a#h', title: 'H' } },
+        { id: '/note/a#h', document: { url: '/note/a#h', title: 'H' } },
       ],
     });
     vi.doMock('@orama/orama', () => ({
@@ -201,7 +201,7 @@ describe('GET /api/search', () => {
 
     expect(mockSearch).toHaveBeenCalledWith({}, { term: '', limit: 10 });
     expect(await response.json()).toEqual([
-      { id: '/column/a#h', url: '/column/a#h', type: 'heading', content: 'H' },
+      { id: '/note/a#h', url: '/note/a#h', type: 'heading', content: 'H' },
     ]);
   });
 

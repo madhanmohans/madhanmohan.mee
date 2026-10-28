@@ -59,13 +59,13 @@ describe('LLMCopyButton copy behavior', () => {
 
   it('fetches the markdown on first copy and reuses the cache afterwards', async () => {
     const { LLMCopyButton } = await import('@/components/PageActions');
-    render(<LLMCopyButton markdownUrl="/column/cached.mdx" />);
+    render(<LLMCopyButton markdownUrl="/note/cached.mdx" />);
     const button = screen.getByRole('button');
 
     fireEvent.click(button);
     await vi.waitFor(() => expect(clipboard.write).toHaveBeenCalled());
     await vi.waitFor(() => expect(button).not.toBeDisabled());
-    expect(fetchMock).toHaveBeenCalledWith('/column/cached.mdx');
+    expect(fetchMock).toHaveBeenCalledWith('/note/cached.mdx');
 
     fireEvent.click(button);
     await vi.waitFor(() =>
@@ -77,7 +77,7 @@ describe('LLMCopyButton copy behavior', () => {
   it('re-enables the button when writing to the clipboard fails', async () => {
     clipboard.write.mockRejectedValueOnce(new Error('denied'));
     const { LLMCopyButton } = await import('@/components/PageActions');
-    render(<LLMCopyButton markdownUrl="/column/failing.mdx" />);
+    render(<LLMCopyButton markdownUrl="/note/failing.mdx" />);
     const button = screen.getByRole('button');
 
     fireEvent.click(button);
@@ -96,9 +96,9 @@ describe('LLMCopyButton copy behavior', () => {
 describe('ViewOptions links', () => {
   it('builds prompts with the absolute markdown url', async () => {
     const { ViewOptions } = await import('@/components/PageActions');
-    render(<ViewOptions markdownUrl="/column/test.mdx" />);
+    render(<ViewOptions markdownUrl="/note/test.mdx" />);
 
-    const expectedPrompt = `Read ${window.location.origin}/column/test.mdx, I want to ask questions about it.`;
+    const expectedPrompt = `Read ${window.location.origin}/note/test.mdx, I want to ask questions about it.`;
     await vi.waitFor(() => {
       const claudeLink = screen.getByText('Open in Claude').closest('a')!;
       expect(new URL(claudeLink.href).searchParams.get('q')).toBe(

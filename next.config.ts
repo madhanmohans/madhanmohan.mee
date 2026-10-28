@@ -1,9 +1,10 @@
+import type { NextConfig } from 'next';
 import { createMDX } from 'fumadocs-mdx/next';
+import { NOTES_BASE_URL } from './app/constants';
 
 const withMDX = createMDX();
 
-/** @type {import('next').NextConfig} */
-const config = {
+const config: NextConfig = {
   turbopack: {
     root: import.meta.dirname,
   },
@@ -39,7 +40,7 @@ const config = {
   async rewrites() {
     return [
       {
-        source: '/column/:path*.mdx',
+        source: `${NOTES_BASE_URL}/:path*.mdx`,
         destination: '/llms.mdx/docs/:path*',
       },
     ];

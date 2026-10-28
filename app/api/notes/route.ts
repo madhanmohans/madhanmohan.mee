@@ -1,5 +1,6 @@
 import { isAllowedDevRequest } from '@/lib/devRequest';
 import { slugify } from '@/lib/slugify';
+import { NOTES_BASE_URL } from '@/app/constants';
 import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
@@ -41,5 +42,5 @@ export async function POST(request: Request) {
     throw error;
   }
 
-  return Response.json({ slug, url: `/column/${slug}` }, { status: 201 });
+  return Response.json({ slug, url: `${NOTES_BASE_URL}/${slug}` }, { status: 201 });
 }

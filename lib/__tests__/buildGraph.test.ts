@@ -32,7 +32,7 @@ describe('buildGraph', () => {
   it('builds a graph from pages with wikilinks', async () => {
     mockGetPages.mockReturnValue([
       {
-        url: '/column/page-a',
+        url: '/note/page-a',
         slugs: ['page-a'],
         path: 'page-a.md',
         data: {
@@ -42,7 +42,7 @@ describe('buildGraph', () => {
         },
       },
       {
-        url: '/column/page-b',
+        url: '/note/page-b',
         slugs: ['page-b'],
         path: 'page-b.md',
         data: {
@@ -60,14 +60,14 @@ describe('buildGraph', () => {
 
     expect(graph.nodes).toHaveLength(2);
     expect(graph.links).toHaveLength(1);
-    expect(graph.links[0].source).toBe('/column/page-a');
-    expect(graph.links[0].target).toBe('/column/page-b');
+    expect(graph.links[0].source).toBe('/note/page-a');
+    expect(graph.links[0].target).toBe('/note/page-b');
   });
 
   it('handles pages without wikilinks', async () => {
     mockGetPages.mockReturnValue([
       {
-        url: '/column/solo',
+        url: '/note/solo',
         slugs: ['solo'],
         path: 'solo.md',
         data: { title: 'Solo', description: 'Just one' },
@@ -86,7 +86,7 @@ describe('buildGraph', () => {
   it('handles unresolvable wikilinks gracefully', async () => {
     mockGetPages.mockReturnValue([
       {
-        url: '/column/source',
+        url: '/note/source',
         slugs: ['source'],
         path: 'source.md',
         data: {
@@ -109,7 +109,7 @@ describe('buildGraph', () => {
   it('uses description as fallback when file read fails', async () => {
     mockGetPages.mockReturnValue([
       {
-        url: '/column/error',
+        url: '/note/error',
         slugs: ['error'],
         path: 'nonexistent.md',
         data: {
@@ -131,7 +131,7 @@ describe('buildGraph', () => {
   it('resolves relative and extension-suffixed references', async () => {
     mockGetPages.mockReturnValue([
       {
-        url: '/column/source',
+        url: '/note/source',
         slugs: ['source'],
         path: 'source.md',
         data: {
@@ -144,13 +144,13 @@ describe('buildGraph', () => {
         },
       },
       {
-        url: '/column/target',
+        url: '/note/target',
         slugs: ['target'],
         path: 'target.md',
         data: { title: 'T' },
       },
       {
-        url: '/column/nested/deep',
+        url: '/note/nested/deep',
         slugs: ['nested', 'deep'],
         path: 'nested/deep.md',
         data: { title: 'D' },
@@ -162,21 +162,21 @@ describe('buildGraph', () => {
     const graph = await buildGraph();
 
     expect(graph.links.map((link) => link.target)).toEqual([
-      '/column/target',
-      '/column/nested/deep',
-      '/column/nested/deep',
+      '/note/target',
+      '/note/nested/deep',
+      '/note/nested/deep',
     ]);
   });
 
   it('falls back to the slug for missing titles and to empty content', async () => {
     mockGetPages.mockReturnValue([
       {
-        url: '/column/untitled',
+        url: '/note/untitled',
         slugs: ['untitled'],
         path: 'untitled.md',
         data: {},
       },
-      { url: '/column', slugs: [], path: 'index.md', data: {} },
+      { url: '/note', slugs: [], path: 'index.md', data: {} },
     ]);
     mockReadFile.mockRejectedValue(new Error('ENOENT'));
 
@@ -190,7 +190,7 @@ describe('buildGraph', () => {
   it('truncates hover previews', async () => {
     mockGetPages.mockReturnValue([
       {
-        url: '/column/long',
+        url: '/note/long',
         slugs: ['long'],
         path: 'long.md',
         data: { title: 'L' },

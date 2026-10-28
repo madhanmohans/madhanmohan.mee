@@ -2,10 +2,11 @@ import { docs } from 'fumadocs-mdx:collections/server';
 import { type InferPageType, loader } from 'fumadocs-core/source';
 import { lucideIconsPlugin } from 'fumadocs-core/source/lucide-icons';
 import { groupNotesByTag, type TagGroup } from '@/lib/tags';
+import { NOTES_BASE_URL } from '@/app/constants';
 
 // See https://fumadocs.dev/docs/headless/source-api for more info
 export const source = loader({
-  baseUrl: '/column',
+  baseUrl: NOTES_BASE_URL,
   source: docs.toFumadocsSource(),
   plugins: [lucideIconsPlugin()],
 });

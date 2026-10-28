@@ -6,17 +6,17 @@ const groups = [
   {
     tag: 'ml',
     notes: [
-      { url: '/column/adam', title: 'Adam' },
-      { url: '/column/relu', title: 'Relu' },
+      { url: '/note/adam', title: 'Adam' },
+      { url: '/note/relu', title: 'Relu' },
     ],
   },
-  { tag: 'react', notes: [{ url: '/column/hooks', title: 'Hooks' }] },
+  { tag: 'react', notes: [{ url: '/note/hooks', title: 'Hooks' }] },
 ];
 
 describe('TagGroups', () => {
   it('renders nothing when there are no tags', () => {
     const { container } = render(
-      <TagGroups groups={[]} currentTags={[]} currentUrl="/column/x" />,
+      <TagGroups groups={[]} currentTags={[]} currentUrl="/note/x" />,
     );
     expect(container).toBeEmptyDOMElement();
   });
@@ -26,7 +26,7 @@ describe('TagGroups', () => {
       <TagGroups
         groups={groups}
         currentTags={['react']}
-        currentUrl="/column/hooks"
+        currentUrl="/note/hooks"
       />,
     );
 
@@ -39,7 +39,7 @@ describe('TagGroups', () => {
 
   it('expands a group to show its notes', () => {
     render(
-      <TagGroups groups={groups} currentTags={[]} currentUrl="/column/relu" />,
+      <TagGroups groups={groups} currentTags={[]} currentUrl="/note/relu" />,
     );
 
     expect(screen.queryByText('Adam')).not.toBeInTheDocument();
@@ -47,7 +47,7 @@ describe('TagGroups', () => {
 
     expect(screen.getByRole('link', { name: 'Adam' })).toHaveAttribute(
       'href',
-      '/column/adam',
+      '/note/adam',
     );
     expect(screen.getByRole('link', { name: 'Relu' })).toHaveAttribute(
       'data-current',

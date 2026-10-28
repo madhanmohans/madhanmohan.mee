@@ -1,3 +1,4 @@
+import { NOTES_BASE_URL } from '@/app/constants';
 import { isAllowedDevRequest, resolveInside } from '@/lib/devRequest';
 import { source } from '@/lib/source';
 import {
@@ -54,7 +55,7 @@ export async function PUT(request: Request) {
     setFrontmatterTags(content, frontmatterTags),
     'utf-8',
   );
-  revalidatePath('/column', 'layout');
+  revalidatePath(NOTES_BASE_URL, 'layout');
 
   return Response.json({ tags: normalizedTags });
 }

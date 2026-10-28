@@ -23,7 +23,7 @@ describe('Docs Layout', () => {
   });
 
   it('renders children inside DocsLayout', async () => {
-    const { default: Layout } = await import('@/app/column/layout');
+    const { default: Layout } = await import('@/app/note/layout');
     const { container } = render(
       React.createElement(Layout, {
         params: Promise.resolve({}),
