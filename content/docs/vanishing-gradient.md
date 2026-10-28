@@ -1,3 +1,8 @@
+---
+tags:
+  - ml
+---
+
 # vanishing-gradient
 
 Gradient values become too small during backpropagation → network stops learning

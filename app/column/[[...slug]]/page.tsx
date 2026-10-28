@@ -1,4 +1,4 @@
-import { getPageImage, source } from '@/lib/source';
+import { getPageImage, getTagGroups, source } from '@/lib/source';
 import {
   DocsBody,
   DocsDescription,
@@ -14,6 +14,8 @@ import { NoteEditor } from '@/components/NoteEditor';
 import { DocsTour } from '@/components/DocsTour';
 import { GraphMini } from '@/components/Graph/GraphMini';
 import { ViewToggle } from '@/components/ViewToggle';
+import { NoteTags } from '@/components/NoteTags';
+import { TagGroups } from '@/components/TagGroups';
 
 export default async function Page(props: PageProps<'/column/[[...slug]]'>) {
   const params = await props.params;
@@ -44,6 +46,11 @@ export default async function Page(props: PageProps<'/column/[[...slug]]'>) {
             <div data-tour="graph-mini">
               <GraphMini pageUrl={docPage.url} />
             </div>
+            <TagGroups
+              groups={getTagGroups()}
+              currentTags={docPage.data.tags}
+              currentUrl={docPage.url}
+            />
           </>
         ),
       }}
@@ -52,6 +59,11 @@ export default async function Page(props: PageProps<'/column/[[...slug]]'>) {
       <DocsDescription className="mb-0">
         {docPage.data.description}
       </DocsDescription>
+      <NoteTags
+        slug={params.slug ?? []}
+        tags={docPage.data.tags}
+        editable={IS_DEVELOPMENT}
+      />
       <div
         data-tour="llm-actions"
         className="flex flex-row gap-2 items-center border-b pb-6"

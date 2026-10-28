@@ -14,6 +14,7 @@ const testPage = {
     description: 'A test description',
     toc: [],
     full: false,
+    tags: ['ml'],
     body: () => React.createElement('p', null, 'Body content'),
   },
 };
@@ -24,6 +25,9 @@ vi.mock('@/lib/source', () => ({
     generateParams: () => [{ slug: ['test'] }],
   },
   getPageImage: () => ({ url: '/og/column/test/image.png' }),
+  getTagGroups: () => [
+    { tag: 'ml', notes: [{ url: '/column/test', title: 'Test Page' }] },
+  ],
 }));
 
 vi.mock('next/navigation', () => ({ notFound: mockNotFound }));
@@ -64,6 +68,22 @@ vi.mock('@/components/NoteEditor', () => ({
     ),
 }));
 
+vi.mock('@/components/NoteTags', () => ({
+  NoteTags: ({ tags, editable }: any) =>
+    React.createElement(
+      'div',
+      { 'data-testid': 'note-tags', 'data-editable': String(editable) },
+      tags.join(','),
+    ),
+}));
+vi.mock('@/components/TagGroups', () => ({
+  TagGroups: ({ groups, currentTags }: any) =>
+    React.createElement(
+      'div',
+      { 'data-testid': 'tag-groups', 'data-current': currentTags.join(',') },
+      groups.map((g: any) => g.tag).join(','),
+    ),
+}));
 vi.mock('@/components/DocsTour', () => ({ DocsTour: () => null }));
 vi.mock('@/components/ViewToggle', () => ({ ViewToggle: () => null }));
 vi.mock('@/components/Graph/GraphMini', () => ({
@@ -94,6 +114,15 @@ describe('Column page', () => {
     expect(screen.getByTestId('view')).toHaveTextContent('/column/test.mdx');
     expect(screen.getByTestId('graph-mini')).toHaveTextContent('/column/test');
     expect(screen.queryByTestId('note-editor')).not.toBeInTheDocument();
+    expect(screen.getByTestId('note-tags')).toHaveTextContent('ml');
+    expect(screen.getByTestId('note-tags')).toHaveAttribute(
+      'data-editable',
+      'false',
+    );
+    expect(screen.getByTestId('tag-groups')).toHaveAttribute(
+      'data-current',
+      'ml',
+    );
   });
 
   it('wraps the body in the note editor during development', async () => {

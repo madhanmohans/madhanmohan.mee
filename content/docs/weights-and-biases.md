@@ -1,3 +1,8 @@
+---
+tags:
+  - ml
+---
+
 # weights-and-biases
 
 Platform for [[ml-pipeline]] experiment tracking and model management

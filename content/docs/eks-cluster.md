@@ -1,8 +1,8 @@
 ---
 Created Time: 2024-11-16T12:47:00
 tags:
-  - technology
-  - notes
+  - aws
+  - cloud
 ---
 
 Amazon Elastic Kubernetes Service - Service to use preinstalled Kubernetes Control Panel.

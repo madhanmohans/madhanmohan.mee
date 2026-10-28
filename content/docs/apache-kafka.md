@@ -1,11 +1,10 @@
 ---
 Created Time: 2021-09-11T12:52
 tags:
-  - '#technology'
-  - '#work'
+  - distributed-systems
 ---
 
-## ==\*Apache Kafka ==
+## ==Apache Kafka==
 
 ### My initial understanding
 
@@ -14,6 +13,6 @@ tags:
 
 ---
 
-## ==\*References ==
+## ==References==
 
 https://www.svix.com/resources/faq/kafka-vs-pubsub/

@@ -1,7 +1,6 @@
 ---
 tags:
-  - '#technology'
-  - '#typescript'
+  - typescript
 Parent: '[[Typescript]]'
 Created Time: 2024-10-22T21:43:00
 Last Edited Time: 2024-10-22T21:43:00

@@ -1,6 +1,7 @@
 ---
 tags:
-  - GenAI
+  - genai
+  - resources
 ---
 
 [https://www.youtube.com/watch?v=WoNZUlRu168](https://www.youtube.com/watch?v=WoNZUlRu168)

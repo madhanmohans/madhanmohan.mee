@@ -328,6 +328,170 @@ table {
     0 1px 3px rgba(17, 24, 39, 0.04) !important;
 }
 
+/* --- Note tags (chips under the title) --- */
+.note-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 12px;
+  line-height: 1;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: var(--color-fd-secondary);
+  color: var(--color-fd-foreground);
+  border: 1px solid transparent;
+}
+
+.note-tag[data-variant='suggested'] {
+  background: transparent;
+  border: 1px dashed var(--color-fd-border);
+  color: var(--color-fd-muted-foreground);
+  transition:
+    color 0.2s var(--ease-out-cubic),
+    border-color 0.2s var(--ease-out-cubic);
+}
+
+.note-tag[data-variant='suggested']:hover {
+  color: var(--color-fd-foreground);
+  border-color: var(--color-fd-ring);
+}
+
+.note-tag-remove {
+  margin-left: 2px;
+  color: var(--color-fd-muted-foreground);
+  border-radius: 999px;
+}
+
+.note-tag-remove:hover {
+  color: var(--color-fd-foreground);
+}
+
+.note-tag-input {
+  width: 72px;
+  font-size: 12px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  border: 1px dashed var(--color-fd-border);
+  background: transparent;
+  outline: none;
+}
+
+.note-tag-input:focus {
+  width: 120px;
+  border-style: solid;
+  border-color: var(--color-fd-ring);
+}
+
+/* --- Tag groups (right sidebar) --- */
+.tag-groups {
+  margin-top: var(--space-4);
+  border: 1px solid var(--color-fd-border);
+  border-radius: 12px;
+  padding: var(--space-2) 0;
+}
+
+.tag-groups-heading {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-fd-muted-foreground);
+  padding: var(--space-2) var(--space-3);
+}
+
+/* Rows fade out toward the bottom, like a list trailing off */
+.tag-groups-list {
+  max-height: 40vh;
+  overflow-y: auto;
+  padding-bottom: var(--space-4);
+  mask-image: linear-gradient(to bottom, #000 75%, transparent);
+}
+
+.tag-group-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: 7px var(--space-3);
+  font-size: 13px;
+  text-align: left;
+  color: var(--color-fd-muted-foreground);
+  transition:
+    color 0.2s var(--ease-out-cubic),
+    background 0.2s var(--ease-out-cubic);
+}
+
+.tag-group-row:hover {
+  color: var(--color-fd-foreground);
+  background: var(--color-fd-accent);
+}
+
+.tag-group-row[data-active='true'] {
+  color: var(--color-fd-foreground);
+}
+
+.tag-group-row[data-active='true']::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--color-fd-ring);
+}
+
+.tag-group-count {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: var(--color-fd-secondary);
+}
+
+.tag-group-row[data-active='true'] .tag-group-count {
+  background: var(--color-fd-ring);
+  color: var(--color-fd-background);
+}
+
+.tag-group-chevron {
+  margin-left: auto;
+  opacity: 0;
+  transition:
+    transform 0.2s var(--ease-out-cubic),
+    opacity 0.2s var(--ease-out-cubic);
+}
+
+.tag-group-row:hover .tag-group-chevron,
+.tag-group-chevron[data-expanded='true'] {
+  opacity: 1;
+}
+
+.tag-group-chevron[data-expanded='true'] {
+  transform: rotate(90deg);
+}
+
+.tag-group-notes {
+  overflow: hidden;
+  margin-left: calc(var(--space-3) + 7px);
+  border-left: 1px solid var(--color-fd-border);
+}
+
+.tag-group-note {
+  display: block;
+  font-size: 12px;
+  padding: 4px var(--space-3);
+  color: var(--color-fd-muted-foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tag-group-note:hover,
+.tag-group-note[data-current='true'] {
+  color: var(--color-fd-foreground);
+}
+
 /* --- Radical negative space: generous content padding --- */
 .fd-page {
   max-width: 720px;
@@ -367,6 +531,16 @@ article,
 [class*='bg-fd-'] {
   background: transparent !important;
   backdrop-filter: none !important;
+}
+
+/* Floating layers (⌘K search, popovers) must stay opaque over the page */
+.bg-fd-popover[class] {
+  background: var(--color-fd-popover) !important;
+}
+
+.bg-fd-overlay[class] {
+  background: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(4px) !important;
 }
 
 /* --- Page Tour --- */

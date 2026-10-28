@@ -1,3 +1,8 @@
+---
+tags:
+  - clean-code
+---
+
 1. There is duplication
 2. It has long method code smell
 3. There is no encapsulation because of the exposed state

@@ -1,5 +1,7 @@
 ---
 Created: 2021-08-17T16:45
+tags:
+  - resources
 ---
 
 ### WebDev

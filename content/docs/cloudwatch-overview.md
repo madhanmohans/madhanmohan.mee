@@ -1,7 +1,6 @@
 ---
 tags:
-  - technology
-  - notes
+  - monitoring
 Created Time: 2024-10-17T15:52:00
 Last Edited Time: 2024-10-17T15:52:00
 Parent 2: '[[Technology]]'

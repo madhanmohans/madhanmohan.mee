@@ -1,7 +1,6 @@
 ---
 tags:
-  - connext
-  - ideation
+  - project-ideas
 ---
 
 ## Characters

@@ -1,3 +1,8 @@
+---
+tags:
+  - project-ideas
+---
+
 ### **Codebase Optimization Tasks**
 
 **Automated Detection**:
