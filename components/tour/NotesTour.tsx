@@ -30,6 +30,13 @@ const NOTES_TOUR_STEPS: TourStep[] = [
     placement: 'bottom',
   },
   {
+    id: 'view-toggle',
+    title: 'views',
+    body: 'switch between notes and the full graph. your choice is remembered next time.',
+    selector: '[data-tour="view-toggle"]',
+    placement: 'bottom',
+  },
+  {
     id: 'graph-mini',
     title: 'local graph',
     body: 'a minimap of how this note connects to others in the second brain.',

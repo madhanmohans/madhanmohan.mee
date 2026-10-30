@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import type { LucideIcon } from 'lucide-react';
 import { BrainCircuit, Box, Notebook, Square, Waypoints } from 'lucide-react';
-import { NOTES_BASE_URL } from '@/app/constants';
+import { VIEW_PATHS, setPreferredView } from './viewPreference';
 
 export const GRAPH_DIMENSIONS = ['2d', '3d'] as const;
 export type GraphDimension = (typeof GRAPH_DIMENSIONS)[number];
@@ -62,7 +62,7 @@ function IslandButton({
 }
 
 // Floating bottom-center bar for the graph page: dimension switch on the
-// left, home in the raised center button, graph/notes views on the right
+// left, home in the raised center button, notes/graph views on the right
 export function GraphIsland({
   dimension,
   onDimensionChange,
@@ -100,16 +100,19 @@ export function GraphIsland({
 
         <div className="graph-island-group" data-tour="view-toggle">
           <IslandButton
-            icon={Waypoints}
-            label="graph"
-            active={pathname === '/graph'}
-            onClick={() => router.push('/graph')}
-          />
-          <IslandButton
             icon={Notebook}
             label="notes"
-            active={pathname === NOTES_BASE_URL}
-            onClick={() => router.push(NOTES_BASE_URL)}
+            active={pathname === VIEW_PATHS.notes}
+            onClick={() => {
+              setPreferredView('notes');
+              router.push(VIEW_PATHS.notes);
+            }}
+          />
+          <IslandButton
+            icon={Waypoints}
+            label="graph"
+            active={pathname === VIEW_PATHS.graph}
+            onClick={() => setPreferredView('graph')}
           />
         </div>
       </div>

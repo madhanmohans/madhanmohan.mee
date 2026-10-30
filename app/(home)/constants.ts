@@ -18,7 +18,7 @@ export const welcomePageTourStep: TourStep = {
 export const secondBrainPageTourStep: TourStep = {
   id: 'second-brain',
   title: 'second brain',
-  body: 'an interactive knowledge graph. nodes are notes, edges are the connections between them.',
+  body: 'notes and ideas in long form. switch to the graph view anytime to see how they connect.',
   selector: '[data-tour="second-brain"]',
   placement: 'bottom',
 };

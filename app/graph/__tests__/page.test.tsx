@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, within } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import React from 'react';
 
@@ -137,9 +137,9 @@ describe('SecondBrainPage', () => {
 
     const viewToggle = document.querySelector('[data-tour="view-toggle"]');
     expect(viewToggle).not.toBeNull();
-    const buttons = viewToggle!.querySelectorAll('button');
-    expect(buttons.length).toBeGreaterThanOrEqual(2);
-    const docsBtn = buttons[1] as HTMLButtonElement;
+    const docsBtn = within(viewToggle as HTMLElement).getByRole('button', {
+      name: 'notes',
+    });
     fireEvent.click(docsBtn);
     expect(mockPush).toHaveBeenCalledWith('/note');
   });

@@ -6,6 +6,11 @@ import { GraphView } from '@/components/graph/GraphView';
 import { SECOND_BRAIN_GRAPH_TRANSITION } from '@/components/graph/constants';
 import { Tour } from '@/components/tour/Tour';
 import {
+  DEFAULT_VIEW,
+  VIEW_PATHS,
+  getPreferredView,
+} from '@/components/layout/viewPreference';
+import {
   welcomePageTourStep,
   secondBrainPageTourStep,
   aboutPageTourStep,
@@ -13,6 +18,12 @@ import {
 
 export default function HomePage() {
   const [hoveredNavLink, setHoveredNavLink] = useState<string | null>(null);
+  // Notes are the default way in; the graph only if the visitor picked it
+  const [secondBrainView, setSecondBrainView] = useState(DEFAULT_VIEW);
+
+  useEffect(() => {
+    setSecondBrainView(getPreferredView());
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -44,7 +55,7 @@ export default function HomePage() {
       <div className="relative z-10 flex flex-col items-center gap-6 text-center">
         <nav className="flex gap-4" style={{ fontSize: '14px' }}>
           <Link
-            href="/graph"
+            href={VIEW_PATHS[secondBrainView]}
             data-tour="second-brain"
             className="text-fd-muted-foreground hover:text-fd-foreground transition-colors duration-150"
             onMouseEnter={() => setHoveredNavLink('second-brain')}

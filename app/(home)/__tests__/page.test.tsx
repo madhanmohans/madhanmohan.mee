@@ -33,7 +33,23 @@ vi.mock('@/components/tour/Tour', () => ({
 describe('HomePage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    localStorage.clear();
     document.body.style.overflow = '';
+  });
+
+  it('links second brain to the notes view by default', async () => {
+    const { default: HomePage } = await import('@/app/(home)/page');
+    render(React.createElement(HomePage));
+
+    expect(screen.getByText('second brain')).toHaveAttribute('href', '/note');
+  });
+
+  it('links second brain to the graph when the visitor chose it', async () => {
+    localStorage.setItem('second-brain-view', 'graph');
+    const { default: HomePage } = await import('@/app/(home)/page');
+    render(React.createElement(HomePage));
+
+    expect(screen.getByText('second brain')).toHaveAttribute('href', '/graph');
   });
 
   it('renders navigation links', async () => {
