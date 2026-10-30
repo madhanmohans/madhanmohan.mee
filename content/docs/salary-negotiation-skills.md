@@ -1,0 +1,5 @@
+- let the hr quote their budget
+- ask for the salary splitup
+- negotiate onetime bonuses into the inhand salary
+- understand that the esops is for you to stay there for few years
+- prioritise learn, earn and upturn
