@@ -3,9 +3,9 @@
 Personal notes site built with Next.js and [Fumadocs](https://fumadocs.dev).
 
 ```bash
-npm run dev       # http://localhost:3000
-npm test          # vitest
-npm run format    # prettier
+pnpm dev         # http://localhost:3000
+pnpm test        # vitest
+pnpm format      # prettier
 ```
 
 ## Layout

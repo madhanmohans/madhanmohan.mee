@@ -2,6 +2,7 @@
   "name": "notes",
   "version": "0.0.0",
   "private": true,
+  "packageManager": "pnpm@10.34.9",
   "scripts": {
     "build": "next build",
     "dev": "next dev",
@@ -13,7 +14,8 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "postinstall": "fumadocs-mdx",
-    "analyze": "ANALYZE=true next build --webpack"
+    "analyze": "ANALYZE=true next build --webpack",
+    "packageManager": "pnpm@10.34.9"
   },
   "dependencies": {
     "@fumadocs/mdx-remote": "^1.4.10",
