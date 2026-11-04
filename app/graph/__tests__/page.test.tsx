@@ -139,9 +139,10 @@ describe('SecondBrainPage', () => {
     expect(viewToggle).not.toBeNull();
     const buttons = viewToggle!.querySelectorAll('button');
     expect(buttons.length).toBeGreaterThanOrEqual(2);
-    const docsBtn = buttons[1] as HTMLButtonElement;
+    const docsBtn = buttons[0] as HTMLButtonElement;
     fireEvent.click(docsBtn);
     expect(mockPush).toHaveBeenCalledWith('/note');
+    expect(window.localStorage.getItem('view-preference')).toBe('notes');
   });
 
   it('renders Tour with correct steps', async () => {

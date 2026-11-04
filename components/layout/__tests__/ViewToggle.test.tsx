@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import React from 'react';
 
 const mockPush = vi.fn();
-let pathname = '/graph';
+let pathname = '/note';
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: mockPush }),
@@ -13,11 +13,12 @@ vi.mock('next/navigation', () => ({
 describe('ViewToggle', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    window.localStorage.clear();
   });
 
   it.each([
-    ['/graph', ['true', 'false']],
-    ['/note', ['false', 'true']],
+    ['/note', ['true', 'false']],
+    ['/graph', ['false', 'true']],
     ['/elsewhere', ['false', 'false']],
   ])('marks the active view on %s', async (path, expected) => {
     pathname = path;
@@ -29,14 +30,23 @@ describe('ViewToggle', () => {
     expect(states).toEqual(expected);
   });
 
-  it('navigates to the graph and note views', async () => {
+  it('shows a text label next to each icon', async () => {
     const { ViewToggle } = await import('@/components/layout/ViewToggle');
     render(<ViewToggle />);
-    const [graphButton, noteButton] = screen.getAllByRole('button');
+    expect(screen.getByRole('button', { name: 'notes' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'graph' })).toBeInTheDocument();
+  });
 
-    fireEvent.click(graphButton);
+  it('navigates to the note and graph views and remembers the choice', async () => {
+    const { ViewToggle } = await import('@/components/layout/ViewToggle');
+    render(<ViewToggle />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'graph' }));
     expect(mockPush).toHaveBeenCalledWith('/graph');
-    fireEvent.click(noteButton);
+    expect(window.localStorage.getItem('view-preference')).toBe('graph');
+
+    fireEvent.click(screen.getByRole('button', { name: 'notes' }));
     expect(mockPush).toHaveBeenCalledWith('/note');
+    expect(window.localStorage.getItem('view-preference')).toBe('notes');
   });
 });

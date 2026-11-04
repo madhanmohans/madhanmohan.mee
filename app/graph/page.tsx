@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, ViewTransition } from 'react';
+import { useEffect, useState, ViewTransition } from 'react';
 import { GraphView } from '@/components/graph/GraphView';
 import { GraphFramePlaceholder } from '@/components/graph/GraphFrame';
 import { SECOND_BRAIN_GRAPH_TRANSITION } from '@/components/graph/constants';
@@ -10,10 +10,14 @@ import {
   GraphIsland,
   type GraphDimension,
 } from '@/components/layout/GraphIsland';
+import { setViewPreference } from '@/lib/viewPreference';
 
 export default function SecondBrainPage() {
   const graphData = useGraphData();
   const [activeDimension, setActiveDimension] = useState<GraphDimension>('2d');
+
+  // Landing here directly (e.g. a shared link) counts as choosing the graph
+  useEffect(() => setViewPreference('graph'), []);
 
   return (
     <div className="min-h-dvh flex flex-col">
@@ -59,7 +63,7 @@ export default function SecondBrainPage() {
           {
             id: 'view-toggle',
             title: 'views',
-            body: 'switch between graph view and docs view — two ways to navigate the same knowledge.',
+            body: 'switch between notes view and graph view — two ways to navigate the same knowledge.',
             selector: '[data-tour="view-toggle"]',
             placement: 'top',
           },
