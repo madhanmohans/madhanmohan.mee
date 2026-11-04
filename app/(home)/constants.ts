@@ -22,3 +22,29 @@ export const secondBrainPageTourStep: TourStep = {
   selector: '[data-tour="second-brain"]',
   placement: 'bottom',
 };
+
+export interface SocialLink {
+  id: string;
+  label: string;
+  href: string;
+}
+
+// TODO(issue #6): these profile URLs are best-guess placeholders (handle
+// assumed to match the GitHub/LinkedIn handle). Replace with the real ones.
+export const socialLinks: SocialLink[] = [
+  {
+    id: 'chess',
+    label: 'chess.com',
+    href: 'https://www.chess.com/member/madhanmohans',
+  },
+  {
+    id: 'pinterest',
+    label: 'pinterest',
+    href: 'https://www.pinterest.com/madhanmohans/',
+  },
+  {
+    id: 'cosmos',
+    label: 'cosmos',
+    href: 'https://www.cosmos.so/madhanmohans',
+  },
+];

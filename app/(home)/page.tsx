@@ -5,6 +5,7 @@ import { useState, useEffect, ViewTransition } from 'react';
 import { GraphView } from '@/components/graph/GraphView';
 import { SECOND_BRAIN_GRAPH_TRANSITION } from '@/components/graph/constants';
 import { Tour } from '@/components/tour/Tour';
+import { SocialLinks } from './SocialLinks';
 import {
   welcomePageTourStep,
   secondBrainPageTourStep,
@@ -62,6 +63,7 @@ export default function HomePage() {
             about
           </a>
         </nav>
+        <SocialLinks />
       </div>
       <Tour
         id="home"
