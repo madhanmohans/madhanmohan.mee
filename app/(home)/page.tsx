@@ -10,9 +10,20 @@ import {
   secondBrainPageTourStep,
   aboutPageTourStep,
 } from './constants';
+import {
+  DEFAULT_VIEW,
+  getViewPreference,
+  viewUrl,
+  type ViewPreference,
+} from '@/lib/viewPreference';
 
 export default function HomePage() {
   const [hoveredNavLink, setHoveredNavLink] = useState<string | null>(null);
+
+  const [view, setView] = useState<ViewPreference>(DEFAULT_VIEW);
+
+  // Read after mount so server and first client render agree
+  useEffect(() => setView(getViewPreference()), []);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -44,7 +55,7 @@ export default function HomePage() {
       <div className="relative z-10 flex flex-col items-center gap-6 text-center">
         <nav className="flex gap-4" style={{ fontSize: '14px' }}>
           <Link
-            href="/graph"
+            href={viewUrl(view)}
             data-tour="second-brain"
             className="text-fd-muted-foreground hover:text-fd-foreground transition-colors duration-150"
             onMouseEnter={() => setHoveredNavLink('second-brain')}

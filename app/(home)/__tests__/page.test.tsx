@@ -44,6 +44,23 @@ describe('HomePage', () => {
     expect(screen.getByText('about')).toBeInTheDocument();
   });
 
+  it('links to the notes view by default', async () => {
+    window.localStorage.clear();
+    const { default: HomePage } = await import('@/app/(home)/page');
+    render(React.createElement(HomePage));
+
+    expect(screen.getByText('second brain')).toHaveAttribute('href', '/note');
+  });
+
+  it('links to the graph when it was the last chosen view', async () => {
+    window.localStorage.setItem('view-preference', 'graph');
+    const { default: HomePage } = await import('@/app/(home)/page');
+    render(React.createElement(HomePage));
+
+    expect(screen.getByText('second brain')).toHaveAttribute('href', '/graph');
+    window.localStorage.clear();
+  });
+
   it('shows ghost graph on hover', async () => {
     const { default: HomePage } = await import('@/app/(home)/page');
     render(React.createElement(HomePage));

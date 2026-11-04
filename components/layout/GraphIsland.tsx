@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import type { LucideIcon } from 'lucide-react';
 import { BrainCircuit, Box, Notebook, Square, Waypoints } from 'lucide-react';
-import { NOTES_BASE_URL } from '@/app/constants';
+import { setViewPreference, viewUrl } from '@/lib/viewPreference';
 
 export const GRAPH_DIMENSIONS = ['2d', '3d'] as const;
 export type GraphDimension = (typeof GRAPH_DIMENSIONS)[number];
@@ -100,16 +100,22 @@ export function GraphIsland({
 
         <div className="graph-island-group" data-tour="view-toggle">
           <IslandButton
-            icon={Waypoints}
-            label="graph"
-            active={pathname === '/graph'}
-            onClick={() => router.push('/graph')}
-          />
-          <IslandButton
             icon={Notebook}
             label="notes"
-            active={pathname === NOTES_BASE_URL}
-            onClick={() => router.push(NOTES_BASE_URL)}
+            active={pathname === viewUrl('notes')}
+            onClick={() => {
+              setViewPreference('notes');
+              router.push(viewUrl('notes'));
+            }}
+          />
+          <IslandButton
+            icon={Waypoints}
+            label="graph"
+            active={pathname === viewUrl('graph')}
+            onClick={() => {
+              setViewPreference('graph');
+              router.push(viewUrl('graph'));
+            }}
           />
         </div>
       </div>
