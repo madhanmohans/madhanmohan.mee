@@ -16,6 +16,7 @@ import { NotesTour } from '@/components/tour/NotesTour';
 import { LocalGraph } from '@/components/graph/local/LocalGraph';
 import { ViewToggle } from '@/components/layout/ViewToggle';
 import { NoteTags } from '@/components/tags/NoteTags';
+import { NotesFeed } from '@/components/notes/NotesFeed';
 import { TagGroups } from '@/components/tags/TagGroups';
 
 export default async function Page(props: PageProps<'/note/[[...slug]]'>) {
@@ -79,6 +80,7 @@ export default async function Page(props: PageProps<'/note/[[...slug]]'>) {
       ) : (
         body
       )}
+      {!params.slug?.length && <NotesFeed />}
     </DocsPage>
   );
 }

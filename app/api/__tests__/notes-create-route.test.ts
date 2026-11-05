@@ -7,6 +7,16 @@ vi.mock('node:fs/promises', () => ({
   default: { writeFile: mockWriteFile },
 }));
 
+vi.mock('@/lib/source', () => ({
+  source: {
+    getPages: () =>
+      ['b', 'a', 'c'].map((id) => ({
+        url: `/note/${id}`,
+        data: { title: id.toUpperCase(), description: undefined },
+      })),
+  },
+}));
+
 function setupEnv(NODE_ENV: string) {
   vi.stubGlobal('process', {
     ...process,
@@ -100,5 +110,31 @@ describe('POST /api/notes', () => {
 
     expect(response.status).toBe(400);
     expect(mockWriteFile).not.toHaveBeenCalled();
+  });
+});
+
+describe('GET /api/notes', () => {
+  beforeEach(() => {
+    vi.resetModules();
+  });
+
+  it('returns pages by cursor until exhausted', async () => {
+    const { GET } = await import('@/app/api/notes/route');
+    const first = await (
+      await GET(new Request('http://localhost/api/notes?limit=2'))
+    ).json();
+    expect(first.notes.map((n: { title: string }) => n.title)).toEqual([
+      'A',
+      'B',
+    ]);
+    expect(first.nextCursor).toBe('/note/b');
+
+    const second = await (
+      await GET(
+        new Request('http://localhost/api/notes?limit=2&cursor=/note/b'),
+      )
+    ).json();
+    expect(second.notes).toHaveLength(1);
+    expect(second.nextCursor).toBeNull();
   });
 });

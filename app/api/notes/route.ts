@@ -1,12 +1,32 @@
 import { isAllowedDevRequest } from '@/lib/devRequest';
 import { slugify } from '@/lib/slugify';
 import { NOTES_BASE_URL } from '@/app/constants';
+import { source } from '@/lib/source';
+import { paginateNotes, parsePageSize } from '@/lib/notesPage';
 import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 export const dynamic = 'force-dynamic';
 
 const CONTENT_DIRECTORY = path.resolve(process.cwd(), 'content/docs');
+
+// Lists notes one page at a time: ?cursor=<last url seen>&limit=<n>
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const allNotes = source.getPages().map((page) => ({
+    url: page.url,
+    title: page.data.title,
+    description: page.data.description,
+  }));
+
+  return Response.json(
+    paginateNotes(
+      allNotes,
+      searchParams.get('cursor'),
+      parsePageSize(searchParams.get('limit')),
+    ),
+  );
+}
 
 // Creates content/docs/<slug>.md; the title comes from the filename,
 // so the body needs no frontmatter
@@ -42,5 +62,8 @@ export async function POST(request: Request) {
     throw error;
   }
 
-  return Response.json({ slug, url: `${NOTES_BASE_URL}/${slug}` }, { status: 201 });
+  return Response.json(
+    { slug, url: `${NOTES_BASE_URL}/${slug}` },
+    { status: 201 },
+  );
 }
