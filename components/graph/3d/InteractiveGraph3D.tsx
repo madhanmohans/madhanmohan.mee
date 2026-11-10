@@ -1,7 +1,7 @@
 'use client';
 
 import { type RefObject, useEffect, useMemo, useRef } from 'react';
-import * as THREE from 'three';
+import { Mesh } from 'three';
 import ForceGraph3D from 'react-force-graph-3d';
 import { useRouter } from 'fumadocs-core/framework';
 import { ZoomControls } from '../ZoomControls';
@@ -45,7 +45,7 @@ export function InteractiveGraph3D({
 
   const createNodeThreeObject = (node: any) => {
     const containerElement = containerRef.current;
-    if (!containerElement) return new THREE.Mesh();
+    if (!containerElement) return new Mesh();
     return createNodeObject(
       node,
       hoveredNodeRef.current,

@@ -1,4 +1,12 @@
-import * as THREE from 'three';
+import {
+  CanvasTexture,
+  Group,
+  Mesh,
+  MeshBasicMaterial,
+  SphereGeometry,
+  Sprite,
+  SpriteMaterial,
+} from 'three';
 import { LABEL_FONT_SIZE_3D } from '../constants';
 import { isNodeHighlighted } from '../graphUtils';
 
@@ -67,8 +75,8 @@ export function makeTextSprite(
   context.fillStyle = color;
   context.fillText(text, canvas.width / 2, canvas.height / 2);
 
-  const texture = new THREE.CanvasTexture(canvas);
-  const spriteMaterial = new THREE.SpriteMaterial({
+  const texture = new CanvasTexture(canvas);
+  const spriteMaterial = new SpriteMaterial({
     map: texture,
     transparent: true,
     depthWrite: false,
@@ -76,7 +84,7 @@ export function makeTextSprite(
     sizeAttenuation: true,
     opacity,
   });
-  const sprite = new THREE.Sprite(spriteMaterial);
+  const sprite = new Sprite(spriteMaterial);
   sprite.scale.set(width / 10, height / 10, 1);
   return sprite;
 }
@@ -105,15 +113,15 @@ export function createNodeObject(
       );
   const sphereRadius = isActive ? 5 : 3;
 
-  const group = new THREE.Group();
+  const group = new Group();
 
-  const sphereGeometry = new THREE.SphereGeometry(sphereRadius, 16, 16);
-  const sphereMaterial = new THREE.MeshBasicMaterial({
+  const sphereGeometry = new SphereGeometry(sphereRadius, 16, 16);
+  const sphereMaterial = new MeshBasicMaterial({
     color,
     transparent: true,
     opacity: isActive || !hoveredNode ? 1 : 0.3,
   });
-  const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+  const sphere = new Mesh(sphereGeometry, sphereMaterial);
   group.add(sphere);
 
   let label = node.text;
