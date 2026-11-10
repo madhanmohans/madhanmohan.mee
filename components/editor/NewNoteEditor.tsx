@@ -7,7 +7,7 @@ import { slugify } from '@/lib/slugify';
 import { NOTES_BASE_URL } from '@/app/constants';
 import { ActionButton } from './ActionButton';
 import { DiscardPrompt } from './DiscardPrompt';
-import { MarkdownEditor } from './MarkdownEditor';
+import { LazyMarkdownEditor } from './LazyMarkdownEditor';
 import { createNote, waitForNote } from './notesApi';
 import { useEditorShortcuts } from './useEditorShortcuts';
 
@@ -100,7 +100,7 @@ export function NewNoteEditor() {
         </span>
       </div>
 
-      <MarkdownEditor
+      <LazyMarkdownEditor
         value={editorContent}
         onChange={setEditorContent}
         autoFocus={false}

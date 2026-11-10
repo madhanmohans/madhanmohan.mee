@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { AnimatePresence, m } from 'framer-motion';
 import { Spinner } from '@/components/motion/Spinner';
 import { fadeSwapTransition } from '@/components/motion/transitions';
-import { MarkdownEditor } from './MarkdownEditor';
+import { LazyMarkdownEditor } from './LazyMarkdownEditor';
 import { NoteEditorToolbar, type EditorMode } from './NoteEditorToolbar';
 import { fetchNoteSource, saveNoteSource } from './notesApi';
 import { useEditorShortcuts } from './useEditorShortcuts';
@@ -110,7 +110,7 @@ export function NoteEditor({
           </m.div>
         ) : (
           <m.div key="editor" {...fadeSwapTransition}>
-            <MarkdownEditor
+            <LazyMarkdownEditor
               value={editorContent}
               onChange={(updatedContent) => {
                 setEditorContent(updatedContent);
